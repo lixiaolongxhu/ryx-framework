@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+					http://www.springframework.org/schema/mvc
+					http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+					http://www.springframework.org/schema/util
+					http://www.springframework.org/schema/util/spring-util-3.2.xsd
+					http://www.springframework.org/schema/context
+					http://www.springframework.org/schema/context/spring-context-3.2.xsd
+					http://www.springframework.org/schema/beans
+					http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+					http://www.springframework.org/schema/aop
+					http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+					http://www.springframework.org/schema/tx
+					http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+					http://www.springframework.org/schema/task
+					http://www.springframework.org/schema/task/spring-task-3.2.xsd
+					http://www.springframework.org/schema/data/mongo
+    				http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+		
+	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   begin-->  
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">  
+           <list>  
+              <!-- 这里支持多种寻址方式：classpath和file -->  
+              <value>classpath:jdbc.properties</value>  
+              <!-- 推荐使用file的方式引入，这样可以将配置和代码分离 -->  
+              <!-- 
+              	<value>file:/opt/demo/config/demo-mq.properties</value>  
+              	<value>file:/opt/demo/config/demo-remote.properties</value>
+              -->  
+            </list>  
+        </property>  
+    </bean>  
+	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   end-->  
+
+	<!-- 扫描和注册的注解Bean -->
+	<context:component-scan base-package="cn.riyouxi">	
+	</context:component-scan>
+
+    <!-- 数据源配置     begin -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+		
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="5" />
+		<property name="minIdle" value="5" />
+		<property name="maxActive" value="20" />
+		
+		<!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000" />
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+
+        <property name="validationQuery" value="SELECT 'x'" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+
+        <!--开启Druid的监控统计功能   配置监控统计拦截的filters -->
+        <property name="filters" value="stat" /> 
+		
+	    <!-- mysql 不支持 poolPreparedStatements-->  
+	    <!--
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+	    -->
+	</bean>
+    
+    <!-- 数据源配置     end -->
+	
+	<!-- jdbcTemplate 配置 -->
+	<bean id="namedJdbcTemplate"
+		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+    <!--给指定数据源添加事务  -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+    
+    <!-- 声明为注册事务注解处理器 -->
+   <tx:annotation-driven transaction-manager="transactionManager" />
+	
+
+</beans>

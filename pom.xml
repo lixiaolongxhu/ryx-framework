@@ -1,0 +1,255 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ryx</groupId>
+  <artifactId>ryx-framework</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>ryx-framework Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <!--架包版本控制(Shared version number properties) -->
+  <properties>
+	 <!-- spring web core  -->
+	 <org.springframework.version>4.0.9.RELEASE</org.springframework.version>
+  	 <!-- log4j日志文件管理包版本 -->
+     <slf4j.version>1.2</slf4j.version>
+     <log4j.version>1.2.9</log4j.version>
+  </properties>
+	
+  <dependencies>
+		<!--  spring core begin -->
+		<!--Spring的核心工具包，其他包依赖此包  -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>  
+		<!-- 所有应用都用到，包含访问配置文件，创建和管理bean等，是Spring IOC的基础实现 -->
+       	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+  	    <!-- 包含Web应用开发时，用到Spring框架时所需的核心类，包括自动载入WebApplicationContext特性的类、
+  	    	 Struts与JSF集成类、文件上传的支持类、Filter类和大量工具辅助类 -->
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+  		<!-- 
+  			包含Spring?MVC框架相关的所有类。包含国际化、标签、Theme、视图展现的FreeMarker、JasperReports、
+  			Tiles、Velocity、?XSLT相关类
+  		 -->
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+  		<!-- Spring表达式语言 -->
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+        <!-- 提供在基础IOC功能上的扩展服务，此外还提供许多企业级服务的支持，
+        	  有邮件服务、任务调度、JNDI定位，EJB集成、远程访问、缓存以及多种视图层框架的支持 -->
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+  		<!-- Spring的面向切面编程，提供AOP（面向切面编程）的实现 -->
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- 包含对Spring对JDBC数据访问进行封装的所有类 -->
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- 提供spring对事务的支持 -->
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+  
+  		<!--  spring core end -->
+  
+    <!-- <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency> -->
+    
+    <!-- mysql 数据库驱动 -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.26</version>
+	</dependency>
+		
+	<!-- druid 连接池 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>1.0.13</version>
+	</dependency>
+	<!--  fast json 解析工具 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.1.39</version>
+	</dependency>
+	<!-- 
+	    apache commons beanUtils 
+	    javabean 属性拷贝以及读取
+		 是利用java的反射和自醒机制来读写javabean的属性的
+	-->	
+	<dependency>
+		<groupId>commons-beanutils</groupId>
+		<artifactId>commons-beanutils</artifactId>
+		<version>1.9.2</version>
+	</dependency>
+	
+	<!--  日志处理相关   begin  -->
+	<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+     </dependency>
+	 <!--  日志处理相关   end  -->
+	 
+	 <!--java web运行环境服务基本api  begin-->   
+     <dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.0.1</version>
+		<scope>provided</scope>
+	 </dependency>
+    <!--java web运行环境服务基本api  end-->
+	
+  </dependencies>
+  
+  
+  
+   <!-- maven build 环境配置  begin -->
+	<build>
+		<finalName>ryx-server</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+					<!--
+					  <compilerArguments> 
+						<verbose /> 
+						<bootclasspath>${java.home}\lib\rt.jar;${java.home}\jre\lib\jce.jar</bootclasspath> 
+					  </compilerArguments> 
+					 -->
+				</configuration>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-compiler-eclipse</artifactId>
+						<version>2.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId> 
+				<version>1.7</version> <executions> <execution> <id>package</id> <phase>package</phase> 
+				<configuration> <tasks> <copy overwrite="true" file="${project.build.directory}/${project.build.finalName}.${project.packaging}" 
+				todir="${ci.templocation}" /> </tasks> </configuration> <goals> <goal>run</goal> 
+				</goals> </execution> </executions> </plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<includes>
+						<include>**/*Spec.*</include>
+						<include>**/*Test.*</include>
+					</includes>
+				</configuration>
+			</plugin>
+			
+			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
+				<version>2.2</version> <configuration> <url>http://localhost:8080/shop/web/login</url> 
+				<server>LKH-Server</server> <path>/SampleSpringMaven</path> </configuration> 
+				</plugin> -->
+			
+			<!--Maven Cobertura Plugin集成(单元测试覆盖率测试build配置) begin  -->	
+			<plugin>
+	            <groupId>org.codehaus.mojo</groupId>
+	            <artifactId>cobertura-maven-plugin</artifactId>
+	            <version>2.7</version>
+	            <configuration>
+	                <check>
+	                    <branchRate>0</branchRate>
+	                    <lineRate>0</lineRate>
+	                    <haltOnFailure>true</haltOnFailure>
+	                    <totalBranchRate>0</totalBranchRate>
+	                    <totalLineRate>0</totalLineRate>
+	                    <packageLineRate>0</packageLineRate>
+	                    <packageBranchRate>0</packageBranchRate>
+	                </check>
+	                <encoding>UTF-8</encoding>
+	                <formats>
+	                	<format>xml</format>
+	                	<format>html</format>
+	                </formats>
+	            </configuration> 
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>clean</goal>
+	                        <goal>check</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+        	</plugin>
+        	<!--Maven Cobertura Plugin集成(单元测试覆盖率测试build配置) end  -->	
+		</plugins>
+	</build>
+	
+	<!-- maven build 环境配置  end -->
+	
+	<!--Maven Cobertura Plugin集成(单元测试覆盖率测试生成报表) begin  -->
+	<reporting>  
+        <plugins>  
+            <plugin>  
+                <groupId>org.codehaus.mojo</groupId>  
+                <artifactId>cobertura-maven-plugin</artifactId>  
+                <version>2.7</version>  
+                <configuration>
+             		<encoding>UTF-8</encoding>
+            	</configuration>
+            </plugin>  
+            
+        </plugins>  
+    </reporting>
+    <!--Maven Cobertura Plugin集成(单元测试覆盖率测试生成报表) end  -->
+</project>
