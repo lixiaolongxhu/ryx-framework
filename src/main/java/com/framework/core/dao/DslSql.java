@@ -2,6 +2,9 @@ package  com.framework.core.dao;
 
 
 import java.util.Set;
+
+import com.framework.core.dto.PageDto;
+
 import net.sf.cglib.beans.BeanMap;
 
 /**自动生成sql类.
@@ -16,9 +19,15 @@ public class DslSql {
 	 */
 	private  String tableName = "";
 
-	private  StringBuilder sql = new StringBuilder();
+	/**查询sql.
+	 * 
+	 */
+	private  StringBuilder selectSql = new StringBuilder(" ");
 
-	private  StringBuilder where = new StringBuilder(" where 1=1");
+	/**查询where.
+	 * 
+	 */
+	private  StringBuilder selectWhere = new StringBuilder(" where 1=1");
 
 	/**javabean属性名数组.
 	 * 
@@ -33,15 +42,53 @@ public class DslSql {
 	 */
 	private  String[] attributeType;
 	
+	/**初始以及获取javabean的信息的构造函数.
+	 * 
+	 * @param obj  传入需要处理的javabean对象
+	 */
+	@SuppressWarnings("unchecked")
+	public DslSql(Object obj)  {	
+       BeanMap  objBeanMap = BeanMap.create(obj); 
+       Set<String> keySet=objBeanMap.keySet();
+       Integer  keySetSize=keySet.size();
+       this.attributeName=new String[keySetSize];
+       this.attributeValue=new Object[keySetSize];
+       this.attributeType=new String[keySetSize];
+   	   int i=0;
+   	   for (String key : keySet) {
+   		   attributeName[i]=key;
+   		   attributeType[i]=objBeanMap.getPropertyType(key).getSimpleName();
+   		   attributeValue[i]=objBeanMap.get(key);    
+    	   i++;
+   	   } 
+	   this.tableName = obj.getClass().getSimpleName();
+	}
+	
+	/**进行类名与数据库表名转换.
+	 * 规则： 类名 UserRoleLink--- 表名   user_role_link
+	 * @param name  编码的名称
+	 * @return  返回修改后的表名
+	 */
+	private  String underscoreName(String name) {
+		
+		StringBuilder result = new StringBuilder();
+		for (char letter : name.toCharArray()) {
+			if (Character.isUpperCase(letter)) {
+				result.append("_");
+				result.append(String.valueOf(letter).toLowerCase());
+			} else {
+				result.append(letter);
+			}
+		}
+		return result.toString();
+	}
 	
 	/**生成javabean的mysql单表插入语句.
 	 * 
-	 * @param obj  要插入数据库单表对应的javabean。。
 	 * @return 返回对应的javabean插入sql语句。
 	
 	 */
-	public  String generateInsertSql(Object obj){
-		new DslSql(obj);
+	public  String generateInsertSql(){
 		
 		StringBuilder sql = new StringBuilder("");
 		sql.append(" insert into ");
@@ -59,7 +106,7 @@ public class DslSql {
 		sql.append(" values (");
 		for (int i = 0; i < attributeName.length; i++) {
 			if (attributeValue[i]!=null) {
-				sql.append(getAttributeValueSqlByType(attributeValue[i],attributeType[i]));
+				sql.append(getAttributeValueSqlByType(attributeValue[i], attributeType[i]));
 				sql.append(",");
 			}
 		}
@@ -70,13 +117,11 @@ public class DslSql {
 	
 	/**生成javabean的mysql单表插入语句，不插入设置主键名的字段.
 	 * 
-	 * @param obj  要插入数据库单表对应的javabean。
 	 * @param  primaryKeyName 主键名
 	 * @return 返回对应的javabean插入sql语句。
 	
 	 */
-	public  String generateInsertSql(Object obj,String  primaryKeyName){
-		new DslSql(obj);
+	public  String generateInsertSql( String  primaryKeyName){
 		
 		StringBuilder sql = new StringBuilder("");
 		sql.append(" insert into ");
@@ -94,7 +139,7 @@ public class DslSql {
 		sql.append(" values (");
 		for (int i = 0; i < attributeName.length; i++) {
 			if (attributeValue[i]!=null && !attributeValue[i].equals(primaryKeyName)) {
-				sql.append(getAttributeValueSqlByType(attributeValue[i],attributeType[i]));
+				sql.append(getAttributeValueSqlByType(attributeValue[i], attributeType[i]));
 				sql.append(",");
 			}
 		}
@@ -105,670 +150,507 @@ public class DslSql {
 	
 	/**根据参数类型获取对应的值.
 	 * 
-	 * @param attributeValue  属性值
-	 * @param attributeType   属性值对应的类型
+	 * @param value  属性值
+	 * @param type   属性值对应的类型
 	 * @return  返回修正后的属性值
 	 */
-    private String getAttributeValueSqlByType(Object attributeValue, String attributeType) {
-		if(attributeType.trim().equals("String")){
-			StringBuilder  value=new StringBuilder("");
-			value.append("'");
-			value.append(attributeValue);
-			value.append("'");
-			return  value.toString();
+    private String getAttributeValueSqlByType(Object value, String type) {
+		if ("String".equals(type.trim())) {
+			StringBuilder  valueSql=new StringBuilder("");
+			valueSql.append("'");
+			valueSql.append(attributeValue);
+			valueSql.append("'");
+			return  valueSql.toString();
 		}
-		return attributeValue.toString();
+		return value.toString();
 	}
     
-//
-//	/**
-//	 * 生成javabean的mysql单表修改语句
-//	 * 
-//	 * @param object
-//	 *            要修改数据库单表对应的javabean
-//	 * @param conditionFieldName
-//	 *            修改sql对应where后面的条件字段数组，各字段之间使用与运算
-//	 * @return 返回对应的javabean修改sql语句，采用命名参数的格式
-//	 * @throws IllegalArgumentException
-//	 * @throws IllegalAccessException
-//	 */
-//	public  String generateUpdateSql(
-//			String[] conditionFieldName){
-//		
-//		StringBuilder sql = new StringBuilder("");
-//		sql.append(" update ");
-//		sql.append(underscoreName(tableName));
-//		sql.append(" set ");
-//		
-//		for (int i = 0; i < attributeName.length; i++) {
-//			if (ToolHelper.isNotEmpty(attributeValue[i])
-//					&& !attributeValue[i].toString().equals("0")) {
-//				
-//				sql.append(attributeName[i]);
-//				
-//				sql.append("=");
-//				sql.append(":");
-//				sql.append(attributeName[i]);
-//				sql.append(",");
-//			}
-//		}
-//		sql.deleteCharAt(sql.length() - 1);
-//		sql.append(" where ");
-//		for (int i = 0; i < conditionFieldName.length; i++) {
-//			if (i != 0) {
-//				sql.append(" and ");
-//			}
-//			sql.append(conditionFieldName[i]);
-//			sql.append("=:");
-//			sql.append(conditionFieldName[i]);
-//
-//		}
-//		return sql.toString();
-//	}
-//
-//	/**
-//	 * 生成javabean的mysql单表删除语句
-//	 * 
-//	 * @param object
-//	 *            要删除数据库单表对应的javabean
-//	 * @param conditionFieldName
-//	 *            删除sql对应where后面的条件字段数组，各个字段之间使用与运算
-//	 * @return 返回对应javabean删除的sql语句，采用命令参数的格式
-//	 * @throws IllegalArgumentException
-//	 * @throws IllegalAccessException
-//	 */
-//	public  String generateDeleteSql(Object object,
-//			String[] conditionFieldName) {
-//		StringBuilder sql = new StringBuilder("");
-//		sql.append(" delete from  ");
-//		sql.append(underscoreName(tableName));
-//		sql.append(" where  ");
-//		for (int i = 0; i < conditionFieldName.length; i++) {
-//			if (i != 0) {
-//				sql.append(" and ");
-//			}
-//			sql.append(conditionFieldName[i]);
-//			sql.append("=:");
-//			sql.append(conditionFieldName[i]);
-//		}
-//		return sql.toString();
-//
-//	}
-//
-//	
-	/**初始以及获取javabean的信息的构造函数.
+
+	/**生成javabean的mysql单表修改语句.
 	 * 
-	 * @param obj  传入需要处理的javabean对象
+	 * @param conditionFieldName
+	 *            修改sql对应where后面的条件字段数组，各字段之间使用与运算
+	 * @return 返回对应的javabean修改sql语句
 	 */
-	@SuppressWarnings("unchecked")
-	public DslSql(Object obj)  {	
-       BeanMap  objBeanMap = BeanMap.create(obj); 
-       Set<String> keySet=objBeanMap.keySet();
-       Integer  keySetSize=keySet.size();
-       String[] attributeName=new String[keySetSize];
-   	   Object[] attributeValue=new Object[keySetSize];
-   	   String[] attributeType=new String[keySetSize];
-   	   int i=0;
-   	   for (String key : keySet) {
-   		   attributeName[i]=key;
-   		   attributeType[i]=objBeanMap.getPropertyType(key).getSimpleName();
-   		   attributeValue[i]=objBeanMap.get(key);    
-    	   i++;
-   	   } 
-	   this.tableName = obj.getClass().getSimpleName();
-	}
-	
-	
-//
-//	public DslSql(String table, Object obj) {
-//		
-//		if(obj!=null){
-//			try {
-//				setClassAttribute(obj);
-//			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				e.printStackTrace();
-//				log.error(ExceptionUtil.getExceptionDetail(e, "DslSql()生成sql语句时；获取类对象属性值出现异常！"));
-//			}
-//			
-//			this.tableName = underscoreName(StringUtils.uncapitalize(table));
-//		}
-//		
-//		this.obj = obj;
-//	}
-//	
-//	public DslSql() {
-//		this.obj = obj;
-//	}
-//	
-//	/**
-//	 * 设置类属性名，属性值，属性类型等信息
-//	 * @param obj
-//	 * @throws IllegalAccessException 
-//	 * @throws IllegalArgumentException 
-//	 */
-//	private  void setClassAttribute(Object obj) throws IllegalArgumentException, IllegalAccessException{
-//		
-//		if(obj==null){
-//			return;
-//		}
-//		
-//		// 获取属性
-//		Map< String, Field > map = BeanUtil.getClassFields(obj.getClass ( ), true );
-//		
-//		attributeName=new String[map.size()];	
-//		attributeValue=new Object[map.size()];
-//		attributeType=new  String[map.size()];
-//		
-//		int i=0;
-//		for ( Object key : map.keySet ( ) ){
-//			if(ToolHelper.equalsString(map.get(key).getName(), "__cobertura_counters")){
-//				//移除maven 覆盖单元测试率注入的字段
-//				continue;
-//			}
-//			attributeName[i]=map.get(key).getName();
-//			attributeValue[i]=map.get(key).get(obj);
-//			attributeType[i]=map.get(key).getType().toString();
-//			
-//			i++;
-//		}
-//	}
-//	
-//	
-//	public DslSql select(String select) {
-//		sql.append(" select  " + select);
-//		return this;
-//	}
-//
-//	public DslSql from(String tableName) {
-//		sql.append(" from " + tableName);
-//		return this;
-//	}
-//
-//	/**
-//	 * 内连接
-//	 * @param table
-//	 * @return
-//	 */
-//	public DslSql innerJoin(String table) {
-//		sql.append(" inner join " + underscoreName(table));
-//		return this;
-//	}
-//	
-//	/**
-//	 * 左连接
-//	 * @param table
-//	 * @return
-//	 */
-//	public DslSql leftJoin(String table) {
-//		sql.append(" left join " + underscoreName(table));
-//		return this;
-//	}
-//
-//	/**
-//	 * 右连接
-//	 * @param table
-//	 * @return
-//	 */
-//	public DslSql rightJoin(String table) {
-//		sql.append(" right join " + underscoreName(table));
-//		return this;
-//	}
-//	
-//	/**
-//	 * 连接查询 on
-//	 * @param on
-//	 * @return
-//	 */
-//	public DslSql on(String on) {
-////		sql.append(" on " + underscoreName(on));
-//		sql.append(" on " +on);
-//		return this;
-//	}
-//
-//	/**
-//	 * where查询
-//	 * @param fields
-//	 * @return
-//	 */
-//	public DslSql where(String... fields) {
-//
-//		for (String field : fields) {
-//			String[] f = field.split("\\.");
-//			String _field = f.length > 1 ? f[1] : field;
-//			
-//			String columnName = f.length>1?(f[0]+".`"+f[1]+"`"):"`"+field.trim()+"`";
-//			for (int i = 0; i < attributeName.length; i++) {
-//				//如何整行数据为0，则判断为空
-//				if(attributeType[i]!=null && (ToolHelper.equalsString("int", attributeType[i]) &&  attributeValue[i]!=null && ToolHelper.equalsString("0", attributeValue[i].toString()) )){
-//					attributeValue[i]=null;
-//				}
-//				if (ToolHelper.equalsString(_field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					where.append(" and " + columnName.trim() + "=:" + _field.trim());
-//					break;
-//				}
-//			}
-//
-//		}
-//		sql.append(where);
-//		return this;
-//	}
-//	
-//	/**
-//	 * 空where 语句
-//	 * @return
-//	 */
-//	public DslSql where() {
-//		sql.append(where);
-//		return this;
-//	}
-//
-//	/**
-//	 * 
-//	 * @param prefix  前百分号
-//	 * @param Suffix  后百分号
-//	 * @param fields  查询条件
-//	 * @return
-//	 */
-//	@Deprecated
-//	public DslSql like(String... fields) {
-//		
-//		boolean dynamicWhere = false;
-//		StringBuilder or = new StringBuilder(" and ( ");
-//		
-//		for (String field : fields) {
-//
-//			String[] f = field.split("\\.");
-//			String _field = f.length > 1 ? f[1] : field;
-//			String columnName = f.length>1?(f[0]+".`"+f[1]+"`"):"`"+field+"`";
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(_field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					or.append("  " + columnName + " like :" + _field+"  and ");
-//					dynamicWhere = true;
-//					break;
-//				}
-//			}
-//			
-//			
-//		}
-//		if (dynamicWhere) {
-//			int len = or.length();
-//			or.delete(len - 4, len);
-//			or.append(")");
-//			sql.append(or);
-//		}
-//		return this;
-//		
-//
-//	}
-//
-//	/**
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param fields  查询条件  --查询dto对应属性的值
-//	 * @param prefix  前百分号  --like查询的左百分号
-//	 * @param Suffix  后百分号  --like查询的右百分号
-//	 * 
-//	 * @return
-//	 */
-//	public DslSql likeAs(String column, String fieldValue,String prefix,String suffix){
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isNotEmpty(column)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if(ToolHelper.isNotEmpty(fieldValue)){
-//					sql.append(" and ");
-//					sql.append(column.trim());
-//					sql.append(" like ");
-//					sql.append("'");
-//					if(ToolHelper.isNotEmpty(prefix)){
-//						sql.append(prefix);
-//					}
-//					sql.append(fieldValue.trim());
-//					if(ToolHelper.isNotEmpty(suffix)){
-//						sql.append(suffix);
-//					}
-//					sql.append("'");
-//					break;
-//				}
-//			}
-//		}
-//		return this;
-//	}
-//
-//	/**
-//	 * or 查询
-//	 * @param fields
-//	 * @return
-//	 */
-//	public DslSql or(String... fields) {
-//		boolean dynamicWhere = false;
-//		StringBuilder or = new StringBuilder(" or (");
-//		for (String field : fields) {
-//
-//			
-//			String[] f = field.split("\\.");
-//			String _field = f.length > 1 ? f[1] : field;
-//			String columnName = f.length>1?(f[0]+".`"+f[1]+"`"):"`"+field+"`";
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(_field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					where.append(" and " + columnName + "=:" + _field);
-//					break;
-//				}
-//			}
-//			
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(_field, attributeName[i])) {
-//					or.append("  " + attributeName[i] + "=:" + _field+"  or ");
-//					dynamicWhere = true;
-//					break;
-//				}
-//			}
-//			
-//			
-//		}
-//		if (dynamicWhere) {
-//			int len = or.length();
-//			or.delete(len - 4, len);
-//			or.append(")");
-//			sql.append(or);
-//		}
-//		return this;
-//	}
-//
-//	/**
-//	 *  and  in  查询
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field   查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andIn(String column, String field) {
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isEmpty(field)){
-//			return this;
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(field)){
-//			sql.append(" and `" + column + "` in (" + field + ")");
-//		}
-//		return this;
-//	}
-//
-//	/**
-//	 * not in  sql 查询
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field   查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andInnerSql(String column, String field) {
-//		
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isEmpty(field)){
-//			return this;
-//		}
-//		
-//		String[] f = column.split("\\.");
-//		String columnName = f.length > 1 ? (f[0] + ".`" + f[1] + "`")
-//				: "`" + column + "`";
-//
-//		sql.append(" and " + columnName + " in (" + field + ")");
-//		return this;
-//	}
-//
-//	/**
-//	 * not in 查询
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field   查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andNotInSql(String column, String field) {
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isEmpty(field)){
-//			return this;
-//		}
-//		sql.append(" and " + column+ " not in (" + field + ")");
-//		return this;
-//	}
-//
-//	/**
-//	 * and自定义sql语句
-//	 * @param condition
-//	 * @return
-//	 */
-//	public DslSql andConditionSql(String condition) {
-//		sql.append(" and (" + condition);
-//		sql.append(" )");
-//		return this;
-//	}
-//
-//	/**
-//	 * and查询条件定义
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field   查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql and(String column, String field) {
-//		if(ToolHelper.isEmpty(column)){
-//			return  this;
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(field)){
-//			
-//			String[] f = field.split("\\.");
-//			String _field = f.length > 1 ? f[1] : field;
-//			
-////			String columnName = f.length>1?(f[0]+".`"+f[1]+"`"):"`"+field.trim()+"`";
-//			for (int i = 0; i < attributeName.length; i++) {
-//				//如何整行数据为0，则判断为空
-//				if(attributeType[i]!=null && (ToolHelper.equalsString("int", attributeType[i]) &&  attributeValue[i]!=null && ToolHelper.equalsString("0", attributeValue[i].toString()) )){
-//					attributeValue[i]=null;
-//				}
-//				if (ToolHelper.equalsString(_field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and " + column.trim() + "=:" + _field.trim());
-//					break;
-//				}
-//			}
-//			
-//		}
-//		return this;
-//	}
-//	
-//    /**
-//     * 分组语句
-//     * @param groupBy
-//     * @return
-//     */
-//	public DslSql groupBy(String groupBy) {
-//		sql.append(" group by " + groupBy);
-//		return this;
-//	}
-//    
-//	/**
-//	 * 排序语句
-//	 * @param orderBy
-//	 * @return
-//	 */
-//	public DslSql orderBy(String orderBy) {
-//		sql.append(" order by " + orderBy);
-//		return this;
-//	}
-//
-//	/**
-//	 * 分页查询限定
-//	 * @param page
-//	 * @return
-//	 */
-//	public DslSql limit(PageDto page) {
-//		if(page!=null && page.getStart()!=null && ToolHelper.isNotEmpty(page.getLimit())){
-//			sql.append(" limit ");
-//			sql.append((page.getStart()-1)*page.getLimit());
-//			sql.append(" , ");
-//			sql.append(page.getLimit());
-//			return this;
-//		}else  if(page!=null && page.getPage()!=null && ToolHelper.isNotEmpty(page.getRows())){
-//			sql.append(" limit ");
-//			sql.append((page.getPage()-1)*page.getRows());
-//			sql.append(" , ");
-//			sql.append(page.getRows());
-//			return this;
-//		}else{
-//			return this;
-//		}
-//		
-//	}
-//
-//	/**
-//	 * having的范围比较
-//	 * @param column      查询列名  --对应数据库列名
-//	 * @param startField  查询条件  --查询dto对应的属性名
-//	 * @param endField    查询条件  --查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql having(String column,String startField,String endField) {
-//    	
-//		if(ToolHelper.isEmpty(column)){
-//			return  this;
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(startField)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(startField, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" having  " + column + ">=:" + startField);
-//					break;
-//				}
-//			}
-//			
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(endField)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(endField, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and  " + column+ "<:" + endField+" ");
-//					break;
-//				}
-//			}
-//		}
-//    	return this;
-//    }
-//	
-//	/**
-//	 * and大于与小于的范围比较
-//	 * @param column      查询列名  --对应数据库列名
-//	 * @param startField  查询条件  --查询dto对应的属性名
-//	 * @param endField    查询条件  --查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andRange(String column,String startField,String endField) {
-//		if(ToolHelper.isEmpty(column)){
-//			return  this;
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(startField)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(startField, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and  " + column + ">=:" + startField);
-//					break;
-//				}
-//			}
-//			
-//		}
-//		
-//		if(ToolHelper.isNotEmpty(endField)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(endField, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and  " + column + "<=:" + endField);
-//					break;
-//				}
-//			}
-//		}
-//		
-//    	return this;
-//    }
-//
-//	/**
-//	 * 小于比较
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field  查询条件  --查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andLessThan(String column,String field){
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isNotEmpty(field)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and " + column +"<=:" + field);
-//					break;
-//				}
-//			}
-//		}
-//	    return this;
-//	}
-//	
-//	
-//	/**
-//	 * 大于比较
-//	 * @param column  查询列名  --对应数据库列名
-//	 * @param field  查询条件  --查询dto对应的属性名
-//	 * @return
-//	 */
-//	public DslSql andMoreThan(String column,String field){
-//		if(ToolHelper.isEmpty(column)){
-//			return this;
-//		}
-//		if(ToolHelper.isNotEmpty(field)){
-//			for (int i = 0; i < attributeName.length; i++) {
-//				if (ToolHelper.equalsString(field, attributeName[i])  &&  ToolHelper.isNotEmpty(attributeValue[i]) ) {
-//					sql.append(" and " + column +">=:" + field);
-//					break;
-//				}
-//			}
-//		}
-//	    return this;
-//	}
-//	
-//	/**
-//	 * 转换为sql语句
-//	 * @return
-//	 */
-//	public String toSql() {
-//		return sql.toString();
-//	}
-//	
-//	/**
-//	 * 查询sql 语句封装方法
-//	 * 查询sql 语句格式规范
-//	 * ------------end
-//	 */
-//	
-//	
-	/**
-	 * 进行类名与数据库表名转换
-	 * 规则： 类名 UserRoleLink--- 表名   user_role_link
-	 * @param name
-	 * @return 
-	 */
-	public static String underscoreName(String name) {
+	public  String generateUpdateSql(String[] conditionFieldName){
 		
-		StringBuilder result = new StringBuilder();
-		for (char letter : name.toCharArray()) {
-			if (Character.isUpperCase(letter)) {
-				result.append("_");
-				result.append(String.valueOf(letter).toLowerCase());
-			} else {
-				result.append(letter);
+		StringBuilder sql = new StringBuilder("");
+		sql.append(" update ");
+		sql.append(underscoreName(tableName));
+		sql.append(" set ");
+		
+		for (int i = 0; i < attributeName.length; i++) {
+			if (attributeValue[i] != null ) {	
+				sql.append(attributeName[i]);
+				sql.append("=");
+				sql.append(getAttributeValueSqlByType(attributeValue[i] , attributeType[i]));
+				sql.append(",");
 			}
 		}
-		return result.toString();
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(" where ");
+		for (int i = 0; i < conditionFieldName.length; i++) {
+			if (i != 0) {
+				sql.append(" and ");
+			}
+			sql.append(conditionFieldName[i]);
+			sql.append("=");
+			sql.append(getConditionValueSql(conditionFieldName[i]));
+
+		}
+		return sql.toString();
 	}
+	
+	/**根据条件名，获取对应的值.
+	 * 
+	 * @param conditionName 条件名
+	 * @return 返回条件的值sql
+	 */
+    private String getConditionValueSql(String conditionName) {
+    	String conditionSql="''";
+    	
+		for (int i=0; i<attributeName.length; i++){
+			if (conditionName.trim().equals(attributeName[i])){
+				conditionSql = getAttributeValueSqlByType(attributeValue[i], attributeType[i]);
+				break;
+			}
+		}
+		return conditionSql;
+	}
+
+
+	/**生成javabean的mysql单表删除语句.
+	 * 
+	 * @param conditionFieldName
+	 *            删除sql对应where后面的条件字段数组，各个字段之间使用与运算
+	 * @return 返回对应javabean删除的sql语句
+	 */
+	public  String generateDeleteSql(
+			String[] conditionFieldName) {
+		StringBuilder sql = new StringBuilder("");
+		sql.append(" delete from  ");
+		sql.append(underscoreName(tableName));
+		sql.append(" where  ");
+		for (int i = 0; i < conditionFieldName.length; i++) {
+			if (i != 0) {
+				sql.append(" and ");
+			}
+			sql.append(conditionFieldName[i]);
+			sql.append("=");
+			sql.append(getConditionValueSql(conditionFieldName[i]));
+		}
+		return sql.toString();
+
+	}
+
+	
+	
+	/**查询sql 语句封装方法
+	 * 查询sql 语句格式规范
+	 * ------------begin
+	 */
+	
+	/**查询select 关键字.
+	 * 
+	 * @param select 查询内容.
+	 * @return 返回对象本身
+	 */
+	public DslSql select(String select) {
+		selectSql.append(" select  ");
+		selectSql.append(select);
+		return this;
+	}
+
+	/**查询from关键字.
+	 * 
+	 * @param selectTableName  查询表名
+	 * @return  返回对象本身
+	 */
+	public DslSql from(String selectTableName) {
+		selectSql.append(" from ");
+		selectSql.append(selectTableName);
+		return this;
+	}
+
+	/**内连接.
+	 * @param selectTableName  查询表名
+	 * @return  返回对象本身
+	 */
+	public DslSql innerJoin(String selectTableName) {
+		selectSql.append(" inner join ");
+		selectSql.append(selectTableName);
+		return this;
+	}
+	
+	/**左连接.
+	 * @param selectTableName  查询表名
+	 * @return  返回对象本身
+	 */
+	public DslSql leftJoin(String selectTableName) {
+		selectSql.append(" left join ");
+		selectSql.append(selectTableName);
+		return this;
+	}
+
+	/**右连接.
+	 * @param selectTableName  查询表名
+	 * @return  返回对象本身
+	 */
+	public DslSql rightJoin(String selectTableName) {
+		selectSql.append(" right join " + selectTableName);
+		return this;
+	}
+	
+	/**连接查询 on.
+	 * @param on  连接查询条件
+	 * @return 返回对象本身
+	 */
+	public DslSql on(String on) {
+		selectSql.append(" on ");
+		selectSql.append(on);
+		return this;
+	}
+
+	/**where查询.
+	 * @param fields  查询条件名称
+	 * @return  返回对象本身
+	 */
+	public DslSql where(String... fields) {
+		
+		for (String condtionName : fields) {
+			String[] condtionNameArray=getCondtionNameSql(condtionName);
+			selectWhere.append(" and ");
+			selectWhere.append(condtionNameArray[0]);
+			selectWhere.append("=");
+			selectWhere.append(getConditionValueSql(condtionNameArray[1]));
+			
+		}
+		selectSql.append(selectWhere);
+		return this;
+	}
+	/**处理条件名.
+	 * 
+	 * 
+	 * @param condtionName  条件名
+	 * @return 返回处理后的条件数组
+	 */
+	private String[] getCondtionNameSql(String condtionName) {
+		String[]  nameArray=new String[2];
+		StringBuilder  name=new StringBuilder();
+		String[] condtionNameArray= condtionName.split("\\.");
+    	if (condtionNameArray.length>1){	
+    		name.append(condtionNameArray[0]);
+    		name.append(".");
+    		name.append("`");
+    		name.append(condtionNameArray[1]);
+    		name.append("`");
+    		nameArray[0]=name.toString();
+    		nameArray[1]=condtionNameArray[1];
+    	} else {
+    		name.append("`");
+    		name.append(condtionNameArray[0]);
+    		name.append("`");
+    		nameArray[0]=name.toString();
+    		nameArray[1]=condtionName;
+    	}
+		return nameArray;
+	}
+
+	/**空where 语句.
+	 * @return 返回对象本身
+	 */
+	public DslSql where() {
+		selectSql.append(selectWhere);
+		return this;
+	}
+
+	
+
+	/**like 查询sql.
+	 * @param column  查询列名  --对应数据库列名
+	 * @param fieldValue  查询条件  --查询dto对应属性的值
+	 * @param prefix  前百分号  --like查询的左百分号
+	 * @param suffix  后百分号  --like查询的右百分号
+	 * 
+	 * @return  返回对象本身
+	 */
+	public DslSql likeAs(String column, String fieldValue, String prefix, String suffix){
+		if (column.isEmpty() || fieldValue.isEmpty()){
+			return this;
+		}
+		
+		selectSql.append(" and ");
+		selectWhere.append(getCondtionNameSql(column)[0]);
+		selectSql.append(" like ");
+		selectSql.append("'");
+		if (!prefix.isEmpty()){
+			selectSql.append(prefix);
+		}
+		selectSql.append(fieldValue.trim());
+		if (!suffix.isEmpty()){
+			selectSql.append(suffix);
+		}
+		selectSql.append("'");
+	
+		return this;
+	}
+
+	
+
+	/**innerSql 查询.
+	 * @param columnName  查询列名  --对应数据库列名
+	 * @param innerSql    in关键字中的内部sql
+	 * @return  返回对象本身
+	 */
+	public DslSql andInnerSql(String columnName, String innerSql) {
+		
+		if (columnName.isEmpty() || innerSql.isEmpty()){
+			return this;
+		}
+		selectSql.append(" and ");
+		selectSql.append(getCondtionNameSql(columnName)[0]);
+		selectSql.append(" in ( ");
+		selectSql.append(innerSql);
+		selectSql.append(" ) ");
+		
+		return this;
+	}
+	
+	/**not in 查询.
+	 * @param columnName  查询列名  --对应数据库列名
+	 * @param innerSql    in关键字中的内部sql
+	 * @return  返回对象本身
+	 */
+	public DslSql andNotInnerSql(String columnName, String innerSql) {
+		if (columnName.isEmpty() || innerSql.isEmpty()){
+			return this;
+		}
+		selectSql.append(" and ");
+		selectSql.append(getCondtionNameSql(columnName)[0]);
+		selectSql.append(" not  in ( ");
+		selectSql.append(innerSql);
+		selectSql.append(" ) ");
+		
+		return this;
+	}
+	
+	
+	/**and查询条件定义.
+	 * @param columnName  查询列名  --对应数据库列名
+	 * @param fieldName   查询对应javabean的属性名
+	 * @return  返回对象本身
+	 */
+	public DslSql and(String columnName, String fieldName) {
+		
+		if (columnName.isEmpty() || fieldName.isEmpty()){
+			return  this;
+		}
+		
+		selectSql.append(" and ");
+		selectSql.append(getCondtionNameSql(columnName)[0]);
+		selectSql.append(" = ");
+		selectSql.append(getConditionValueSql(fieldName));
+		
+		return this;
+	}
+	
+    /**分组语句.  
+     * @param groupBy  分组条件
+     * @return  返回对象本身
+    */
+	public DslSql groupBy(String groupBy) {
+		selectSql.append(" group by ");
+		selectSql.append(groupBy);
+		return this;
+	}
+
+	/**排序语句.
+	 * @param orderBy  排序条件
+	* @return  返回对象本身
+	 */
+	public DslSql orderBy(String orderBy) {
+		selectSql.append(" order by ");
+		selectSql.append(orderBy);
+		return this;
+	}
+
+	/**分页查询限定.
+	 * @param page  分页对象
+	 * @return  返回对象本身
+	 */
+	public DslSql limit(PageDto page) {
+		if (page!=null && page.getStart()!=null && page.getLimit()!=null){
+			selectSql.append(" limit ");
+			selectSql.append((page.getStart()-1)*page.getLimit());
+			selectSql.append(" , ");
+			selectSql.append(page.getLimit());
+			return this;
+		} else if (page!=null && page.getPage()!=null && page.getRows()!=null){
+			selectSql.append(" limit ");
+			selectSql.append((page.getPage()-1)*page.getRows());
+			selectSql.append(" , ");
+			selectSql.append(page.getRows());
+			return this;
+		} else {
+			return this;
+		}
+		
+	}
+
+	
+	/**and大于与小于的范围比较.
+	 * @param column      查询列名  --对应数据库列名
+	 * @param startField  查询条件  --查询dto对应的属性名
+	 * @param endField    查询条件  --查询dto对应的属性名
+	 * @return  返回对象本身
+	 */
+	public DslSql andRange(String column, String startField, String endField) {
+		if (column.isEmpty()){
+			return  this;
+		}
+		String columnName=getCondtionNameSql(column)[0];
+		if (!startField.isEmpty()){
+			selectSql.append(" and  ");
+			selectSql.append(columnName);
+			selectSql.append(">=");
+			selectSql.append(getConditionValueSql(startField));
+		}
+		
+		if (!endField.isEmpty()){
+			selectSql.append(" and  ");
+			selectSql.append(columnName);
+			selectSql.append("<=");
+			selectSql.append(getConditionValueSql(endField));
+		}
+		
+    	return this;
+    }
+
+	/**小于比较.
+	 * @param column  查询列名  --对应数据库列名
+	 * @param field  查询条件  --查询dto对应的属性名
+	 * @return  返回对象本身
+	 */
+	public DslSql andLessThan(String column, String field){
+		if (column.isEmpty()){
+			return  this;
+		}
+		String columnName=getCondtionNameSql(column)[0];
+		if (!field.isEmpty()){
+			selectSql.append(" and  ");
+			selectSql.append(columnName);
+			selectSql.append("<=");
+			selectSql.append(getConditionValueSql(field));
+		}
+
+    	return this;
+	}
+	
+	
+	/**大于比较.
+	 * @param column  查询列名  --对应数据库列名
+	 * @param field  查询条件  --查询dto对应的属性名
+	 * @return  返回对象本身
+	 */
+	public DslSql andMoreThan(String column, String field){
+		if (column.isEmpty()){
+			return  this;
+		}
+		String columnName=getCondtionNameSql(column)[0];
+		if (!field.isEmpty()){
+			selectSql.append(" and  ");
+			selectSql.append(columnName);
+			selectSql.append(">=");
+			selectSql.append(getConditionValueSql(field));
+		}
+
+    	return this;
+	   
+	}
+	
+	
+	
+	/**having的范围比较.
+	 * @param column      查询列名  --对应数据库列名
+	 * @param startField  查询条件  --查询dto对应的属性名
+	 * @param endField    查询条件  --查询dto对应的属性名
+	 * @return  返回对象本身
+	 */
+	public DslSql having(String column, String startField, String endField) {
+    	
+		if (column.isEmpty()){
+			return  this;
+		}
+		String columnName=getCondtionNameSql(column)[0];
+		if (!startField.isEmpty()){
+			selectSql.append(" having  ");
+			selectSql.append(columnName);
+			selectSql.append(">=");
+			selectSql.append(getConditionValueSql(startField));
+		}
+		
+		if (!endField.isEmpty()){
+			selectSql.append(" and  ");
+			selectSql.append(columnName);
+			selectSql.append("<=");
+			selectSql.append(getConditionValueSql(endField));
+		}
+		
+    	return this;
+    }
+	
+	/**or 查询.
+	 * @param fields 查询添加 or (condtion and conditon)
+	 * @return  返回对象本身
+	 */
+	public DslSql or(String... fields) {
+		if (fields == null ){
+			return this;
+		}
+		StringBuilder or = new StringBuilder(" or (");
+		for (String condtionName : fields) {
+			String[] condtionNameArray=getCondtionNameSql(condtionName);
+			or.append(" and ");
+			or.append(condtionNameArray[0]);
+			or.append("=");
+			or.append(getConditionValueSql(condtionNameArray[1]));
+			
+		}
+		or.append(" ) ");
+		selectSql.append(selectWhere);
+		selectSql.append(or);
+		return this;
+	}
+	
+	/**and自定义sql语句.
+	 * @param condition 自定义sql
+	 * @return  返回对象本身
+	 */
+	public DslSql andConditionSql(String condition) {
+		selectSql.append(" and (");
+		selectSql.append(condition);
+		selectSql.append(" )");
+		return this;
+	}
+	
+	/**转换为sql语句.
+	 * @return  返回对象本身
+	 */
+	public String toSql() {
+		return selectSql.toString();
+	}
+	
+	/**
+	 * 查询sql 语句封装方法
+	 * 查询sql 语句格式规范
+	 * ------------end
+	 */
+	
+
+
+	
+
 //
-//	
 //	/**
 //	 * 测试方法
 //	 * @param args
@@ -821,9 +703,7 @@ public class DslSql {
 ////		String[] conditionName=new String[1];
 ////		conditionName[0]="userName";
 ////		System.out.println("generateUpdateSql: "+new DslSql(testModel).generateUpdateSql( conditionName));
-////		
-////		System.out.println("generateDeleteSql: "+new DslSql(testModel).generateDeleteSql(testModel, conditionName));
-////		
+////			
 //		
 //	}
 //	
