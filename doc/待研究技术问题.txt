@@ -1,0 +1,27 @@
+1、 apache commmon dbutil 轻量级工具
+
+2、 jfinal 框架的应用研究以及使用
+
+
+3、 html+js+css 实现的前端框架的研究
+
+
+4、 新的后台管理端框架的研究以及设计；
+
+5、 研究一下stringUtil 类的使用
+
+6、 数据库连接池选用druid
+
+7、 jemeter 压力测试
+
+8、 缓存技术
+
+9、 图片处理技术上传下载 apache common-fileUpload
+
+10、日志处理
+
+11、loadrunner 压力测试 
+
+12、js数组合并策略http://blog.csdn.net/renfufei/article/details/39376311
+
+13、逻辑思维题含答案  http://blog.csdn.net/jack_wong2010/article/details/8209966

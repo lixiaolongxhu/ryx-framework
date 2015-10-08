@@ -1,0 +1,18 @@
+1、仍以springmvc 为基本框架
+2、dao层仍选用spring jdbcTempalte ；因为主体框架是spring 可以无缝集成。而且
+
+spring jdbcTempalte 可以将jdbc的性能发挥到极限。
+性能对比JDBC > JDBC.Object > Spring.JDBC > MyBatis；
+
+详细见地址：http://blog.sina.com.cn/s/blog_539d361e0100z15p.html
+
+3、Bean复制的几种框架性能比较（Apache BeanUtils、PropertyUtils,Spring BeanUtils,Cglib BeanCopier）
+  http://www.open-open.com/lib/view/open1404998048200.html
+   测试结果： Cglib BeanCopier性能最佳
+   从网上查的资料显示：
+
+BeanCopier的性能是PropertyUtils (apache-common)的504倍。
+ PropertyUtils的性能是BeanUtils(apache-common)的1.71倍
+可见，对于对象的拷贝，应尽量使用cglib的BeanCopier.
+ 
+注意：BeanCopier在get方法和set方法不严格匹配的时候会出问题.

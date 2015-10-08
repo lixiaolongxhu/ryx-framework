@@ -1,0 +1,15 @@
+采用
+<dependency>
+	<groupId>commons-beanutils</groupId>
+	<artifactId>commons-beanutils</artifactId>
+	<version>1.9.2</version>
+</dependency>
+
+
+BeanUtils.copyProperties(dest, orig);  方法进行bean对象属性拷贝。
+
+支持属性类含有继承，也可以不继承的拷贝。
+
+
+
+性能最优：  可以采用cglib copy
