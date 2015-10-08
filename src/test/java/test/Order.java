@@ -7,7 +7,7 @@ public class Order {
 	private String businessUuid;
 	private String token;
 	private String price;
-	private int  test;
+	private Integer  test;
 	private Integer  integerTest;
 	
 	private List<OrderDetail> orderDetailList;
@@ -22,12 +22,13 @@ public class Order {
 	
 
 	
+     
 
-	public int getTest() {
+	public Integer getTest() {
 		return test;
 	}
 
-	public void setTest(int test) {
+	public void setTest(Integer test) {
 		this.test = test;
 	}
 

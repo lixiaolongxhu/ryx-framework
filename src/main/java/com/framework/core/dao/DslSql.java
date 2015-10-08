@@ -3,6 +3,8 @@ package  com.framework.core.dao;
 
 import java.util.Set;
 
+import org.springframework.util.StringUtils;
+
 import com.framework.core.dto.PageDto;
 
 import net.sf.cglib.beans.BeanMap;
@@ -56,12 +58,15 @@ public class DslSql {
        this.attributeType=new String[keySetSize];
    	   int i=0;
    	   for (String key : keySet) {
+   		   if ("__cobertura_counters".equals(key)){
+   			   continue;
+   		   }
    		   attributeName[i]=key;
    		   attributeType[i]=objBeanMap.getPropertyType(key).getSimpleName();
    		   attributeValue[i]=objBeanMap.get(key);    
     	   i++;
    	   } 
-	   this.tableName = obj.getClass().getSimpleName();
+	   this.tableName = StringUtils.uncapitalize(obj.getClass().getSimpleName());
 	}
 	
 	/**进行类名与数据库表名转换.
@@ -72,14 +77,18 @@ public class DslSql {
 	private  String underscoreName(String name) {
 		
 		StringBuilder result = new StringBuilder();
+		
 		for (char letter : name.toCharArray()) {
 			if (Character.isUpperCase(letter)) {
 				result.append("_");
 				result.append(String.valueOf(letter).toLowerCase());
-			} else {
+			} else  {
+				
 				result.append(letter);
 			}
 		}
+		result.insert(0, "`");
+		result.append("`");
 		return result.toString();
 	}
 	
@@ -158,7 +167,7 @@ public class DslSql {
 		if ("String".equals(type.trim())) {
 			StringBuilder  valueSql=new StringBuilder("");
 			valueSql.append("'");
-			valueSql.append(attributeValue);
+			valueSql.append(value);
 			valueSql.append("'");
 			return  valueSql.toString();
 		}
@@ -268,7 +277,9 @@ public class DslSql {
 	 */
 	public DslSql from(String selectTableName) {
 		selectSql.append(" from ");
-		selectSql.append(selectTableName);
+		selectSql.append("`");
+		selectSql.append(selectTableName.trim());
+		selectSql.append("`");
 		return this;
 	}
 
@@ -646,67 +657,4 @@ public class DslSql {
 	 * ------------end
 	 */
 	
-
-
-	
-
-//
-//	/**
-//	 * 测试方法
-//	 * @param args
-//	 * @throws IllegalAccessException
-//	 * @throws IllegalArgumentException
-//	 */
-//	public static void main(String[] args) throws IllegalArgumentException,
-//			IllegalAccessException {
-//		
-//		TestSearchDto  testSearch=  new TestSearchDto();
-//		testSearch.setUserName("用户名");
-//		testSearch.setPage(11);
-//		// 获取属性
-//				Map< String, Field > map = BeanUtil.getClassFields(testSearch.getClass ( ), true );
-//				
-//			String[]	attributeName=new String[map.size()];	
-//			Object[]	attributeValue=new Object[map.size()];
-//			String[]	attributeType=new  String[map.size()];
-//				
-//				int i=0;
-//				for ( Object key : map.keySet ( ) ){
-//					if(ToolHelper.equalsString(map.get(key).getName(), "__cobertura_counters")){
-//						//移除maven 覆盖单元测试率注入的字段
-//						continue;
-//					}
-//					attributeName[i]=map.get(key).getName();
-//					attributeValue[i]=map.get(key).get(testSearch);
-//					attributeType[i]=map.get(key).getType().toString();
-//					
-//					i++;
-//				}
-//		
-//		
-//		String  sql=new DslSql(new TestSearchDto())
-//		.select(" select username ,idCard  ")
-//		.from(" TestModel  table1")
-//		.leftJoin("  table2 as table2" ).on(" table1.uudi=table2.uuid ")
-//		.where("username","idCard")
-//		.orderBy("username  desc ")
-////		.limit(1,10)
-//		.toSql();
-//		
-//		System.out.println("querysql:  "+ sql) ;
-//		
-////		TestModel  testModel=new TestModel();
-////		testModel.setIdCard("243241341341");
-////		testModel.setUserName("lixiaolong");
-////		System.out.println("generateInsertSql: "+new DslSql(testModel).generateInsertSql( "", false));
-////		
-////		String[] conditionName=new String[1];
-////		conditionName[0]="userName";
-////		System.out.println("generateUpdateSql: "+new DslSql(testModel).generateUpdateSql( conditionName));
-////			
-//		
-//	}
-//	
-//	
-//	
 }

@@ -10,6 +10,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.framework.core.dao.DslSql;
+
 public class Test {
 
 	private static  final  Logger  LOG=LoggerFactory.getLogger(Test.class); 
@@ -28,7 +30,7 @@ public class Test {
 		
 		Order orders = new Order();
 	
-		orders.setBusinessUuid("orders");
+		orders.setBusinessUuid("businessUuid4234324");
 
 		Order order2 = new Order();
 		
@@ -81,6 +83,9 @@ public class Test {
 //		System.out.println("输出某对象的属性名以及属性所对应的值"+BeanUtils.describe(od2));;
 //		
 //		System.out.println(""+BeanUtils.setCacheFast(map, fast););
+          
+          System.out.println("测试dslsql:  "+new DslSql(orders).select(" uuid ").from(" order ") .where("businessUuid").toSql());
+          System.out.println("测试dslsql:  "+new DslSql(orders).generateInsertSql());
 	}
 
 }
