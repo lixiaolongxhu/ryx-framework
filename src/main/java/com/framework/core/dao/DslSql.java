@@ -1,94 +1,125 @@
 package  com.framework.core.dao;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-//
-///**
-// * 自动生成sql工具类
-// * (注意事项： 整型数据为0时，会判断为空；所以系统设计判断时，请从1开始)
-// * @author lixiaolong
-// *
-// */
-//public class DslSql {
-//
-//	private  static Logger  log=LoggerFactory.getLogger(DslSql.class);
-//	
-//	private  Object obj;
-//	
-//	private  String tableName = "";
-//
-//	private  StringBuilder sql = new StringBuilder();
-//
-//	private  StringBuilder where = new StringBuilder(" where 1=1");
-//
-//	private  String[] attributeName;
-//	
-//	private  Object[] attributeValue;
-//	
-//	private  String[] attributeType;
-//	
-//	/**
-//	 * 生成javabean的mysql单表插入语句。
-//	 * 
-//	 * @param object
-//	 *            要插入数据库单表对应的javabean。
-//	 * @param generatedkeyName
-//	 *            对应数据库自增长字段或者主键字段的名称。
-//	 *            （如果存在多字段的组合主键，就选着其中一个字段作为generatedkeyName，
-//	 *            同时isAddGeneratekey必须设置为true，即全表字段插入）。
-//	 * @param isAddGeneratekey
-//	 *            在插入数据时是否插入自增长字段或者主键：isAddGeneratekey=false表示不插入，
-//	 *            isAddGeneratekey=true表示插入。
-//	 *            （如果不是自增长的主键字段，isAddGeneratekey就必须设置为true）。
-//	 * @return 返回对应的javabean插入sql语句，采用命名参数的格式。
-//	 * @throws IllegalArgumentException
-//	 * @throws IllegalAccessException
-//	 */
-//	public  String generateInsertSql(
-//			String generatedkeyName, boolean isAddGeneratekey)
-//			 {
-//		
-//		StringBuilder sql = new StringBuilder("");
-//		sql.append(" insert into ");
-//		sql.append(underscoreName(tableName));
-//		sql.append(" (");
-//	
-//		for (int i = 0; i < attributeName.length; i++) {
-//			if (isAddGeneratekey == false
-//					&& ToolHelper.equalsString(generatedkeyName,
-//							attributeName[i])) {
-//				continue;
-//			}
-//			if (ToolHelper.isNotEmpty(attributeValue[i])) {
-//				
-//				sql.append(attributeName[i]);
-//			
-//				sql.append(",");
-//			}
-//		}
-//		sql.deleteCharAt(sql.length() - 1);
-//		sql.append(")");
-//		sql.append(" values (");
-//		for (int i = 0; i < attributeName.length; i++) {
-//			if (isAddGeneratekey == false
-//					&& ToolHelper.equalsString(generatedkeyName,
-//							attributeName[i])) {
-//				continue;
-//			}
-//			if (ToolHelper.isNotEmpty(attributeValue[i])) {
-//				sql.append(":");
-//				sql.append(attributeName[i]);
-//				sql.append(",");
-//			}
-//
-//		}
-//		sql.deleteCharAt(sql.length() - 1);
-//		sql.append(")");
-//		return sql.toString();
-//	}
+import java.util.Set;
+import net.sf.cglib.beans.BeanMap;
+
+/**自动生成sql类.
+ * @author lixiaolong
+ * @version datetime：2015年10月8日  上午10:32:09
+ */
+public class DslSql {
+
+	
+	/**表名.
+	 * 
+	 */
+	private  String tableName = "";
+
+	private  StringBuilder sql = new StringBuilder();
+
+	private  StringBuilder where = new StringBuilder(" where 1=1");
+
+	/**javabean属性名数组.
+	 * 
+	 */
+	private  String[] attributeName;
+	/**javabean属性值数组.
+	 * 
+	 */
+	private  Object[] attributeValue;
+	/**javabean属性类型数组.
+	 * 
+	 */
+	private  String[] attributeType;
+	
+	
+	/**生成javabean的mysql单表插入语句.
+	 * 
+	 * @param obj  要插入数据库单表对应的javabean。。
+	 * @return 返回对应的javabean插入sql语句。
+	
+	 */
+	public  String generateInsertSql(Object obj){
+		new DslSql(obj);
+		
+		StringBuilder sql = new StringBuilder("");
+		sql.append(" insert into ");
+		sql.append(underscoreName(tableName));
+		sql.append(" (");
+
+		for (int i = 0; i < attributeName.length; i++) {
+			if (attributeValue[i]!=null) {	
+				sql.append(attributeName[i]);
+				sql.append(",");
+			}
+		}
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(")");
+		sql.append(" values (");
+		for (int i = 0; i < attributeName.length; i++) {
+			if (attributeValue[i]!=null) {
+				sql.append(getAttributeValueSqlByType(attributeValue[i],attributeType[i]));
+				sql.append(",");
+			}
+		}
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(")");
+		return sql.toString();
+	}
+	
+	/**生成javabean的mysql单表插入语句，不插入设置主键名的字段.
+	 * 
+	 * @param obj  要插入数据库单表对应的javabean。
+	 * @param  primaryKeyName 主键名
+	 * @return 返回对应的javabean插入sql语句。
+	
+	 */
+	public  String generateInsertSql(Object obj,String  primaryKeyName){
+		new DslSql(obj);
+		
+		StringBuilder sql = new StringBuilder("");
+		sql.append(" insert into ");
+		sql.append(underscoreName(tableName));
+		sql.append(" (");
+
+		for (int i = 0; i < attributeName.length; i++) {
+			if (attributeValue[i]!=null && !attributeValue[i].equals(primaryKeyName)) {	
+				sql.append(attributeName[i]);
+				sql.append(",");
+			}
+		}
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(")");
+		sql.append(" values (");
+		for (int i = 0; i < attributeName.length; i++) {
+			if (attributeValue[i]!=null && !attributeValue[i].equals(primaryKeyName)) {
+				sql.append(getAttributeValueSqlByType(attributeValue[i],attributeType[i]));
+				sql.append(",");
+			}
+		}
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(")");
+		return sql.toString();
+	}
+	
+	/**根据参数类型获取对应的值.
+	 * 
+	 * @param attributeValue  属性值
+	 * @param attributeType   属性值对应的类型
+	 * @return  返回修正后的属性值
+	 */
+    private String getAttributeValueSqlByType(Object attributeValue, String attributeType) {
+		if(attributeType.trim().equals("String")){
+			StringBuilder  value=new StringBuilder("");
+			value.append("'");
+			value.append(attributeValue);
+			value.append("'");
+			return  value.toString();
+		}
+		return attributeValue.toString();
+	}
+    
 //
 //	/**
 //	 * 生成javabean的mysql单表修改语句
@@ -165,29 +196,29 @@ import org.slf4j.LoggerFactory;
 //	}
 //
 //	
-//	/**
-//	 * 查询sql 语句封装方法
-//	 * 查询sql 语句格式规范
-//	 * ---beign
-//	 * @throws IllegalAccessException 
-//	 * @throws IllegalArgumentException 
-//	 */
-//	public DslSql(Object obj)  {
-//		
-//        if(obj!=null){
-//        	try {
-//    			setClassAttribute(obj);
-//    		} catch (IllegalArgumentException | IllegalAccessException e) {
-//    			e.printStackTrace();
-//    			log.error(ExceptionUtil.getExceptionDetail(e, "DslSql()生成sql语句时；获取类对象属性值出现异常！"));
-//    		}
-//    		
-//    		String className = obj.getClass().getSimpleName();
-//    		this.tableName = underscoreName(StringUtils.uncapitalize(className));
-//        }
-//		
-//		this.obj = obj;
-//	}
+	/**初始以及获取javabean的信息的构造函数.
+	 * 
+	 * @param obj  传入需要处理的javabean对象
+	 */
+	@SuppressWarnings("unchecked")
+	public DslSql(Object obj)  {	
+       BeanMap  objBeanMap = BeanMap.create(obj); 
+       Set<String> keySet=objBeanMap.keySet();
+       Integer  keySetSize=keySet.size();
+       String[] attributeName=new String[keySetSize];
+   	   Object[] attributeValue=new Object[keySetSize];
+   	   String[] attributeType=new String[keySetSize];
+   	   int i=0;
+   	   for (String key : keySet) {
+   		   attributeName[i]=key;
+   		   attributeType[i]=objBeanMap.getPropertyType(key).getSimpleName();
+   		   attributeValue[i]=objBeanMap.get(key);    
+    	   i++;
+   	   } 
+	   this.tableName = obj.getClass().getSimpleName();
+	}
+	
+	
 //
 //	public DslSql(String table, Object obj) {
 //		
@@ -717,27 +748,25 @@ import org.slf4j.LoggerFactory;
 //	 */
 //	
 //	
-//	/**
-//	 * 进行类名与数据库表名转换
-//	 * 规则： 类名 UserRoleLink--- 表名   user_role_link
-//	 * @param name
-//	 * @return
-//	 */
-//	public static String underscoreName(String name) {
-//		
-//		StringBuilder result = new StringBuilder();
-//
-//		for (char letter : name.toCharArray()) {
-//			if (Character.isUpperCase(letter)) {
-//				result.append("_");
-//				result.append(String.valueOf(letter).toLowerCase());
-//			} else {
-//				result.append(letter);
-//			}
-//		}
-//
-//		return result.toString();
-//	}
+	/**
+	 * 进行类名与数据库表名转换
+	 * 规则： 类名 UserRoleLink--- 表名   user_role_link
+	 * @param name
+	 * @return 
+	 */
+	public static String underscoreName(String name) {
+		
+		StringBuilder result = new StringBuilder();
+		for (char letter : name.toCharArray()) {
+			if (Character.isUpperCase(letter)) {
+				result.append("_");
+				result.append(String.valueOf(letter).toLowerCase());
+			} else {
+				result.append(letter);
+			}
+		}
+		return result.toString();
+	}
 //
 //	
 //	/**
@@ -800,4 +829,4 @@ import org.slf4j.LoggerFactory;
 //	
 //	
 //	
-//}
+}

@@ -107,16 +107,32 @@
 		<artifactId>fastjson</artifactId>
 		<version>1.1.39</version>
 	</dependency>
+	
 	<!-- 
 	    apache commons beanUtils 
 	    javabean 属性拷贝以及读取
-		 是利用java的反射和自醒机制来读写javabean的属性的
+		 是利用java的反射和自醒机制来读写javabean的属性的.
+		功能最强大
 	-->	
-	<dependency>
+	 <dependency>
 		<groupId>commons-beanutils</groupId>
 		<artifactId>commons-beanutils</artifactId>
 		<version>1.9.2</version>
+	</dependency> 
+	
+	<!-- 
+		CGLIB(Code Generation Library)是一个开源项目！是一个强大的，高性能，高质量的Code生成类库，
+		它可以在运行期扩展Java类与实现Java接口。Hibernate用它来实现PO(Persistent Object 持久化对象)
+		字节码的动态生成。
+		本项目使用实现javabean对象属性的获取以及拷贝（注意：BeanCopier在get方法和set方法不严格匹配的时候会出问题.）
+		性能最佳。
+	 -->
+	<dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib-full</artifactId>
+		<version>2.0.2</version>
 	</dependency>
+	
 	
 	<!--  日志处理相关   begin  -->
 	<dependency>

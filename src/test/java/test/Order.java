@@ -7,7 +7,8 @@ public class Order {
 	private String businessUuid;
 	private String token;
 	private String price;
-	
+	private int  test;
+	private Integer  integerTest;
 	
 	private List<OrderDetail> orderDetailList;
 
@@ -21,6 +22,30 @@ public class Order {
 	
 
 	
+
+	public int getTest() {
+		return test;
+	}
+
+	public void setTest(int test) {
+		this.test = test;
+	}
+
+	public Integer getIntegerTest() {
+		return integerTest;
+	}
+
+	public void setIntegerTest(Integer integerTest) {
+		this.integerTest = integerTest;
+	}
+
+	public String get__cobertura_counters() {
+		return __cobertura_counters;
+	}
+
+	public void set__cobertura_counters(String __cobertura_counters) {
+		this.__cobertura_counters = __cobertura_counters;
+	}
 
 	public List<Object> getPath() {
 		return path;
