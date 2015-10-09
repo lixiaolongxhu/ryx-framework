@@ -44,8 +44,11 @@
 	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   end-->  
 
 	<!-- 扫描和注册的注解Bean -->
-	<context:component-scan base-package="cn.riyouxi">	
+	<context:component-scan base-package="com.framework">	
 	</context:component-scan>
+	<context:component-scan base-package="com.sample">	
+	</context:component-scan>
+	
 
     <!-- 数据源配置     begin -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -93,8 +96,8 @@
     <!-- 数据源配置     end -->
 	
 	<!-- jdbcTemplate 配置 -->
-	<bean id="namedJdbcTemplate"
-		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>
 

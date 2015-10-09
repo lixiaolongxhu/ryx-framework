@@ -291,7 +291,7 @@ public final  class DateUtil {
      *  
      * @param d 起送时间
      * @param day  相隔的天数
-     * @return 
+     * @return   返回几天前的时间
      */  
     public static Date getDateBefore(Date d, int day) {  
         Calendar now = Calendar.getInstance();  
@@ -304,7 +304,7 @@ public final  class DateUtil {
      *  
      * @param d  开始时间
      * @param day  相隔的时间
-     * @return 
+     * @return  返回几天后的时间
      */  
     public static Date getDateAfter(Date d, int day) {  
         Calendar now = Calendar.getInstance();  
@@ -315,11 +315,11 @@ public final  class DateUtil {
     
    /**测试.
     *  
-    * @param args.
+    * @param args 参数.
     */
    public static void main(String[] args) {
-	  System.out.println(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
-	  System.out.println(getDateAfter(new Date(),1));
-	  System.out.println(getDateAfter(new Date(),2));
+//	  System.out.println(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+//	  System.out.println(getDateAfter(new Date(),1));
+//	  System.out.println(getDateAfter(new Date(),2));
    }
 }

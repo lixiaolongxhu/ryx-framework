@@ -33,3 +33,8 @@
 	http://blog.sina.com.cn/s/blog_697b96890101cvil.html
 	http://blog.sina.com.cn/s/blog_670b6d880101deff.html
 	http://zhidao.baidu.com/link?url=1mc84ah87GrcgF7Tg8kIf0MZGymEk33yxmbdYY_WJiJ4LFKU7zImEs3kCXysIOfUNqSCDCy1PCNzdm7kVZFzza
+	
+	
+15、spring 事务原理的分析：http://blog.csdn.net/shuangyue/article/details/8981883#
+
+16、spring AOP的几种方式及实现原理分析 http://blog.csdn.net/shuangyue/article/details/8633245
