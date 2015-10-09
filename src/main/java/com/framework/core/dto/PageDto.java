@@ -1,6 +1,6 @@
 package com.framework.core.dto;
 
-/**分页传参数.
+/**分页传入参数.
  * @author lixiaolong
  * @version datetime：2015年10月8日  下午4:16:47
  */
