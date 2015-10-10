@@ -28,11 +28,99 @@
 	<context:component-scan base-package="com.sample" />
     
    
+	<!-- 声明数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB）等  begin -->
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"  conversion-service="conversionService">
+	    <!-- 响应参数转型为指定格式的json对象，jsop对象等  begin -->
+	    <mvc:message-converters>
+	        <bean class="com.framework.core.converter.FastJsonHttpMessageConverterEx">
+	          	<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+	          	<property name="features"> 
+			       <list> 
+			           <value>WriteNullStringAsEmpty</value>
+			           <value>QuoteFieldNames</value>
+			           <value>WriteDateUseDateFormat</value>
+			       </list>
+  				</property> 
+	        </bean>
+	        <bean class="com.framework.core.converter.FastJsonpHttpMessageConverterEx">
+	          	<property name="supportedMediaTypes">
+					<list>
+						<value>application/javascript;charset=UTF-8</value>
+					</list>
+				</property>
+	          	<property name="features"> 
+			       <list> 
+			           <value>WriteNullStringAsEmpty</value>
+			           <value>QuoteFieldNames</value>
+			           <value>WriteDateUseDateFormat</value>
+			       </list>
+  				</property>
+	        </bean>
+	        <!-- 
+	        	<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+					<property name="marshaller" ref="marshaller" />
+					<property name="unmarshaller" ref="marshaller" />
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/xml;charset=UTF-8</value>
+							<value>application/xml;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+	         -->
+	    </mvc:message-converters>
+	    <!-- 响应参数转型为指定格式的json对象，jsop对象等  end -->
+	
+	</mvc:annotation-driven>
+	<!-- 声明数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB）等   end-->
+	
+	<!-- 视图解析配置    begin -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="favorPathExtension" value="false" />	    
+    	<property name="favorParameter" value="true" />
+    	<property name="parameterName" value="format" />
+    	<property name="ignoreAcceptHeader" value="true" />
+    	<property name="defaultContentType" value="application/json" />
+	    <property name="mediaTypes" >
+	        <value>
+	            json=application/json
+	            jsonp=application/javascript
+	            <!--xml=application/xml  --> 
+	        </value>
+	    </property>
+	</bean>
+	<!-- 视图解析配置    end -->
+	
+	<!-- java对象与xml进行转换配置  begin -->
+	<!-- 
+		<bean id="marshaller" class="cn.riyouxi.core.ext.XStreamMarshallerEx">
+	    <property name="autodetectAnnotations" value="true"/>
+        <property name="streamDriver">
+            <bean class="com.thoughtworks.xstream.io.xml.Xpp3Driver">
+                <constructor-arg>
+                    <bean class="com.thoughtworks.xstream.io.naming.NoNameCoder"/>
+                </constructor-arg>
+            </bean>
+        </property>
+    	</bean>
+	 -->
+    <!--  java对象与xm进行转换配置   end -->
+	
+	<!-- 注册我们自定义的类型转换器 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+	
 	
 	<!--   响应返回视图配置(sprig 视图解析器) -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	  	<!-- 配置该视图解析器优先级(“order”属性来声明优先级，order值越低，则优先级越高。) -->
 	  	<property name="order" value="2" />
+	  	<!-- 配置该视图解析器响应返回前缀 -->
 	  	<property name="prefix" value="/"/>
+	    <!-- 配置该视图解析器响应返回后缀 -->
 	  	<property name="suffix" value=".jsp"/>
 	</bean>
 

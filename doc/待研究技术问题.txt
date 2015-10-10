@@ -38,3 +38,7 @@
 15、spring 事务原理的分析：http://blog.csdn.net/shuangyue/article/details/8981883#
 
 16、spring AOP的几种方式及实现原理分析 http://blog.csdn.net/shuangyue/article/details/8633245
+
+17、缓存技术的使用xmemcache 分布式缓存
+
+18、Spring MVC视图解析器：配置多个视图解析器的优先级(http://www.cnblogs.com/rollenholt/archive/2012/12/27/2836035.html)
