@@ -10,7 +10,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.framework.core.dao.DslSql;
+import com.framework.core.vo.ResultVo;
 
 public class Test {
 
@@ -86,6 +88,13 @@ public class Test {
           
           System.out.println("测试dslsql:  "+new DslSql(orders).select(" uuid ").from(" order ") .where("businessUuid").toSql());
           System.out.println("测试dslsql:  "+new DslSql(orders).generateInsertSql());
+	
+          ResultVo  result=new ResultVo("", ResultVo.RESPONSE_CODE_EXCEPTION, "操作返回对象非框架定义的对象或其子类");
+          
+          
+          System.out.println(JSON.toJSONString(result));
+          
+          System.out.println(JSON.toJSONString(orders));
 	}
 
 }
