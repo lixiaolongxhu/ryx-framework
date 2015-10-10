@@ -167,7 +167,7 @@
   
    <!-- maven build 环境配置  begin -->
 	<build>
-		<finalName>ryx-server</finalName>
+		<finalName>ryx-framework</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

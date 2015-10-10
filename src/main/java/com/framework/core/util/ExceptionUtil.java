@@ -1,7 +1,4 @@
-package com.framework.ext.util;
-
-
-
+package com.framework.core.util;
 
 
 /**异常信息处理的工具类.
@@ -53,4 +50,11 @@ public final  class ExceptionUtil {
 
 	}
 
+	/**获取exception详情信息.
+	 * @param e 异常信息对象
+	 * @return  将异常对象转换为字符串
+	 */
+	public static String getExceptionDetail(Exception e) {
+		return getExceptionDetail(e, "");
+	}
 }

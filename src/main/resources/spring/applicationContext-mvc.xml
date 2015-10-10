@@ -25,7 +25,7 @@
 					http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 	
 	<!-- 扫描与注解对应package的bean -->				
-	<context:component-scan base-package="cn.riyouxi" />
+	<context:component-scan base-package="com.sample" />
     
    
 	
