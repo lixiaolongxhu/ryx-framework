@@ -16,3 +16,16 @@ BeanCopier的性能是PropertyUtils (apache-common)的504倍。
 可见，对于对象的拷贝，应尽量使用cglib的BeanCopier.
  
 注意：BeanCopier在get方法和set方法不严格匹配的时候会出问题.
+
+
+
+4、视图解析配置
+   返回对象result统一配置
+   全局异常处理
+   事务配置测试
+   缓存配置memchache
+   日志处理
+   shiro权限配置
+   文件上传下载
+   单元测试
+   
