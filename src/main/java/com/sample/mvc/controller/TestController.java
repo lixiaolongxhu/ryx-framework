@@ -9,13 +9,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-
+import com.sample.util.*;
 import com.framework.core.vo.ResultVo;
-import com.framework.ext.util.DateUtil;
-import com.framework.ext.util.ToolHelper;
 import com.sample.mvc.Entity.User;
 import com.sample.mvc.service.TestService;
+import com.sample.util.ToolHelper;
 
 @Controller
 @ResponseBody
@@ -29,6 +27,12 @@ public class TestController {
 	@RequestMapping(value="/result")
 	public Integer result(User user){
 		return  1;
+	}
+	
+	@RequestMapping(value="exc")
+	public Integer exception(){
+		testService.exception();
+		return 1; 
 	}
 	
 	@RequestMapping(value="/insert")

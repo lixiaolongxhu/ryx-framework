@@ -21,13 +21,22 @@ import com.framework.core.vo.ResultVo;
 @ResponseBody
 public class ControllerAdviceHandler {
 	
-	
+	/**日志.
+	 * 
+	 */
 	private static final Logger  LOG=LoggerFactory.getLogger(ControllerAdviceHandler.class);
 	
+	
+	
+	/**统一处理抛出的BizException自定义异常.
+	 * 
+	 * @param ex 异常对象
+	 * @return  返回统一异常信息定义格式后的内容
+	 */
 	@ExceptionHandler(BizException.class)
 	public ResultVo processBizException(BizException ex) {
 		LOG.warn("统一处理返回BizException异常 : "+ex.getDescr());
-        return new ResultVo(new Object(),ex.getCode(),ex.getDescr());
+        return new ResultVo(new Object(), ex.getCode(), ex.getDescr());
     }
 	
 //	@ExceptionHandler(BindException.class)

@@ -1,4 +1,4 @@
-package com.framework.ext.util;
+package com.sample.util;
 
 
 import java.text.SimpleDateFormat;
