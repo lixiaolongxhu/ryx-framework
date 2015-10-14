@@ -1,5 +1,7 @@
 package com.framework.core.exception;
 
+import com.framework.core.vo.ResultVo;
+
 
 
 
@@ -9,21 +11,23 @@ package com.framework.core.exception;
  */
 public class BizException extends RuntimeException {
 
-	/**
+
+	/**序列号.
 	 * 
 	 */
-	private static final long serialVersionUID = -3531241910349398696L;
+	private static final long serialVersionUID = -6596918142750632880L;
 	private String descr;
+	private Integer code;
 	
 	public BizException(String descr){
-		
-//		super(Const.ResponseStatusCode.BIZEXCEPTION);
+		super(descr);
+		this.code=ResultVo.RESPONSE_CODE_EXCEPTION;
 		this.descr = descr;
 	}
 	
-	public BizException(String code,String descr){
-		
-		super(code);
+	public BizException(Integer code,String descr){
+		super(descr);
+		this.code=code;
 		this.descr = descr;
 	}
 	
@@ -31,4 +35,17 @@ public class BizException extends RuntimeException {
 		return descr;
 	}
 
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+
+	
 }

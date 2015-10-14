@@ -18,6 +18,15 @@ public class Test {
 
 	private static  final  Logger  LOG=LoggerFactory.getLogger(Test.class); 
 	
+	private static int i;
+	private int i2;
+	
+	public static void testd(){
+//		i2=2;
+//		int i3;
+	}
+	
+	
 	/**
 	 * 
 	 * @param args
@@ -95,6 +104,9 @@ public class Test {
           System.out.println(JSON.toJSONString(result));
           
           System.out.println(JSON.toJSONString(orders));
+//          
+//          int i;
+//          System.out.println(i);
 	}
 
 }

@@ -1,7 +1,9 @@
 package test;
 
 import org.apache.log4j.chainsaw.Main;
+import org.springframework.scheduling.annotation.Async;
 
+ 
 public class StringTest {
 	public static void main(String[] args) {
 		String str1="a"+"b"+"c";
