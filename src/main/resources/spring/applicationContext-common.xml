@@ -26,6 +26,16 @@
 					http://www.springframework.org/schema/task/spring-task-3.2.xsd
 					http://www.springframework.org/schema/data/mongo
     				http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+	<!-- 开启注解处理器 -->
+	<context:annotation-config />
+	<!-- 扫描和注册的注解Bean -->
+	<context:component-scan base-package="com.framework">	
+	</context:component-scan>
+	<context:component-scan base-package="com.sample">	
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" /> 
+	</context:component-scan>
+	
+	
 		
 	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   begin-->  
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
@@ -43,11 +53,7 @@
     </bean>  
 	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   end-->  
 
-	<!-- 扫描和注册的注解Bean -->
-	<context:component-scan base-package="com.framework">	
-	</context:component-scan>
-	<context:component-scan base-package="com.sample">	
-	</context:component-scan>
+	
 	
 
     <!-- 数据源配置     begin -->

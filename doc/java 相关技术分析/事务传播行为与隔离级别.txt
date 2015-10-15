@@ -1,0 +1,2 @@
+MySQL事务隔离级别详解：  http://xm-king.iteye.com/blog/770721
+spring 事务传播行为与隔离级别：http://dapeng.iteye.com/blog/155178

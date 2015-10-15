@@ -100,8 +100,7 @@
     <category name="org" additivity="true">
         <priority value="warn" />
         <appender-ref ref="console.CONSOLE" />
-        <!-- <appender-ref ref="file.text.DATE_FILE"/> -->
-    </category>
+    </category>  
  
  	<!--  日志按包名分类级别输出   end -->
     <root>
