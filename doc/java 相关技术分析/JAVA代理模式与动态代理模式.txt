@@ -1,0 +1,1 @@
+java 代理模式与动态代理模式： http://www.open-open.com/home/space-24-do-blog-id-12.html

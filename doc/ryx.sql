@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2015-10-10 10:33:07
+Date: 2015-10-15 15:56:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -155,7 +155,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('f86e0dc8-377e-43c0-b796-4abb3ad8b7ef', '', '', 'password', null, '0', 'lxl767.7446072594535', null, null, null, '0', '2015-10-10 10:29:22', null);
+INSERT INTO `user` VALUES ('3e6df067-b03b-422d-851d-8225feabab16', '', '', 'password', null, '0', 'lxl2836', null, null, null, '0', '2015-10-15 14:00:25', null);
+INSERT INTO `user` VALUES ('7536844e-9af7-4002-bad9-eb8ca0878d4f', '', '', 'password', null, '0', 'lxl4157', null, null, null, '0', '2015-10-15 14:00:10', null);
 
 -- ----------------------------
 -- Table structure for user_role_link

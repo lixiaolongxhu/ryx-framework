@@ -42,3 +42,14 @@
 17、缓存技术的使用xmemcache 分布式缓存
 
 18、Spring MVC视图解析器：配置多个视图解析器的优先级(http://www.cnblogs.com/rollenholt/archive/2012/12/27/2836035.html)
+
+
+19、抽象类与接口的应用场景
+
+20、 spring beanFactory 与 FactoryBean 分析，
+
+21、java 的代理技术，代理模式，动态代理
+
+22、spring 的aop实现
+
+23、spring 的事务管理实现

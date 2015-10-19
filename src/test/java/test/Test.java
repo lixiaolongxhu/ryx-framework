@@ -9,6 +9,8 @@ import net.sf.cglib.beans.BeanMap;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 import com.alibaba.fastjson.JSON;
 import com.framework.core.dao.DslSql;
@@ -24,6 +26,10 @@ public class Test {
 	public static void testd(){
 //		i2=2;
 //		int i3;
+//		TransactionProxyFactoryBean.class
+//		JdkDynamicAopProxy
+		
+//		ProxyFactoryBean
 	}
 	
 	
