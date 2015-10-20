@@ -1,6 +1,7 @@
 package com.framework.core.dao;
 
 import java.util.List;
+
 import com.framework.core.vo.PageVo;
 
 /**通用dao层接口.
@@ -49,7 +50,7 @@ public interface BasicDao {
 	 * @param cls      返回参数对象的class类型定义
 	 * @return 返回查询结果的list
 	 */
-	public List<Object> query(DslSql dslSql, Class<Object> cls);
+	public List<Object> query(DslSql dslSql, Class<? extends Object> cls );
 	
 	/**执行查询操作.
 	 * 
@@ -57,7 +58,7 @@ public interface BasicDao {
 	 * @param cls      返回参数对象的class类型定义
 	 * @return   返回传入传入参数class类型的实体类对象；仅返回一条记录
 	 */
-	public Object queryOne(DslSql dslSql, Class<Object> cls);
+	public Object queryOne(DslSql dslSql, Class<? extends Object> cls);
 	
 	/**执行查询返回单列对象，统计记录条数，查询数据库某列的值等.
 	 * 

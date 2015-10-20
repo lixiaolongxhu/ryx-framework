@@ -39,6 +39,7 @@ public class TestController {
 		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
 		user.setPassword("password");
 		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+		user.setToken(UUID.randomUUID().toString());
 		testService.tran(user);
 	}
 	
@@ -48,7 +49,20 @@ public class TestController {
 		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
 		user.setPassword("password");
 		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+		user.setToken(UUID.randomUUID().toString());
 		Integer r=testService.insert(user);
 		return  new ResultVo(r);
+	}
+	
+	@RequestMapping(value="/cache")
+	public ResultVo selectCache(){
+		User user=new User();
+		user.setUuid(UUID.randomUUID().toString());
+		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
+		user.setPassword("password");
+		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+		user.setToken(UUID.randomUUID().toString());
+		User returnUser=testService.selectCache();
+		return new ResultVo(returnUser);
 	}
 }

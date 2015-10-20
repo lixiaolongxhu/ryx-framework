@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,9 +22,10 @@ import com.framework.core.vo.PageVo;
 /**通用dao层封装.
  * @author lixiaolong
  * @version datetime：2015年9月28日  下午3:18:54
+
  */
 @Repository
-public class BasicDaoImp  implements   BasicDao{
+public class BasicDaoImp  implements   BasicDao {
 	
 	/**日志.
 	 * 
@@ -158,17 +160,20 @@ public class BasicDaoImp  implements   BasicDao{
 	 * @param cls      返回参数对象的class类型定义
 	 * @return 返回查询结果的list
 	 */
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<Object> query(DslSql dslSql, Class<Object> cls) {
+	public List<Object> query(DslSql dslSql, Class<? extends Object> cls) {
 		String sql=dslSql.toSql();
 		LOG.info("Query  sql:" + sql);	
 		List<Object> returnList=new ArrayList<Object>();
 		try {
-			returnList=jdbcTemplate.queryForList(sql, cls);
+			returnList= jdbcTemplate.query(sql, new BeanPropertyRowMapper(cls));
 		} catch (Exception e){
 			LOG.error(ExceptionUtil.getExceptionDetail(e));
 			throw new BizException("查询数据库列表记录出现异常!");
 		} 
+		
 		if (returnList==null){
 			return new ArrayList<Object>();
 		}
@@ -183,20 +188,20 @@ public class BasicDaoImp  implements   BasicDao{
 	 * @return   返回传入传入参数class类型的实体类对象；仅返回一条记录
 	 */
 	@Override
-	public Object queryOne(DslSql dslSql, Class<Object> cls) {
-		String sql=dslSql.toSql();
-		LOG.info("queryOne  sql:" + sql);
-		Object returnObj=null;
-		try {
-			returnObj=jdbcTemplate.queryForObject(sql, cls);
-		} catch (Exception e) {
-			LOG.error(ExceptionUtil.getExceptionDetail(e));
+	public Object queryOne(DslSql dslSql, Class<? extends Object> cls) {
+		List<Object> objList=query(dslSql, cls);
+		if (objList.isEmpty()) {
+			try {
+				return cls.newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				LOG.error(ExceptionUtil.getExceptionDetail(e));
+				throw new BizException("查询数据库一条获得默认对象错误!");
+			}
+		} else if (objList.size()>1) {
 			throw new BizException("查询数据库一条记录出现异常!");
-		}					
-		if (returnObj==null){
-			returnObj =new Object();
+		} else {
+			return objList.get(0);
 		}
-		return returnObj;	
 	}
 	
 	
@@ -232,7 +237,7 @@ public class BasicDaoImp  implements   BasicDao{
 	 * @return    返回查询的记录结果集与记录条数
 	 */
 	@Override
-	public  PageVo    queryPaging(DslSql dslSql, DslSql totalDslSql, Class<Object> cls) {
+	public  PageVo   queryPaging(DslSql dslSql, DslSql totalDslSql, Class<Object> cls) {
 		LOG.info("queryPageing  dslSql:"+dslSql.toSql());
 		LOG.info("queryPageing  totalDslSql:"+totalDslSql.toSql());
 		List<Object>  rows=query(dslSql, cls);
@@ -240,5 +245,8 @@ public class BasicDaoImp  implements   BasicDao{
 		return new PageVo(rows, total);
 		
 	}
+
+
+	
 
 }

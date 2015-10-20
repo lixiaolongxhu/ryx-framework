@@ -1,7 +1,14 @@
 package com.sample.mvc.Entity;
 
-public class User {
+import java.io.Serializable;
 
+public class User  implements Serializable{
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6182079006964296045L;
 	private String uuid;
 	private String nickname;
 	private String portraitPath;
