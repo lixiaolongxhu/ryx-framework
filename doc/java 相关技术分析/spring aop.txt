@@ -1,0 +1,13 @@
+ Spring AOP为什么不能拦截同一个对象内方法的嵌套调用: http://www.ithao123.cn/content-2326512.html
+ 
+       核心说明：(在使用 Spring AOP 的时候，我们从 IOC 容器中获取的 Service Bean 对象其实都是代理对象，
+	   而不是那些 Service Bean 对象本身，也就是说获取的并不是被代理对象或代
+	   由于 this 关键字引用的并不是该 Service Bean 对象的代理对象，而是其本身，
+	   故 Spring AOP 是不能拦截到这些被嵌套调用的方法的。)
+	   
+关于spring的aop拦截的问题 protected方法代理问题：http://jinnianshilongnian.iteye.com/blog/1857189
+    
+	  核心说明：aop底层是代理， 
+		jdk是代理接口，私有方法必然不会存在在接口里，所以就不会被拦截到； 
+		cglib是子类，private的方法照样不会出现在子类里，也不能被拦截。
+		java 反射获取的方法只能是公共修饰符的方法。(Method[] methods = clazz.getMethods();只能拿到public方法)

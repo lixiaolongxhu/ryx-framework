@@ -34,15 +34,15 @@ public class TestService {
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public void tran(User user) {
 		
-		test2Service.tran2(user);
+		tran2(user);
 		
 		throw new BizException("异常回滚测试");
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	
 	public void tran2(User user){
 		basicdao.insert(user);
-		throw new BizException("异常回滚测试");
+//		throw new BizException("异常回滚测试");
 	}
 	
 

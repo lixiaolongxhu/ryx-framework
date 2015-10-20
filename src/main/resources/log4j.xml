@@ -101,7 +101,7 @@
         <priority value="warn" />
         <appender-ref ref="console.CONSOLE" />
     </category>  
- 
+
  	<!--  日志按包名分类级别输出   end -->
     <root>
         <!-- <level value="trace" /> <level value="debug" /> <level value="info"/> 

@@ -27,7 +27,7 @@ public class Test {
 //		i2=2;
 //		int i3;
 //		TransactionProxyFactoryBean.class
-//		JdkDynamicAopProxy
+//		JdkDynamicAopProxy.class;
 		
 //		ProxyFactoryBean
 	}

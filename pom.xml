@@ -60,6 +60,13 @@
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+		<!-- Spring context的扩展支持，用于MVC方面 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
   		<!-- Spring的面向切面编程，提供AOP（面向切面编程）的实现 -->
         <dependency>
 			<groupId>org.springframework</groupId>
@@ -160,6 +167,15 @@
 		<scope>provided</scope>
 	 </dependency>
     <!--java web运行环境服务基本api  end-->
+    
+    <!-- google为spring与ehcache整合提供了封装包 -->
+    <dependency>
+    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+   		<artifactId>ehcache-spring-annotations</artifactId>
+   		<version>1.1.2</version>
+   		<type>jar</type>
+   	    <scope>compile</scope>
+	</dependency>
 	
   </dependencies>
   
