@@ -1,5 +1,7 @@
 package com.sample.mvc.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.framework.core.dao.BasicDao;
 import com.framework.core.dao.BasicDaoImp;
 import com.framework.core.dao.DslSql;
 import com.framework.core.exception.BizException;
@@ -18,7 +21,7 @@ public class TestService {
 
 	@SuppressWarnings("rawtypes")
 	@Resource
-	private BasicDaoImp basicdao;
+	private BasicDao basicdao;
 	@Resource
 	private Test2Service  test2Service;
 
@@ -51,18 +54,33 @@ public class TestService {
 
 	//将查询到的数据缓存到myCache中,并使用方法名称加上参数中的userNo作为缓存的key
 	//通常更新操作只需刷新缓存中的某个值,所以为了准确的清除特定的缓存,故定义了这个唯一的key,从而不会影响其它缓存值
-	@Cacheable(value="myCache", key="'selectCache'+#token")
-	public User selectCache() {
+		public List<User> selectCache() {
 		User select =new User();
-		select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
+//		select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
 		DslSql dslSql=new DslSql(select)
 			.select("*")
 			.from("user")
 			.where("token");
+		
 		@SuppressWarnings("unchecked")
-		User returnUser=(User) basicdao.queryOne(dslSql, User.class);
+		List<User> returnUser=basicdao.query(dslSql, User.class);
 		return returnUser;
 	}
+
+
+
+		@SuppressWarnings("unchecked")
+		public User queryOne() {
+			User select =new User();
+			select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
+			DslSql dslSql=new DslSql(select)
+				.select("*")
+				.from("user")
+				.where("token");
+		
+			User returnUser=(User) basicdao.queryOne(dslSql, User.class);
+			return returnUser;
+		}
 	
 
 }

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,10 +23,10 @@ import com.framework.core.vo.PageVo;
 /**通用dao层封装.
  * @author lixiaolong
  * @version datetime：2015年9月28日  下午3:18:54
-
+ * @param T 泛型
  */
 @Repository
-public class BasicDaoImp  implements   BasicDao {
+public class BasicDaoImp<T>  implements   BasicDao<T> {
 	
 	/**日志.
 	 * 
@@ -163,10 +164,11 @@ public class BasicDaoImp  implements   BasicDao {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<Object> query(DslSql dslSql, Class<? extends Object> cls) {
+	@Cacheable(value="basicCache", key="'query'+#uuid")
+	public List<T> query(DslSql dslSql, Class<T> cls) {
 		String sql=dslSql.toSql();
-		LOG.info("Query  sql:" + sql);	
-		List<Object> returnList=new ArrayList<Object>();
+		LOG.info("query  sql:" + sql);	
+		List<T> returnList=new ArrayList<T>();
 		try {
 			returnList= jdbcTemplate.query(sql, new BeanPropertyRowMapper(cls));
 		} catch (Exception e){
@@ -175,7 +177,7 @@ public class BasicDaoImp  implements   BasicDao {
 		} 
 		
 		if (returnList==null){
-			return new ArrayList<Object>();
+			return new ArrayList<T>();
 		}
 		return returnList;
 			
@@ -188,20 +190,43 @@ public class BasicDaoImp  implements   BasicDao {
 	 * @return   返回传入传入参数class类型的实体类对象；仅返回一条记录
 	 */
 	@Override
-	public Object queryOne(DslSql dslSql, Class<? extends Object> cls) {
-		List<Object> objList=query(dslSql, cls);
-		if (objList.isEmpty()) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Cacheable(value="basicCache", key="'queryOne'+#uuid")
+	public T queryOne(DslSql dslSql, Class<T> cls) {
+		String sql = dslSql.toSql();
+		LOG.info(" queryOne  sql:"+sql);
+		T obj = null;
+		try {
+		    obj=(T) jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(cls));
+		} catch (Exception e){
+			LOG.error(ExceptionUtil.getExceptionDetail(e));
+			throw new BizException("查询数据库期望返回一条记录，实际返回了多条记录!");
+		}
+		
+		if (obj == null) {
 			try {
 				return cls.newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				LOG.error(ExceptionUtil.getExceptionDetail(e));
-				throw new BizException("查询数据库一条获得默认对象错误!");
+				throw new BizException("查询数据库一条记录，实际返回为空，实例出空对象时出现异常!");
 			}
-		} else if (objList.size()>1) {
-			throw new BizException("查询数据库一条记录出现异常!");
 		} else {
-			return objList.get(0);
+			return obj;
 		}
+			
+//		List<T> objList=query(dslSql, cls);
+//		if (objList.isEmpty()) {
+//			try {
+//				return cls.newInstance();
+//			} catch (InstantiationException | IllegalAccessException e) {
+//				LOG.error(ExceptionUtil.getExceptionDetail(e));
+//				throw new BizException("查询数据库一条获得默认对象错误!");
+//			}
+//		} else if (objList.size()>1) {
+//			throw new BizException("查询数据库一条记录出现异常!");
+//		} else {
+//			return objList.get(0);
+//		}
 	}
 	
 	
@@ -237,12 +262,12 @@ public class BasicDaoImp  implements   BasicDao {
 	 * @return    返回查询的记录结果集与记录条数
 	 */
 	@Override
-	public  PageVo   queryPaging(DslSql dslSql, DslSql totalDslSql, Class<Object> cls) {
+	public  PageVo<T>   queryPaging(DslSql dslSql, DslSql totalDslSql, Class<T> cls) {
 		LOG.info("queryPageing  dslSql:"+dslSql.toSql());
 		LOG.info("queryPageing  totalDslSql:"+totalDslSql.toSql());
-		List<Object>  rows=query(dslSql, cls);
+		List<T>  rows=query(dslSql, cls);
 		Integer   total=queryCount(totalDslSql);
-		return new PageVo(rows, total);
+		return new PageVo<T>(rows, total);
 		
 	}
 

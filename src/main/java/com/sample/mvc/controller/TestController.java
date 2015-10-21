@@ -1,11 +1,15 @@
 package com.sample.mvc.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.sample.util.*;
 import com.framework.core.vo.ResultVo;
 import com.sample.mvc.Entity.User;
@@ -62,7 +66,12 @@ public class TestController {
 		user.setPassword("password");
 		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
 		user.setToken(UUID.randomUUID().toString());
-		User returnUser=testService.selectCache();
+		List<User> returnUser=testService.selectCache();
 		return new ResultVo(returnUser);
+	}
+	@RequestMapping(value="/queryOne")
+	public ResultVo queryOne(){
+		User user=testService.queryOne();
+		return new ResultVo(user);
 	}
 }

@@ -10,6 +10,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +31,8 @@ public class Test {
 //		JdkDynamicAopProxy.class;
 		
 //		ProxyFactoryBean
+		
+//		JdbcTemplate.class
 	}
 	
 	

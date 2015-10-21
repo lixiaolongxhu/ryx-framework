@@ -6,13 +6,13 @@ import java.util.List;
  * @author lixiaolong
  * @version datetime：2015年10月9日  下午2:19:20
  */
-public class PageVo {
+public class PageVo<T> {
 
 	
 	/**返回的结果集.
 	 * 
 	 */
-	public List<Object> rows = new ArrayList<Object>();
+	public List<T> rows = new ArrayList<T>();
 	
 	/**记录总条数.
 	 * 
@@ -24,9 +24,9 @@ public class PageVo {
 	 * @param rows  返回的结果集
 	 * @param total  记录总条数
 	 */
-	public PageVo(List<Object> rows, Integer total) {
+	public PageVo(List<T> rows, Integer total) {
 		if (rows==null){
-			this.rows=new ArrayList<Object>();
+			this.rows=new ArrayList<T>();
 		} else {
 			this.rows = rows;
 		}
@@ -42,7 +42,7 @@ public class PageVo {
 	 * 
 	 * @return  返回结果集
 	 */
-	public List<Object> getRows() {
+	public List<T> getRows() {
 		return rows;
 	}
 
@@ -50,7 +50,7 @@ public class PageVo {
 	 * 
 	 * @param rows  设置返回结果集
 	 */
-	public void setRows(List<Object> rows) {
+	public void setRows(List<T> rows) {
 		this.rows = rows;
 	}
 

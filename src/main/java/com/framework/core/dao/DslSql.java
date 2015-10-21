@@ -164,6 +164,9 @@ public class DslSql {
 	 * @return  返回修正后的属性值
 	 */
     private String getAttributeValueSqlByType(Object value, String type) {
+    	if (value == null) {
+    		return null;
+    	}
 		if ("String".equals(type.trim())) {
 			StringBuilder  valueSql=new StringBuilder("");
 			valueSql.append("'");
@@ -330,10 +333,14 @@ public class DslSql {
 		
 		for (String condtionName : fields) {
 			String[] condtionNameArray=getCondtionNameSql(condtionName);
+			String valueSql=getConditionValueSql(condtionNameArray[1]);
+			if (valueSql == null) {
+				continue;
+			}
 			selectWhere.append(" and ");
 			selectWhere.append(condtionNameArray[0]);
 			selectWhere.append("=");
-			selectWhere.append(getConditionValueSql(condtionNameArray[1]));
+			selectWhere.append(valueSql);
 			
 		}
 		selectSql.append(selectWhere);

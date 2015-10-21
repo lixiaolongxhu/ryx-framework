@@ -9,7 +9,7 @@ import com.framework.core.vo.PageVo;
  * @version datetime：2015年10月14日  上午10:37:10
  */
 
-public interface BasicDao {
+public interface BasicDao<T> {
 
 	/**添加数据库记录.
 	 * 
@@ -50,7 +50,7 @@ public interface BasicDao {
 	 * @param cls      返回参数对象的class类型定义
 	 * @return 返回查询结果的list
 	 */
-	public List<Object> query(DslSql dslSql, Class<? extends Object> cls );
+	public List<T> query(DslSql dslSql, Class<T> cls );
 	
 	/**执行查询操作.
 	 * 
@@ -58,7 +58,7 @@ public interface BasicDao {
 	 * @param cls      返回参数对象的class类型定义
 	 * @return   返回传入传入参数class类型的实体类对象；仅返回一条记录
 	 */
-	public Object queryOne(DslSql dslSql, Class<? extends Object> cls);
+	public T queryOne(DslSql dslSql, Class<T> cls);
 	
 	/**执行查询返回单列对象，统计记录条数，查询数据库某列的值等.
 	 * 
@@ -74,5 +74,5 @@ public interface BasicDao {
 	 * @param cls     返回传入传入参数class类型的实体类对象
 	 * @return    返回查询的记录结果集与记录条数
 	 */
-	public  PageVo    queryPaging(DslSql dslSql, DslSql totalDslSql, Class<Object> cls);
+	public  PageVo<T>    queryPaging(DslSql dslSql, DslSql totalDslSql, Class<T> cls);
 }
