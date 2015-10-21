@@ -1,20 +1,15 @@
 package com.framework.core.dao;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
 import com.framework.core.exception.BizException;
 import com.framework.core.util.ExceptionUtil;
 import com.framework.core.vo.PageVo;
@@ -23,7 +18,7 @@ import com.framework.core.vo.PageVo;
 /**通用dao层封装.
  * @author lixiaolong
  * @version datetime：2015年9月28日  下午3:18:54
- * @param T 泛型
+ * @param <T> 泛型
  */
 @Repository
 public class BasicDaoImp<T>  implements   BasicDao<T> {
@@ -164,7 +159,6 @@ public class BasicDaoImp<T>  implements   BasicDao<T> {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	@Cacheable(value="basicCache", key="'query'+#uuid")
 	public List<T> query(DslSql dslSql, Class<T> cls) {
 		String sql=dslSql.toSql();
 		LOG.info("query  sql:" + sql);	
@@ -191,7 +185,6 @@ public class BasicDaoImp<T>  implements   BasicDao<T> {
 	 */
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Cacheable(value="basicCache", key="'queryOne'+#uuid")
 	public T queryOne(DslSql dslSql, Class<T> cls) {
 		String sql = dslSql.toSql();
 		LOG.info(" queryOne  sql:"+sql);
@@ -214,19 +207,7 @@ public class BasicDaoImp<T>  implements   BasicDao<T> {
 			return obj;
 		}
 			
-//		List<T> objList=query(dslSql, cls);
-//		if (objList.isEmpty()) {
-//			try {
-//				return cls.newInstance();
-//			} catch (InstantiationException | IllegalAccessException e) {
-//				LOG.error(ExceptionUtil.getExceptionDetail(e));
-//				throw new BizException("查询数据库一条获得默认对象错误!");
-//			}
-//		} else if (objList.size()>1) {
-//			throw new BizException("查询数据库一条记录出现异常!");
-//		} else {
-//			return objList.get(0);
-//		}
+
 	}
 	
 	

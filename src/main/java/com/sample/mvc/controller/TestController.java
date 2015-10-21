@@ -74,4 +74,10 @@ public class TestController {
 		User user=testService.queryOne();
 		return new ResultVo(user);
 	}
+	
+	@RequestMapping(value="/update")
+	public ResultVo  update(){
+		User user=testService.update();
+		return new ResultVo(user);
+	}
 }

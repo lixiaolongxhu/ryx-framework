@@ -1,5 +1,6 @@
 package com.sample.mvc.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import com.framework.core.dao.BasicDaoImp;
 import com.framework.core.dao.DslSql;
 import com.framework.core.exception.BizException;
 import com.sample.mvc.Entity.User;
+import com.sample.util.DateUtil;
 
 @Service
 public class TestService {
@@ -54,13 +56,15 @@ public class TestService {
 
 	//将查询到的数据缓存到myCache中,并使用方法名称加上参数中的userNo作为缓存的key
 	//通常更新操作只需刷新缓存中的某个值,所以为了准确的清除特定的缓存,故定义了这个唯一的key,从而不会影响其它缓存值
+	// @Cacheable(value="basicCache", key="'get'+#userNo")
 		public List<User> selectCache() {
 		User select =new User();
 //		select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
 		DslSql dslSql=new DslSql(select)
 			.select("*")
 			.from("user")
-			.where("token");
+			.where("token")
+			.orderBy(" createTime desc");
 		
 		@SuppressWarnings("unchecked")
 		List<User> returnUser=basicdao.query(dslSql, User.class);
@@ -72,14 +76,24 @@ public class TestService {
 		@SuppressWarnings("unchecked")
 		public User queryOne() {
 			User select =new User();
-			select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
+			select.setUuid("2ecdd93b-2769-44c6-91ed-c269b8ea7782");
 			DslSql dslSql=new DslSql(select)
 				.select("*")
 				.from("user")
-				.where("token");
+				.where("uuid","token");
 		
 			User returnUser=(User) basicdao.queryOne(dslSql, User.class);
 			return returnUser;
+		}
+
+
+
+		public User update() {
+			User user=new User();
+			user.setUuid("2ecdd93b-2769-44c6-91ed-c269b8ea7782");
+			user.setUpdateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+			basicdao.update(user, "uuid");
+			return user;
 		}
 	
 

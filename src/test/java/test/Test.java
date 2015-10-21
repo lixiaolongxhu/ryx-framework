@@ -10,6 +10,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
@@ -33,6 +36,10 @@ public class Test {
 //		ProxyFactoryBean
 		
 //		JdbcTemplate.class
+		
+//		KeyGenerator 
+//		@Caching
+	
 	}
 	
 	
