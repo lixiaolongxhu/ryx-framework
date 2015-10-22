@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,16 +58,14 @@ public class TestController {
 		Integer r=testService.insert(user);
 		return  new ResultVo(r);
 	}
-	
+//	//将查询到的数据缓存到myCache中,并使用方法名称加上参数中的userNo作为缓存的key
+//	//通常更新操作只需刷新缓存中的某个值,所以为了准确的清除特定的缓存,故定义了这个唯一的key,从而不会影响其它缓存值
+
 	@RequestMapping(value="/cache")
-	public ResultVo selectCache(){
-		User user=new User();
-		user.setUuid(UUID.randomUUID().toString());
-		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
-		user.setPassword("password");
-		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
-		user.setToken(UUID.randomUUID().toString());
-		List<User> returnUser=testService.selectCache();
+	
+	public ResultVo selectCache(String token){
+		
+		List<User> returnUser=testService.selectCache(token);
 		return new ResultVo(returnUser);
 	}
 	@RequestMapping(value="/queryOne")

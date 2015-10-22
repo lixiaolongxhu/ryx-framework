@@ -54,12 +54,12 @@ public class TestService {
 	}
 
 
-	//将查询到的数据缓存到myCache中,并使用方法名称加上参数中的userNo作为缓存的key
-	//通常更新操作只需刷新缓存中的某个值,所以为了准确的清除特定的缓存,故定义了这个唯一的key,从而不会影响其它缓存值
-	// @Cacheable(value="basicCache", key="'get'+#userNo")
-		public List<User> selectCache() {
+//	//将查询到的数据缓存到myCache中,并使用方法名称加上参数中的userNo作为缓存的key
+//	//通常更新操作只需刷新缓存中的某个值,所以为了准确的清除特定的缓存,故定义了这个唯一的key,从而不会影响其它缓存值
+	@Cacheable(value="basicCache", key="'selectCache'+#token")
+		public List<User> selectCache(String token) {
 		User select =new User();
-//		select.setToken("f20df78d-fc4d-4b90-95f6-d2db0935120c");
+		select.setToken(token);
 		DslSql dslSql=new DslSql(select)
 			.select("*")
 			.from("user")

@@ -1,10 +1,17 @@
 package com.framework.core.vo;
 
+import java.io.Serializable;
+
 /**统一Controller返回对象.
  * @author lixiaolong
  * @version datetime：2015年9月25日  上午10:01:59
  */
-public class ResultVo {
+public class ResultVo  implements Serializable{
+
+	/**序列化.
+	 * 
+	 */
+	private static final long serialVersionUID = -3349595823350546669L;
 
 	/**返回业务数据.
 	 * 

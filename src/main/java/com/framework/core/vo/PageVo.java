@@ -1,14 +1,20 @@
 package com.framework.core.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 /**分页传出参数.
  * @author lixiaolong
  * @version datetime：2015年10月9日  下午2:19:20
  */
-public class PageVo<T> {
+public class PageVo<T>  implements Serializable{
 
 	
+	/**序列化.
+	 * 
+	 */
+	private static final long serialVersionUID = -2960683359401151857L;
+
 	/**返回的结果集.
 	 * 
 	 */
