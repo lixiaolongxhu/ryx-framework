@@ -76,7 +76,7 @@ public class TestService {
 		@SuppressWarnings("unchecked")
 		public User queryOne() {
 			User select =new User();
-			select.setUuid("2ecdd93b-2769-44c6-91ed-c269b8ea7782");
+			//select.setUuid("2ecdd93b-2769-44c6-91ed-c269b8ea7782");
 			DslSql dslSql=new DslSql(select)
 				.select("*")
 				.from("user")

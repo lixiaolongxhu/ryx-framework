@@ -186,14 +186,14 @@ public class BasicDaoImp<T>  implements   BasicDao<T> {
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public T queryOne(DslSql dslSql, Class<T> cls) {
-		String sql = dslSql.toSql();
+		String sql = dslSql.toSql()+" LIMIT 1";
 		LOG.info(" queryOne  sql:"+sql);
 		T obj = null;
 		try {
 		    obj=(T) jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(cls));
 		} catch (Exception e){
 			LOG.error(ExceptionUtil.getExceptionDetail(e));
-			throw new BizException("查询数据库期望返回一条记录，实际返回了多条记录!");
+			throw new BizException("查询数据库期望返回一条记录，实际未返回一条记录!");
 		}
 		
 		if (obj == null) {
