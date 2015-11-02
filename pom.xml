@@ -13,8 +13,8 @@
 	 <!-- spring web core  -->
 	 <org.springframework.version>4.0.9.RELEASE</org.springframework.version>
   	 <!-- log4j日志文件管理包版本 -->
-     <slf4j.version>1.2</slf4j.version>
-     <log4j.version>1.2.9</log4j.version>
+     <slf4j.version>1.7.6</slf4j.version>
+     <log4j.version>1.2.17</log4j.version>
   </properties>
 	
   <dependencies>
@@ -212,9 +212,55 @@
    	    <scope>compile</scope>
 	</dependency>
 	
+	<!-- simple-spring-memcached begin -->
+    <!--  <dependency>
+      <groupId>com.google.code.simple-spring-memcached</groupId>
+      <artifactId>simple-spring-memcached</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.simple-spring-memcached</groupId>
+      <artifactId>xmemcached-provider</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.xmemcached</groupId>
+      <artifactId>xmemcached</artifactId>
+      <version>2.0.0</version>
+    </dependency>-->
+    <!--simple-spring-memcached  end  -->
+    
+    <!--
+    	webmagic 爬虫程序框架 (http://webmagic.io/)
+    	webmagic-core是WebMagic核心部分，只包含爬虫基本模块和基本抽取器。
+    	WebMagic-core的目标是成为网页爬虫的一个教科书般的实现
+    -->
+	<dependency>
+		<groupId>us.codecraft</groupId>
+		<artifactId>webmagic-core</artifactId>
+		<version>0.5.2</version>
+	</dependency>
+	<!-- webmaic 爬虫程序框架 (http://webmagic.io/)
+		 webmagic-extension是WebMagic的主要扩展模块，
+		 提供一些更方便的编写爬虫的工具。包括注解格式定义爬虫、JSON、分布式等支持
+	 -->
+	<dependency>
+   		 <groupId>us.codecraft</groupId>
+    	 <artifactId>webmagic-extension</artifactId>
+  		 <version>0.5.2</version>
+	</dependency>
+	
+	<!-- webmagic 爬虫查询框架依赖jar     -->
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	</dependency>
+	
   </dependencies>
   
   
+  	
   
    <!-- maven build 环境配置  begin -->
 	<build>
