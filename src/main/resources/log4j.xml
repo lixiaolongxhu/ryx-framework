@@ -105,6 +105,14 @@
         <priority value="info" />
         <appender-ref ref="console.CONSOLE" />
     </category> 
+    <category name="net.rubyeye.xmemcached" additivity="true">
+        <priority value="info" />
+        <appender-ref ref="console.CONSOLE" />
+    </category> 
+    <category name="com.google.code" additivity="true">
+        <priority value="info" />
+        <appender-ref ref="console.CONSOLE" />
+    </category> 
   
  	<!--  日志按包名分类级别输出   end -->
     <root>

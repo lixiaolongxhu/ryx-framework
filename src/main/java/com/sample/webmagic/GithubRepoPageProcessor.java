@@ -1,12 +1,13 @@
 package com.sample.webmagic;
 
+import org.apache.log4j.ConsoleAppender;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.RedisScheduler;
-
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -17,22 +18,34 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @since 0.3.2
  */
 public class GithubRepoPageProcessor implements PageProcessor {
-
-    private Site site = Site.me().setRetryTimes(1).setSleepTime(1000);
-
+	// 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
+    private Site site = Site.me().setRetryTimes(2).setSleepTime(1000);
+    // process是定制爬虫逻辑的核心接口，在这里编写抽取逻辑
     @Override
     public void process(Page page) {
-        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
+    	
+    	// 部分二：定义如何抽取页面信息，并保存下来
+    	  
 //        page.addTargetRequests(page.getHtml().links().regex("(http://blog.csdn.net/smilingleo/article/details/\\w+)").all());
-        page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+)/.*").toString());
+      //  page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+)/.*").toString());
+        page.putField("author", page.getUrl().toString());
+     //   page.putField("author", page.getHtml().links().toString());
      //   page.putField("name", page.getHtml().xpath("//h1[@class='entry-title public']/strong/a/text()").toString());
-  //      page.putField("name", page.getJson().toString());
-        page.putField("name", page.getHtml().toString());
+        //所有的直接和间接文本子节点，并将一些标签替换为换行，使纯文本显示更整洁
+          page.putField("name", page.getHtml().xpath("//table[@class='category']/tbody/tidyText()"));
+        // 所有的直接和间接文本子节点
+        //page.putField("name", page.getHtml().xpath("//table[@class='category']/tbody/allText()"));
+        
+      //  page.putField("name", page.getHtml().xpath("//div[@class='details']").toString());
         if (page.getResultItems().get("name")==null){
             //skip this page
             page.setSkip(true);
         }
-        page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
+//      page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
+   
+    // 部分三：从页面发现后续的url地址来抓取
+    //  page.addTargetRequests(page.getHtml().links().regex("(http://weibo\\.cn/jiuzhaigou/\\w+/\\w+)").all());
+    //page.addTargetRequests(page.getHtml().links().all());
     }
 
     @Override
@@ -41,7 +54,17 @@ public class GithubRepoPageProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-      //  Spider.create(new GithubRepoPageProcessor()).addUrl("http://blog.csdn.net/smilingleo/article/details/3541449").thread(1).run();
-    	Spider.create(new GithubRepoPageProcessor()).addUrl("http://weibo.com/p/1001061803921393/album?from=page_100106&mod=TAB#place").thread(1).run();
+        //Spider.create(new GithubRepoPageProcessor()).addUrl("http://blog.csdn.net/smilingleo/article/details/3541449").thread(1).run();
+    	Spider.create(new GithubRepoPageProcessor())
+    	.addUrl("http://jiuzhai.com/index.php/news/dynamic.html")
+    	
+   // 	.addUrl("http://weibo.cn/jiuzhaigou")
+    //	.addUrl("http://weibo.com/p/1001061803921393/home?from=page_100106&mod=TAB#place")
+    	//以json格式输出到指定路径的文件保存
+    //	.addPipeline(new JsonFilePipeline("D:\\webmagic\\"))
+    	//输出到控制台
+    	.addPipeline(new ConsolePipeline())
+    	.thread(2)
+    	.run();
     }
 }

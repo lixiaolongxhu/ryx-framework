@@ -204,16 +204,16 @@
     <!-- google为spring与ehcache整合提供了封装包
     	 maven自动关联 commons-codec-1.4.jar;ehcache-core-2.10.jar
      -->
-    <dependency>
+    <!--<dependency>
     	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
    		<artifactId>ehcache-spring-annotations</artifactId>
    		<version>1.1.2</version>
    		<type>jar</type>
    	    <scope>compile</scope>
-	</dependency>
+	</dependency>  -->
 	
 	<!-- simple-spring-memcached begin -->
-    <!--  <dependency>
+    <!-- <dependency>
       <groupId>com.google.code.simple-spring-memcached</groupId>
       <artifactId>simple-spring-memcached</artifactId>
       <version>3.5.0</version>
@@ -222,12 +222,13 @@
       <groupId>com.google.code.simple-spring-memcached</groupId>
       <artifactId>xmemcached-provider</artifactId>
       <version>3.5.0</version>
-    </dependency>
+    </dependency>  -->
+    
     <dependency>
       <groupId>com.googlecode.xmemcached</groupId>
       <artifactId>xmemcached</artifactId>
       <version>2.0.0</version>
-    </dependency>-->
+    </dependency>
     <!--simple-spring-memcached  end  -->
     
     <!--
