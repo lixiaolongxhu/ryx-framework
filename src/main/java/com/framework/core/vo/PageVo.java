@@ -6,6 +6,7 @@ import java.util.List;
 /**分页传出参数.
  * @author lixiaolong
  * @version datetime：2015年10月9日  下午2:19:20
+ * @param <T> 泛型
  */
 public class PageVo<T>  implements Serializable{
 

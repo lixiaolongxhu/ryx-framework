@@ -7,6 +7,7 @@ import com.framework.core.vo.PageVo;
 /**通用dao层接口.
  * @author lixiaolong
  * @version datetime：2015年10月14日  上午10:37:10
+ * @param <T> 泛型
  */
 
 public interface BasicDao<T> {

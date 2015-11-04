@@ -201,35 +201,24 @@
 	 </dependency>
     <!--java web运行环境服务基本api  end-->
     
-    <!-- google为spring与ehcache整合提供了封装包
-    	 maven自动关联 commons-codec-1.4.jar;ehcache-core-2.10.jar
-     -->
-    <!--<dependency>
-    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-   		<artifactId>ehcache-spring-annotations</artifactId>
-   		<version>1.1.2</version>
-   		<type>jar</type>
-   	    <scope>compile</scope>
-	</dependency>  -->
-	
-	<!-- simple-spring-memcached begin -->
-    <!-- <dependency>
-      <groupId>com.google.code.simple-spring-memcached</groupId>
-      <artifactId>simple-spring-memcached</artifactId>
-      <version>3.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.simple-spring-memcached</groupId>
-      <artifactId>xmemcached-provider</artifactId>
-      <version>3.5.0</version>
-    </dependency>  -->
-    
+    <!-- memcached client to xmemcached
+    	(实现memcache缓存,在当前框架xmemchached与spring 的cache集成，
+    	替换了spring cache原来的实现方式)  -->
     <dependency>
       <groupId>com.googlecode.xmemcached</groupId>
       <artifactId>xmemcached</artifactId>
       <version>2.0.0</version>
     </dependency>
-    <!--simple-spring-memcached  end  -->
+    
+    
+    <!-- apache httpClient(实现查询的表单提交等相关操作) -->
+    <dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+	</dependency>
+    	
+   
     
     <!--
     	webmagic 爬虫程序框架 (http://webmagic.io/)
@@ -257,6 +246,36 @@
 		<artifactId>commons-lang</artifactId>
 		<version>2.6</version>
 	</dependency>
+	
+	
+	
+	
+	<!-- google为spring与ehcache整合提供了封装包
+    	 maven自动关联 commons-codec-1.4.jar;ehcache-core-2.10.jar
+     -->
+    <!--<dependency>
+    	<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+   		<artifactId>ehcache-spring-annotations</artifactId>
+   		<version>1.1.2</version>
+   		<type>jar</type>
+   	    <scope>compile</scope>
+	</dependency>  -->
+	
+	<!-- simple-spring-memcached begin -->
+    <!-- <dependency>
+      <groupId>com.google.code.simple-spring-memcached</groupId>
+      <artifactId>simple-spring-memcached</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.simple-spring-memcached</groupId>
+      <artifactId>xmemcached-provider</artifactId>
+      <version>3.5.0</version>
+    </dependency>  -->
+     <!--simple-spring-memcached  end  -->
+     
+    
+	
 	
   </dependencies>
   

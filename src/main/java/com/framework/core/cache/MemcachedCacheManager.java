@@ -8,29 +8,47 @@ import java.util.concurrent.ConcurrentMap;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
-import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
 import org.springframework.cache.Cache;
-/**
- * @author lixiaolong(http://www.it165.net/pro/html/201409/21260.html)
- * @version datetime：2015年11月3日  下午2:16:55
- */
-public class MemcachedCacheManager extends AbstractTransactionSupportingCacheManager {
+import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
 
+
+/**缓存管理，实现重写spring cache缓存管理的抽象类.
+ * @author lixiaolong
+ * @version datetime：2015年11月4日  下午5:17:44
+ */
+public class MemcachedCacheManager extends AbstractTransactionSupportingCacheManager{
+
+	/**缓存对象集合.
+	 * 
+	 */
 	private ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<String, Cache>();
-	//缓存的时间
+	/**根据缓存名配置的缓存的时间.
+	 * 
+	 */
 	private Map<String, Integer> expireMap = new HashMap<String, Integer>();   
-	 //xmemcached的客户端
+	 /** xmemcached的客户端.
+	  *
+	  */
 	private MemcachedClient memcachedClient;  
 
+	/**默认构造函数.
+	 * 
+	 */
 	public MemcachedCacheManager() {
 	}
 
+	/**载入缓存（Load the initial caches for this cache manager.）.
+	 * 
+	 */
 	@Override
 	protected Collection<? extends Cache> loadCaches() {
 		Collection<Cache> values = cacheMap.values();
 		return values;
 	}
 
+	/**根据缓存名，获取缓存对象.
+	 * 
+	 */
 	@Override
 	public Cache getCache(String name) {
 		Cache cache = cacheMap.get(name);
@@ -46,10 +64,18 @@ public class MemcachedCacheManager extends AbstractTransactionSupportingCacheMan
 		return cache;
 	}
 
+	/**设置当前服务的缓存对象.
+	 * 
+	 * @param memcachedClient  当前服务的缓存对象
+	 */
 	public void setMemcachedClient(MemcachedClient memcachedClient) {
 		this.memcachedClient = memcachedClient;
 	}
 
+	/**设置当前缓存过期时间配置.
+	 * 
+	 * @param expireMap  根据缓存名与对应的缓存过期时间
+	 */
 	public void setExpireMap(Map<String, Integer> expireMap) {
 		this.expireMap = expireMap;
 	}
