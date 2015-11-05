@@ -90,7 +90,7 @@ public class TestService {
 
 		public User update() {
 			User user=new User();
-			user.setUuid("2ecdd93b-2769-44c6-91ed-c269b8ea7782");
+			
 			user.setUpdateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
 			basicdao.update(user, "uuid");
 			return user;

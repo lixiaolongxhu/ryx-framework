@@ -3,31 +3,50 @@ package com.sample.mvc.Entity;
 import java.io.Serializable;
 
 public class User  implements Serializable{
-
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6182079006964296045L;
-	private String uuid;
+	private Integer id;
+	private String loginName;
+	private String password;
+	private String token;
+	private String realName;
 	private String nickname;
 	private String portraitPath;
-	private String password;
-	private String realName;
-	private Integer type;
-	private String loginName;
-	private String payPassword;
-	private String mobilePhone;
-	private String token;
 	private Integer status;
 	private String createTime;
 	private String updateTime;
-
-	public String getUuid() {
-		return uuid;
+	
+	public Integer getId() {
+		return id;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getLoginName() {
+		return loginName;
+	}
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public String getNickname() {
 		return nickname;
@@ -40,48 +59,6 @@ public class User  implements Serializable{
 	}
 	public void setPortraitPath(String portraitPath) {
 		this.portraitPath = portraitPath;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getRealName() {
-		return realName;
-	}
-	public void setRealName(String realName) {
-		this.realName = realName;
-	}
-	public Integer getType() {
-		return type;
-	}
-	public void setType(Integer type) {
-		this.type = type;
-	}
-	public String getLoginName() {
-		return loginName;
-	}
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-	public String getPayPassword() {
-		return payPassword;
-	}
-	public void setPayPassword(String payPassword) {
-		this.payPassword = payPassword;
-	}
-	public String getMobilePhone() {
-		return mobilePhone;
-	}
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
 	}
 	public Integer getStatus() {
 		return status;
@@ -101,6 +78,11 @@ public class User  implements Serializable{
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 	
 	
 

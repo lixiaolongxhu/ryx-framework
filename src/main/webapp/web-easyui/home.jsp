@@ -36,9 +36,7 @@
 		<!-- <div data-options="region:'east',split:true" title="East" style="width:100px;"></div> -->
 		<!-- 左方菜单栏 -->
 		<div data-options="region:'west'" title="菜单" style="width:16%;">
-			<!-- <div class="zTreeDemoBackground left" style="width:90%;height:490px">
-				<ul id="menuTree" class="ztree" style="width:100%;height:100%"></ul>
-			</div> -->
+			
 			<div class="easyui-accordion" style="width:92%;height:100%;">
 				<c:forEach items="${permission}" var="e">
 					<c:if test="${e.parentNo == '0'}">
@@ -46,7 +44,7 @@
 		            		<c:forEach items="${permission}" var="m">
 		            			<c:if test="${m.parentNo == e.no}">
 		            				<ul>
-		            					<li><div><a target="mainFrame" url="${m.url}" >${m.name}</a></div></li>
+		            					<li><div><a  url="${m.url}" >${m.name}</a></div></li>
 		            				</ul>
 		            			</c:if>
 		            		</c:forEach>

@@ -40,7 +40,7 @@ public class TestController {
 	@RequestMapping(value="tran")
 	public void transaction(){
 		User user=new User();
-		user.setUuid(UUID.randomUUID().toString());
+		
 		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
 		user.setPassword("password");
 		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
@@ -50,7 +50,6 @@ public class TestController {
 	
 	@RequestMapping(value="/insert")
 	public ResultVo insert(User user){
-		user.setUuid(UUID.randomUUID().toString());
 		user.setLoginName("lxl"+ ToolHelper.getRandomNumber(4));
 		user.setPassword("password");
 		user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
