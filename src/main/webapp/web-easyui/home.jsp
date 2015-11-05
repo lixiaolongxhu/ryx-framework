@@ -20,22 +20,56 @@
 <title>主页</title>
 </head>
 <body>
-<h2>Basic DataGrid</h2>
-	<p>The DataGrid is created from markup, no JavaScript code needed.</p>
-	<div style="margin:20px 0;"></div>
-	
-	<table class="easyui-datagrid" title="Basic DataGrid" style="width:700px;height:250px"
-			data-options="singleSelect:true,collapsible:true,url:'',method:'get'">
-		<thead>
-			<tr>
-				<th data-options="field:'itemid',width:80">Item ID</th>
-				<th data-options="field:'productid',width:100">Product</th>
-				<th data-options="field:'listprice',width:80,align:'right'">List Price</th>
-				<th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
-				<th data-options="field:'attr1',width:250">Attribute</th>
-				<th data-options="field:'status',width:60,align:'center'">Status</th>
-			</tr>
-		</thead>
-	</table>
+<body class="easyui-layout">
+		<div data-options="region:'north'" split="true" border="false" style="overflow: hidden; height: 50px;
+        background: #7f99be repeat-x center 50%;
+        line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
+			<div id="welcomeDiv" style="float:right;padding:15px;border: 0px solid red">
+				欢迎光临：${user.loginName}　<a href="#" onclick="systemManager.quit()">退出</a>
+				<input type="hidden" id="userUuid" name="userUuid" value="${user.uuid }">
+			</div>
+		</div>
+		<!-- 底部div -->
+		<div data-options="region:'south',split:true" style="height:30px;background: #D2E0F2;">
+			<div class="footer">版权所有：轻松宅智慧社区</div>
+		</div>
+		<!-- <div data-options="region:'east',split:true" title="East" style="width:100px;"></div> -->
+		<!-- 左方菜单栏 -->
+		<div data-options="region:'west'" title="菜单" style="width:16%;">
+			<!-- <div class="zTreeDemoBackground left" style="width:90%;height:490px">
+				<ul id="menuTree" class="ztree" style="width:100%;height:100%"></ul>
+			</div> -->
+			<div class="easyui-accordion" style="width:92%;height:100%;">
+				<c:forEach items="${permission}" var="e">
+					<c:if test="${e.parentNo == '0'}">
+		            	<div title="${e.name}" style="overflow:auto; padding: 10px;" icon="icon-edit">
+		            		<c:forEach items="${permission}" var="m">
+		            			<c:if test="${m.parentNo == e.no}">
+		            				<ul>
+		            					<li><div><a target="mainFrame" url="${m.url}" >${m.name}</a></div></li>
+		            				</ul>
+		            			</c:if>
+		            		</c:forEach>
+		            	</div>
+		            </c:if>
+            	</c:forEach>
+            </div>
+		</div>
+		<div data-options="region:'center',border:true" style="border: 0px solid red;">
+			<div class="easyui-tabs" id="tabs" fit="true">
+				
+			</div>
+		</div>
+		<div id="Window"></div>
+		<div id="WindowQuery"></div>
+		<div id="menu" class="easyui-menu" style="width:150px;">
+		    <div id="m-refresh">刷新</div>
+		    <div class="menu-sep"></div>
+		    <div id="m-closeall">全部关闭</div>
+		    <div id="m-closeother">除此之外全部关闭</div>
+		    <div class="menu-sep"></div>
+		    <div id="m-close">关闭</div>
+		</div>
+
 </body>
 </html>

@@ -199,6 +199,13 @@
 		<version>3.0.1</version>
 		<scope>provided</scope>
 	 </dependency>
+	 
+	 <!-- jsp 标准标签库 -->
+	 <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+	 </dependency>
     <!--java web运行环境服务基本api  end-->
     
     <!-- memcached client to xmemcached
