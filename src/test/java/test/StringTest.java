@@ -15,5 +15,8 @@ public class StringTest {
 		String str4=new String("hello");
 		
 		String str5=str4+new String("word");
+		
+		System.out.println(System.nanoTime());;
+		System.out.println(System.currentTimeMillis());
 	}
 }

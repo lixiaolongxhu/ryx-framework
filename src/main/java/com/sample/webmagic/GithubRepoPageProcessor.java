@@ -36,8 +36,8 @@ public class GithubRepoPageProcessor implements PageProcessor {
      //   page.putField("name", page.getHtml().xpath("//h1[@class='entry-title public']/strong/a/text()").toString());
         //所有的直接和间接文本子节点，并将一些标签替换为换行，使纯文本显示更整洁
           //page.putField("name", page.getHtml().xpath("//table[@class='category']/tbody/tidyText()"));
-       // page.putField("name", page.getHtml());	
-        page.putField("name", page.getHtml().xpath("//table/tidyText()"));
+        page.putField("name", page.getHtml());	
+       // page.putField("name", page.getHtml().xpath("//table/tidyText()"));
         // 所有的直接和间接文本子节点
         //page.putField("name", page.getHtml().xpath("//table[@class='category']/tbody/allText()"));
         
@@ -79,7 +79,7 @@ public class GithubRepoPageProcessor implements PageProcessor {
     public static void main(String[] args) {
         //Spider.create(new GithubRepoPageProcessor()).addUrl("http://blog.csdn.net/smilingleo/article/details/3541449").thread(1).run();
     	Spider.create(new GithubRepoPageProcessor())
-    	.addUrl("http://www.scjt.gov.cn/10000/10089/10781/10783/index.shtml")
+    	.addUrl("http://trends.baidu.com/tour/?provinceId=28")
    // 	.addUrl("http://www.meizitu.com/a/5186.html")
     //  .addUrl("http://jiuzhai.com/index.php/news/dynamic.html")
    // 	.addUrl("http://weibo.cn/jiuzhaigou")
