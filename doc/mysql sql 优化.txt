@@ -1,0 +1,11 @@
+ 
+ mysql sql 百万级数据库优化方案
+ 
+ 网站：http://www.cnblogs.com/huangye-dream/archive/2013/05/21/3091906.html
+
+ 核心：　
+ 
+ 避免全部扫描，不合理的写法，会造成索引失效，从而造成全表扫描。
+ 
+ 
+ 
