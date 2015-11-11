@@ -15,6 +15,8 @@
   	 <!-- log4j日志文件管理包版本 -->
      <slf4j.version>1.7.6</slf4j.version>
      <log4j.version>1.2.17</log4j.version>
+     <!-- jetty 嵌入式服务版本 -->
+     <jetty.version>8.1.7.v20120910</jetty.version>
   </properties>
 	
   <dependencies>
@@ -219,11 +221,11 @@
     
     
     <!-- apache httpClient(实现查询的表单提交等相关操作) -->
-    <dependency>
+   <!-- <dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
-	</dependency>
+	</dependency>-->
     	
    
     
@@ -232,27 +234,27 @@
     	webmagic-core是WebMagic核心部分，只包含爬虫基本模块和基本抽取器。
     	WebMagic-core的目标是成为网页爬虫的一个教科书般的实现
     -->
-	<dependency>
+	<!--<dependency>
 		<groupId>us.codecraft</groupId>
 		<artifactId>webmagic-core</artifactId>
 		<version>0.5.2</version>
-	</dependency>
+	</dependency> -->
 	<!-- webmaic 爬虫程序框架 (http://webmagic.io/)
 		 webmagic-extension是WebMagic的主要扩展模块，
 		 提供一些更方便的编写爬虫的工具。包括注解格式定义爬虫、JSON、分布式等支持
 	 -->
-	<dependency>
+	<!--<dependency>
    		 <groupId>us.codecraft</groupId>
     	 <artifactId>webmagic-extension</artifactId>
   		 <version>0.5.2</version>
-	</dependency>
+	</dependency> -->
 	
 	<!-- webmagic 爬虫查询框架依赖jar     -->
-	<dependency>
+	<!--<dependency>
 		<groupId>commons-lang</groupId>
 		<artifactId>commons-lang</artifactId>
 		<version>2.6</version>
-	</dependency>
+	</dependency> -->
 	
 	
 	
@@ -293,53 +295,17 @@
 	<build>
 		<finalName>ryx-framework</finalName>
 		<plugins>
+		  
+			<!-- jetty maven  build project(使用 jetty+maven 构建项目) -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-					<!--
-					  <compilerArguments> 
-						<verbose /> 
-						<bootclasspath>${java.home}\lib\rt.jar;${java.home}\jre\lib\jce.jar</bootclasspath> 
-					  </compilerArguments> 
-					 -->
-				</configuration>
-
-				<dependencies>
-					<dependency>
-						<groupId>org.codehaus.plexus</groupId>
-						<artifactId>plexus-compiler-eclipse</artifactId>
-						<version>2.2</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId> 
-				<version>1.7</version> <executions> <execution> <id>package</id> <phase>package</phase> 
-				<configuration> <tasks> <copy overwrite="true" file="${project.build.directory}/${project.build.finalName}.${project.packaging}" 
-				todir="${ci.templocation}" /> </tasks> </configuration> <goals> <goal>run</goal> 
-				</goals> </execution> </executions> </plugin> -->
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
-				<configuration>
-					<includes>
-						<include>**/*Spec.*</include>
-						<include>**/*Test.*</include>
-					</includes>
+					<stopPort>8005</stopPort>
+					<stopKey>STOP</stopKey>
 				</configuration>
 			</plugin>
-			
-			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
-				<version>2.2</version> <configuration> <url>http://localhost:8080/shop/web/login</url> 
-				<server>LKH-Server</server> <path>/SampleSpringMaven</path> </configuration> 
-				</plugin> -->
 			
 			<!--Maven Cobertura Plugin集成(单元测试覆盖率测试build配置) begin  -->	
 			<plugin>

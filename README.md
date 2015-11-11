@@ -1,1 +1,3 @@
-spring mvc+jdbcTemplate 框架整合(适用于中小型项目)
+锘縮pring mvc+jdbcTemplate 妗嗘灦鏁村悎(閫傜敤浜庝腑灏忓瀷椤圭洰)
+
+椤圭洰鏋勫缓鏂瑰紡: maven+jetty

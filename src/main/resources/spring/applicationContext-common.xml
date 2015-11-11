@@ -38,7 +38,7 @@
 	
 		
 	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   begin-->  
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+    <bean id="systemProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
         <property name="locations">  
            <list>  
               <!-- 这里支持多种寻址方式：classpath和file -->  
@@ -54,16 +54,14 @@
 	<!-- 将resources中的多个项目配置文件读取到容器中，交给Spring管理   end-->  
 
 	
-	
-
     <!-- 数据源配置     begin -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		
 		<!-- 基本属性 url、user、password -->
-		<property name="url" value="${database.url}" />
-		<property name="username" value="${database.user}" />
-		<property name="password" value="${database.password}" />
+		<property name="url" value="#{systemProperties.getProperty('database.url')}" />
+		<property name="username" value="#{systemProperties.getProperty('database.user')}" />
+		<property name="password" value="#{systemProperties.getProperty('database.password')}" />
 		
 		<!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="5" />

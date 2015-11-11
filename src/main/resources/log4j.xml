@@ -34,7 +34,7 @@
 	       1、无论什么系统，日志路径必须完整，级对应路径的文件夹，必须手动创建好，才有办法生成日志。
 	       2、无论什么系统，日志路径建议在项目部署路径同一级目录，级在webapp目录下创建日志的目录文件夹(ryx-logs)。
 	    -->
-        <param name="file" value="D:/Software development/logs/ryx-fk.log" /> 
+        <param name="file" value="F:/Software development/logs/ryx-fk.log" /> 
         <param name="append" value="true" />
         <param name="datePattern" value="'.'yyy-MM-dd" />
         <!-- <param name="datePattern" value="'.'yyy-MM-dd-HH"/> -->
