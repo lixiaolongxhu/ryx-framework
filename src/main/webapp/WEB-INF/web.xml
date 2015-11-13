@@ -46,15 +46,26 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
   </servlet>
+  <!-- 
+  		pc浏览器访问接口路径   对应spring servlet  		
+   -->
   <servlet-mapping>
     <servlet-name>spring</servlet-name>
-    <url-pattern>*.service</url-pattern>
+    <url-pattern>/ui/*</url-pattern>
+  </servlet-mapping>
+  <!-- 
+  	  pc浏览器范文接口路径  对应spring servlet
+  	        专用:extjs direct+spring 封装时请求extDirectSpring插件动态生成api.js或者api-debug.js
+   -->
+  <servlet-mapping>
+    <servlet-name>spring</servlet-name>
+    <url-pattern>/ui/extDirectSpring/*</url-pattern>
   </servlet-mapping>
   <!-- spring web mvc 调度器配置    end --> 
   
   <!-- 默认访问页面     begin  -->
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>web-extjs/index.jsp</welcome-file>
   </welcome-file-list>
   <!--默认访问页面        end  -->
   

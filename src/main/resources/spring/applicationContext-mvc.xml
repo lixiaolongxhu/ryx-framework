@@ -33,6 +33,11 @@
   		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />  
 	</context:component-scan>
     
+    <!-- 扫描与注解对应package的bean
+    	 extdirect 相关配置
+    	    专用:extjs direct+spring 封装时请求extDirectSpring插件动态生成api.js或者api-debug.js
+     -->
+	<context:component-scan base-package="ch.ralscha.extdirectspring" ></context:component-scan>
    
 	<!-- 声明数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB）等  begin -->
 	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"  conversion-service="conversionService">
