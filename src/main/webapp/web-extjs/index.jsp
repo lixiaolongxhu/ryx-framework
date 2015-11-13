@@ -6,11 +6,11 @@
 	<title>extjs4.1框架学习</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<!-- extjs 引入的样式文件 -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/web-extjs/extjs4.1/resources/css/ext-all.css"></link>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/web-extjs/lib/extjs4.1/resources/css/ext-all.css"></link>
 	<!-- extjs 启动器  bootstrap.js来自动添加extjs的框架js文件-->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/extjs4.1/bootstrap.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/lib/extjs4.1/bootstrap.js"></script>
 	<!-- extjs 中文化 -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/extjs4.1/locale/ext-lang-zh_CN.js"></script>	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/lib/extjs4.1/locale/ext-lang-zh_CN.js"></script>	
 	<!--
 		extjs-direct-spring 配制文件
 	    extjs使用direct时必须引入,如果使用的是spring开发,那么配置对应的extDirectSpring插件.

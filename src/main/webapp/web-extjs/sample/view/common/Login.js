@@ -1,4 +1,6 @@
-//播放器的对象
+/**
+ * 登陆界面主框架
+ */
 Ext.define('RYIVS.view.common.Login', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.winlogin',
@@ -53,13 +55,13 @@ Ext.define('RYIVS.view.common.Login', {
 
 	buttons : [ {
 		text : "登录",
-		icon : 'web-extjs/res/icon/login.png',
+		icon : 'web-extjs/lib/res/icon/login.png',
 		id : 'login',
 		type : "sub"
 	}, {
 		text : "重置",
 		type : 'reset',
-		icon : 'web-extjs/res/icon/sync.png'
+		icon : 'web-extjs/lib/res/icon/sync.png'
 	} ],
 
 	initComponent : function() {

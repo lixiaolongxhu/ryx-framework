@@ -20,6 +20,7 @@ public class CommonController {
 	 */
 	@RequestMapping(value="/goLogin")
 	public ModelAndView    goLogin(){
-		return  new ModelAndView("web-extjs/common-jsp/login");
+//		return  new ModelAndView("web-extjs/common-jsp/Login");
+		return new ModelAndView("web-extjs/common-jsp/Admin");
 	}
 }
