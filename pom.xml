@@ -316,6 +316,17 @@
 					<stopKey>STOP</stopKey>
 				</configuration>
 			</plugin>
+			<!-- 指定maven 编译jdk 版本为1.7 -->
+			<plugin>  
+            	<groupId>org.apache.maven.plugins</groupId>  
+            	<artifactId>maven-compiler-plugin</artifactId>  
+            	<version>2.0.2</version>  
+           		 <configuration>  
+               		 <source>1.7</source>  
+               		 <target>1.7</target>  
+               		 <encoding>UTF8</encoding> 
+           		 </configuration>  
+       	   </plugin>  
 			
 			<!--Maven Cobertura Plugin集成(单元测试覆盖率测试build配置) begin  -->	
 			<plugin>
