@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sample.util.*;
 import com.framework.core.vo.ResultVo;
+import com.sample.cometd.CometService;
 import com.sample.mvc.Entity.User;
 import com.sample.mvc.service.TestService;
 import com.sample.util.ToolHelper;
@@ -25,7 +27,10 @@ public class TestController {
 	@Resource
 	private TestService testService;
 	
-	
+	// 向客户端推送告警消息
+		@Autowired
+		private CometService cometService;
+		
 	@RequestMapping(value="/result")
 	public Integer result(User user){
 		return  1;
@@ -77,5 +82,9 @@ public class TestController {
 	public ResultVo  update(){
 		User user=testService.update();
 		return new ResultVo(user);
+	}
+	@RequestMapping(value="/cometd")
+	public void cometd(){
+		cometService.clientNotify("发送信息");
 	}
 }

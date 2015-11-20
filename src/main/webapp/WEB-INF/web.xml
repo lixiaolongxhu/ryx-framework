@@ -3,6 +3,18 @@
  
   <display-name>ryx-framework</display-name>
  
+ 
+   <!-- cometd配置 服务器消息推送   begin-->
+<servlet>
+		<servlet-name>cometd</servlet-name>
+		<servlet-class>org.cometd.server.CometdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cometd</servlet-name>
+		<url-pattern>/cometd/*</url-pattern>
+	</servlet-mapping>
+  <!-- cometd配置  end -->
+ 
   <!-- spring 乱码过滤器(只会对post请求进行乱码处理)  begin --> 
   <filter>
     <filter-name>EncodingFilter</filter-name>
@@ -22,6 +34,8 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <!-- spring 乱码过滤器  end --> 
+  
+
   
   <!-- 把 Spring 容器集成到 Web 应用里面  
   	        参考：http://blog.csdn.net/taijianyu/article/details/3176263
