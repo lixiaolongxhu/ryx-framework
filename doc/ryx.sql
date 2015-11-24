@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50703
-Source Host           : localhost:3306
+Source Server         : 127.0.0.1
+Source Server Version : 50527
+Source Host           : 127.0.0.1:3306
 Source Database       : ryx
 
 Target Server Type    : MYSQL
-Target Server Version : 50703
+Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-11-05 11:59:43
+Date: 2015-11-24 16:20:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,6 +37,60 @@ CREATE TABLE `permission` (
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
+INSERT INTO `permission` VALUES ('1', '0', '权限资源管理', '', '2', '菜单', '0', '1', null, null);
+
+-- ----------------------------
+-- Table structure for resource
+-- ----------------------------
+DROP TABLE IF EXISTS `resource`;
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，在文档中对应\nRESID\n',
+  `pid` int(11) NOT NULL COMMENT '父节点',
+  `class` int(11) NOT NULL DEFAULT '1' COMMENT '用于用户浏览权限分类\\n',
+  `type` int(11) NOT NULL COMMENT '资源类型,见文档2.4',
+  `name` varchar(45) NOT NULL COMMENT '名称',
+  `state` int(11) NOT NULL DEFAULT '1' COMMENT '资源状态(可用还是不可用)\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n0不可用，1可用',
+  `ord` int(11) NOT NULL DEFAULT '1' COMMENT '排序的编号',
+  PRIMARY KEY (`id`),
+  KEY `fk_resource_res_class` (`class`),
+  KEY `fk_resource_res_type` (`type`),
+  CONSTRAINT `fk_resource_res_class` FOREIGN KEY (`class`) REFERENCES `res_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_resource_res_type` FOREIGN KEY (`type`) REFERENCES `res_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8 COMMENT='资源列表';
+
+-- ----------------------------
+-- Records of resource
+-- ----------------------------
+INSERT INTO `resource` VALUES ('39', '1', '1', '9', '1号定位点', '39', '1');
+INSERT INTO `resource` VALUES ('40', '1', '1', '9', '2号定位点', '40', '1');
+INSERT INTO `resource` VALUES ('41', '1', '1', '9', '3号定位点', '41', '1');
+INSERT INTO `resource` VALUES ('42', '1', '1', '9', '4号定位点', '42', '1');
+INSERT INTO `resource` VALUES ('112', '1', '1', '8', '231-风速', '107', '1');
+INSERT INTO `resource` VALUES ('113', '1', '1', '12', '231-SF6', '108', '1');
+INSERT INTO `resource` VALUES ('114', '1', '1', '5', '231-空调', '109', '1');
+INSERT INTO `resource` VALUES ('115', '1', '1', '6', '231-温湿度', '110', '1');
+INSERT INTO `resource` VALUES ('116', '1', '1', '13', '231-氧气', '111', '1');
+INSERT INTO `resource` VALUES ('123', '1', '1', '10', '241-水位', '123', '1');
+INSERT INTO `resource` VALUES ('124', '1', '1', '2', '241-红外周界', '125', '1');
+INSERT INTO `resource` VALUES ('125', '1', '1', '3', '241-烟感', '124', '1');
+INSERT INTO `resource` VALUES ('126', '1', '1', '3', '231-烟感', '126', '1');
+INSERT INTO `resource` VALUES ('127', '1', '1', '7', '231-灯光', '127', '1');
+INSERT INTO `resource` VALUES ('128', '1', '1', '5', 'v1空调', '132', '1');
+INSERT INTO `resource` VALUES ('129', '1', '1', '4', 'v1风机', '133', '1');
+INSERT INTO `resource` VALUES ('132', '1', '1', '6', 'v1温湿度', '134', '1');
+INSERT INTO `resource` VALUES ('150', '1', '1', '6', '232-温湿度', '154', '1');
+INSERT INTO `resource` VALUES ('151', '1', '1', '12', '232-SF6', '153', '1');
+INSERT INTO `resource` VALUES ('152', '1', '1', '13', '232-O2', '155', '1');
+INSERT INTO `resource` VALUES ('153', '1', '1', '7', '232-灯光', '151', '1');
+INSERT INTO `resource` VALUES ('154', '1', '1', '4', '232-风机', '152', '1');
+INSERT INTO `resource` VALUES ('155', '1', '1', '7', '241-灯光', '89', '1');
+INSERT INTO `resource` VALUES ('158', '1', '1', '9', '5号定位点', '45', '1');
+INSERT INTO `resource` VALUES ('159', '1', '1', '9', '定位点测试1', '83', '1');
+INSERT INTO `resource` VALUES ('163', '1', '1', '5', '232-空调', '157', '1');
+INSERT INTO `resource` VALUES ('164', '1', '1', '1', '视频1', '158', '1');
+INSERT INTO `resource` VALUES ('165', '1', '1', '1', '视频3', '160', '1');
+INSERT INTO `resource` VALUES ('166', '1', '1', '1', '视频2', '159', '1');
+INSERT INTO `resource` VALUES ('167', '1', '1', '8', '241-风速', '162', '1');
 
 -- ----------------------------
 -- Table structure for role
@@ -121,3 +175,17 @@ CREATE TABLE `user_role_link` (
 -- ----------------------------
 -- Records of user_role_link
 -- ----------------------------
+DROP TRIGGER IF EXISTS `resource_after_insert`;
+DELIMITER ;;
+CREATE TRIGGER `resource_after_insert` AFTER INSERT ON `resource` FOR EACH ROW BEGIN
+/*
+该触发器用于添加资源的时候自动更新相应的编码器、控制器通道，以及定位点的resid
+注意：使用了state来传递源表的ID
+*/
+
+update eqp_cha set resid=NEW.id where id=NEW.state;
+
+
+END
+;;
+DELIMITER ;
