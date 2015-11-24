@@ -20,7 +20,7 @@ Ext.application({
 
 	appFolder : 'sample',
 
-	controllers : ['common.Admin',"common.FootToolBar"],
+	controllers : ['common.Admin',"common.FootToolBar","common.LeftMenu"],
 
 
 	launch : function() {

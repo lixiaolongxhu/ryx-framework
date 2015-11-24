@@ -11,12 +11,13 @@ Ext.define('RYIVS.view.common.Admin', {
         html: "上",
         region: "north",
         height: 100
-    }, {
-        title: "West Pannel",
-        html: "左",
-        region: "west",
-        width: 150
-    }, {
+    },{
+		xtype : 'layerLeftMenu',
+		region : 'west',
+		width : 300
+	},
+    
+     {
         title: "Main Pannel",
         html: "中",
         region: "center"

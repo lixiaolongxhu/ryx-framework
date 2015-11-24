@@ -50,12 +50,12 @@ public class AlarmManager  {
 	// 定时任务入口
 	/*
 	 * 1、遍历队列，并执行相应的onTime过程， 2、把执行完的对象释放
+	 * 单位毫秒
 	 */
-	@Scheduled(fixedRate = 20*1000)
+	@Scheduled(fixedRate = 600*1000)
 	public void nonTime() {
 		log.info("定时任务入口");
-//		cometService.clientNotify("alarm "+ DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
-//		cometService.videoChannelNotify(" cometd 服务端广播消息  ");
+
 		
 		
 	}
