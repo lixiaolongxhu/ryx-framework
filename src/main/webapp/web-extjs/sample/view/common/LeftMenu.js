@@ -5,53 +5,112 @@
  */
 
 Ext.define('RYIVS.view.common.LeftMenu', {
-	requires: 'RYIVS.store.common.LeftMenu',
+
+	requires : [ 'RYIVS.plugin.GridDragPlugin' ,'RYIVS.plugin.GridEditBase'],
+	
 	extend : 'Ext.grid.Panel',
+	
 	alias : 'widget.layerLeftMenu',
-	hideHeaders: true,
-	title : '资源',
 	iconCls: 's_resource',
-	stores: 'RYIVS.store.common.LeftMenu',
- // 定义 autoload
-	autoload : true,
-      dockedItems: [{
-          dock: 'top',
-          xtype: 'toolbar',
-          items: [{
-              tooltip: 'Toggle the visibility of the summary row',
-              text: 'Toggle Summary',
-              enableToggle: true,
-              pressed: true,
-              handler: function(){
-                  var view = grid.getView();
-                  showSummary = !showSummary;
-                  view.getFeature('group').toggleSummaryRow(showSummary);
-                  view.refresh();
-              }
-          }]
-      }],
-      features: [{
-          id: 'group',
-          ftype: 'groupingsummary',
-          groupHeaderTpl: '{name}',
-          hideGroupedHeader: true,
-          enableGroupingMenu: false
-      }],
-      columns: [{
-          text: 'Task',
-          flex: 1,
-          tdCls: 'task',
-          sortable: true,
-          dataIndex: 'description',
-          hideable: false,
-          summaryType: 'count',
-          summaryRenderer: function(value, summaryData, dataIndex) {
-              return ((value === 0 || value > 1) ? '(' + value + ' Tasks)' : '(1 Task)');
-          }
-      }, {
-          header: 'Project',
-          width: 180,
-          sortable: true,
-          dataIndex: 'project'
-      }]
+	hideHeaders: true,
+	store : 'RYIVS.store.common.LeftMenu',
+
+//	columns: [
+//	            {header: 'Name',  dataIndex: 'name',  flex: 1},
+//	           {header: 'Email', dataIndex: 'email', flex: 1}
+//		       ],
+	
+	
+	
+	
+	
+	// 定义 colums
+	columns : [ {
+		width : 40,
+		dataIndex : 'type',
+		align : 'right',
+		renderer : function(val) {
+			return '<image src="lib/res/layer/' + val + '.png">'
+		}
+	}, {
+		text : '资源列表',
+		width : 40,
+		sortable : true,
+		dataIndex : 'name',
+		menuDisabled : true,
+		flex : 1,
+		editor : {
+			allowBlank : false
+		},
+
+	},
+	{
+        text: '类型',
+        flex: 1,
+        tdCls: 'type',
+        sortable: true,
+        dataIndex: 'type',
+        hideable: false,
+        summaryType: 'count',
+        summaryRenderer: function(value, summaryData, dataIndex) {
+            return ((value === 0 || value > 1) ? '(' + value + ' Tasks)' : '(1 Task)');
+        }
+    }
+	],
+
+	features : [ Ext.create('Ext.grid.feature.Grouping', {
+		groupHeaderTpl : [ '{groupValue:this.formatValue}: 共 ({rows.length}) 个', {
+			formatValue : function(value) {
+				return ry.constant.trans(value, ry.constant.resourceType);
+			}
+		} ]
+	}) ],
+
+	viewConfig : {
+		plugins : {
+			ddGroup : 'ddgEquipment',
+			ptype : 'gridDragPlugin',
+			enableDrop : true,
+			enableDrag : true
+		}
+	},
+
+	// 是否使能拖放
+	enableDrag : function(en) {
+		var dragPlugin = this.getView().getPlugin();
+		if (en) {
+			dragPlugin.enable();
+		} else {
+			dragPlugin.disable();
+		}
+	},
+
+	// 是否允许删除
+	enableDelete : function(en) {
+		if (en) {
+			this.query('button[itemId="buttonDelete"]')[0].show();
+		} else {
+			this.query('button[itemId="buttonDelete"]')[0].hide();
+		}
+	},
+	// 得到Res的Store
+	getResStore : function() {
+		return this.store;
+	},
+	initComponent : function() {
+		this.callParent(arguments);
+		this.store.group('type');
+		//this.query('button[itemId="buttonAdd"]')[0].hide();
+
+		// 禁止编辑
+		this.on('beforeedit', function(e) {
+			return false;
+		});
+
+		// 不使用拖放
+		this.enableDrag(false);
+		
+		//controller.viewResGrid = this;
+
+	},
 });

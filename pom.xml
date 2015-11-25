@@ -344,6 +344,10 @@
 				<configuration>
 					<stopPort>8005</stopPort>
 					<stopKey>STOP</stopKey>
+					<!-- 项目修改后自动重新编译 -->
+					<webAppConfig>   
+					    <defaultsDescriptor>webdefault.xml</defaultsDescriptor>   
+					</webAppConfig>
 				</configuration>
 			</plugin>
 			<!-- 指定maven 编译jdk 版本为1.7 -->
