@@ -1,4 +1,4 @@
-package com.sample.proxy;
+package com.other.proxy;
 
 /**动态代理测试
  * @author lixiaolong

@@ -21,5 +21,5 @@ Ext.define('RYIVS.store.common.LeftMenu', {
 			type : 'json'
 		}
 	},
-	  groupField: 'type'
+	groupField: 'type'
 });

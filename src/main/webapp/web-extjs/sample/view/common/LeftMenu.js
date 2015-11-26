@@ -12,6 +12,7 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 	
 	alias : 'widget.layerLeftMenu',
 	iconCls: 's_resource',
+	title : '资源',
 	hideHeaders: true,
 	store : 'RYIVS.store.common.LeftMenu',
 
@@ -19,32 +20,11 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 //	            {header: 'Name',  dataIndex: 'name',  flex: 1},
 //	           {header: 'Email', dataIndex: 'email', flex: 1}
 //		       ],
+//	return '<image src="lib/res/layer/' + val + '.png">'
 	
 	
-	
-	 features: [{
-         id: 'group',
-         ftype: 'groupingsummary',
-         groupHeaderTpl: '{name}',
-         hideGroupedHeader: true,
-         enableGroupingMenu: false
-     }],
-	
-	// 定义 colums
-	columns : [ 
-	            
-	    {
-        text: '类型',
-        flex: 1,
-        tdCls: 'type',
-        sortable: true,
-        dataIndex: 'type',
-        hideable: false,
-        summaryType: 'count',
-        summaryRenderer: function(value, summaryData, dataIndex) {
-            return ((value === 0 || value > 1) ? '(' + value + ' Tasks)' : '(1 Task)');
-        }
-    },{
+	columns : [ {
+		text : '资源图片',
 		width : 40,
 		dataIndex : 'type',
 		align : 'right',
@@ -60,13 +40,21 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 		flex : 1,
 		editor : {
 			allowBlank : false
-		},
+		}
 
-	}
+	} ],
+
+
+	features : [ Ext.create('Ext.grid.feature.Grouping', {
+		groupHeaderTpl : [ '{groupValue:this.formatValue}: 共 ({rows.length}) 个', {
+			formatValue : function(value) {
+				return ry.constant.trans(value, ry.constant.resourceType);
+				//return "value"+value;
+			}
+		} ]
+	}) ],
 	
-	],
-
-
+	
 //	// 是否使能拖放
 //	enableDrag : function(en) {
 //		var dragPlugin = this.getView().getPlugin();
@@ -104,5 +92,5 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 //		
 		//controller.viewResGrid = this;
 
-	},
+	}
 });

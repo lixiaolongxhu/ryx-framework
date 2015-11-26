@@ -1,4 +1,4 @@
-package com.sample.aop;
+package com.other.aop;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;

@@ -1,4 +1,4 @@
-package com.sample.aop;
+package com.other.aop;
 
 //实现UserService接口  
 public class UserServiceImp implements UserService{

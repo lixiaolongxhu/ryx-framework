@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-11-24 16:20:16
+Date: 2015-11-26 14:38:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -91,6 +91,36 @@ INSERT INTO `resource` VALUES ('164', '1', '1', '1', '视频1', '158', '1');
 INSERT INTO `resource` VALUES ('165', '1', '1', '1', '视频3', '160', '1');
 INSERT INTO `resource` VALUES ('166', '1', '1', '1', '视频2', '159', '1');
 INSERT INTO `resource` VALUES ('167', '1', '1', '8', '241-风速', '162', '1');
+
+-- ----------------------------
+-- Table structure for res_type
+-- ----------------------------
+DROP TABLE IF EXISTS `res_type`;
+CREATE TABLE `res_type` (
+  `id` int(11) NOT NULL COMMENT '资源分类ID',
+  `name` varchar(45) NOT NULL COMMENT '资源分类名',
+  `state` varchar(10) NOT NULL COMMENT '1:告警规则资源,2:联动动作资源,3:既是告警规则资源也是联动动作资源,4:两者都不是',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of res_type
+-- ----------------------------
+INSERT INTO `res_type` VALUES ('0', '文件夹', '4');
+INSERT INTO `res_type` VALUES ('1', '摄像机', '3');
+INSERT INTO `res_type` VALUES ('2', '红外周界', '1');
+INSERT INTO `res_type` VALUES ('3', '消防', '1');
+INSERT INTO `res_type` VALUES ('4', '风机', '2');
+INSERT INTO `res_type` VALUES ('5', '空调', '2');
+INSERT INTO `res_type` VALUES ('6', '温湿度传感', '1');
+INSERT INTO `res_type` VALUES ('7', '灯光', '2');
+INSERT INTO `res_type` VALUES ('8', '风速', '1');
+INSERT INTO `res_type` VALUES ('9', '人员定位', '2');
+INSERT INTO `res_type` VALUES ('10', '水浸', '1');
+INSERT INTO `res_type` VALUES ('11', '通用开关量', '2');
+INSERT INTO `res_type` VALUES ('12', 'SF6传感器', '1');
+INSERT INTO `res_type` VALUES ('13', 'O2传感器', '1');
+INSERT INTO `res_type` VALUES ('101', '室外刀闸', '2');
 
 -- ----------------------------
 -- Table structure for role

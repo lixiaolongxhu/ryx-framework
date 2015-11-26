@@ -1,9 +1,18 @@
 package com.sample.mvc.controller.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.sample.mvc.Entity.ResType;
+import com.sample.mvc.service.ResTypeService;
 
 /**通用controller
  * 
@@ -14,7 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value="/common")
 public class CommonController {
 
-	/**跳转到登陆页面
+	@Resource
+	private ResTypeService resTypeService;
+	
+	
+	/**跳转到登陆页面,若用户以登陆,就跳转到登陆后的界面
 	 * 
 	 * @return
 	 */
@@ -22,5 +35,20 @@ public class CommonController {
 	public ModelAndView    goLogin(){
 //		return  new ModelAndView("web-extjs/common-jsp/Login");
 		return new ModelAndView("web-extjs/common-jsp/Admin");
+	}
+	
+	/**
+	 * 获取DB const 变量-- 即数据库基础数据
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/global")
+	public ModelAndView getGlobalConfig() {
+		//res_type 获取资源类型
+	
+		List<ResType> resTypeList = resTypeService.findAllResType();		
+		ModelAndView   model=new ModelAndView("web-extjs/common-jsp/DBConst");
+		model.addObject("resType", resTypeList);
+		return  model;
 	}
 }

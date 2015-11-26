@@ -20,7 +20,11 @@
     
     <!-- gis相关(openlayer+js)开源地图处理，必须按照顺序进行添加 -->
 	<!-- <script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/lib/Openlayers2.13/OpenLayers.js"></script>   -->
-      
+    
+    <!-- 前端常量配置, 获取前端js数据配置 -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/util/global.js"></script>
+    <!-- 请求后台接口,获取后台数据库表配置的常量   -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/ui/common/global"></script>  
     <!-- 请求后台接口,跳转到指定界面(该文件应该在所有引入文件最后) -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/ui/common/goLogin"></script>	 
 
