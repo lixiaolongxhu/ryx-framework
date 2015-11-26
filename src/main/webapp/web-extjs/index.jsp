@@ -5,6 +5,13 @@
 <head>
 	<title>extjs4.1框架学习</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+	
+	<!-- css 引入的自定义样式文件 -->
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/web-extjs/lib/css/ryivs.css"></link>
+	
+	
+	
 	<!-- extjs 引入的样式文件 -->
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/web-extjs/lib/extjs4.1/resources/css/ext-all.css"></link>
 	<!-- extjs 启动器  bootstrap.js来自动添加extjs的框架js文件-->
@@ -20,6 +27,11 @@
     
     <!-- gis相关(openlayer+js)开源地图处理，必须按照顺序进行添加 -->
 	<!-- <script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/lib/Openlayers2.13/OpenLayers.js"></script>   -->
+    
+    
+    
+    
+    
     
     <!-- 前端常量配置, 获取前端js数据配置 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/web-extjs/util/global.js"></script>

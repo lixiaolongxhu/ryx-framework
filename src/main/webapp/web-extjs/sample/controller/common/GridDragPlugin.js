@@ -1,7 +1,7 @@
 /*
  * Grid 拖动插件
  */
-Ext.define('RYIVS.plugin.GridDragPlugin', {
+Ext.define('RYIVS.controller.common.GridDragPlugin', {
 	extend : 'Ext.grid.plugin.DragDrop',
 	alias : 'plugin.gridDragPlugin',
 

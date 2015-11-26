@@ -6,15 +6,16 @@
 
 Ext.define('RYIVS.view.common.LeftMenu', {
 
-	requires : [ 'RYIVS.plugin.GridDragPlugin' ,'RYIVS.plugin.GridEditBase'],
-	
-	extend : 'Ext.grid.Panel',
+	requires : [ 'RYIVS.view.common.GridEditBase' ],
+	requires : [ 'RYIVS.controller.common.GridDragPlugin'],
+	extend : 'RYIVS.view.common.GridEditBase',
 	
 	alias : 'widget.layerLeftMenu',
 	iconCls: 's_resource',
 	title : '资源',
 	hideHeaders: true,
 	store : 'RYIVS.store.common.LeftMenu',
+	
 
 //	columns: [
 //	            {header: 'Name',  dataIndex: 'name',  flex: 1},
@@ -55,42 +56,57 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 	}) ],
 	
 	
-//	// 是否使能拖放
-//	enableDrag : function(en) {
-//		var dragPlugin = this.getView().getPlugin();
-//		if (en) {
-//			dragPlugin.enable();
-//		} else {
-//			dragPlugin.disable();
-//		}
-//	},
-//
-//	// 是否允许删除
-//	enableDelete : function(en) {
-//		if (en) {
-//			this.query('button[itemId="buttonDelete"]')[0].show();
-//		} else {
-//			this.query('button[itemId="buttonDelete"]')[0].hide();
-//		}
-//	},
-//	// 得到Res的Store
-//	getResStore : function() {
-//		return this.store;
-//	},
+	// 得到Res的Store
+	getResStore : function() {
+		return this.store;
+	},
+	
+	//配置插件引入
+	viewConfig : {
+		plugins : {
+			ddGroup : 'ddgEquipment', //定义拖动组
+			ptype : 'gridDragPlugin',
+			enableDrop : true,
+			enableDrag : true
+		}
+	},
+	
+	
+	// 是否使能拖放
+	enableDrag : function(en) {
+		
+		
+		var dragPlugin = this.getView().getPlugin();
+		if (en) {
+			dragPlugin.enable();
+		} else {
+			dragPlugin.disable();
+		}
+	},
+
+	// 是否允许删除
+	enableDelete : function(en) {
+		if (en) {
+			this.query('button[itemId="buttonDelete"]')[0].show();
+		} else {
+			this.query('button[itemId="buttonDelete"]')[0].hide();
+		}
+	},
+	
 	initComponent : function() {
 		this.callParent(arguments);
-//		this.store.group('type');
-//		//this.query('button[itemId="buttonAdd"]')[0].hide();
-//
-//		// 禁止编辑
-//		this.on('beforeedit', function(e) {
-//			return false;
-//		});
-//
-//		// 不使用拖放
-//		this.enableDrag(false);
-//		
-		//controller.viewResGrid = this;
+		this.store.group('type');
+		this.query('button[itemId="buttonAdd"]')[0].hide();
+
+		// 禁止编辑
+		this.on('beforeedit', function(e) {
+			return false;
+		});
+
+		// 不使用拖放
+		this.enableDrag(false);
+		
+		controller.layerLeftMenu = this;
 
 	}
 });

@@ -19,7 +19,7 @@
  * 4 当添加的时候，应该读取主表的id
  */
 
-Ext.define('RYIVS.plugin.GridEditBase', {
+Ext.define('RYIVS.view.common.GridEditBase', {
 	extend : 'Ext.grid.Panel',
 	alias : 'widget.gridEditBase',
 	
@@ -32,7 +32,7 @@ Ext.define('RYIVS.plugin.GridEditBase', {
 	// 工具条
 	tbar : [ {
 		text : '添加',
-		icon : 'res/icon/add.png',
+		icon : 'lib/res/icon/add.png',
 		itemId : 'buttonAdd',
 		handler : function() {
 			// this.ownerCt.ownerCt.rowEditing.cancelEdit();
@@ -52,7 +52,7 @@ Ext.define('RYIVS.plugin.GridEditBase', {
 	}, {
 		itemId : 'buttonDelete',
 		text : '删除',
-		icon : 'res/icon/delete.png',
+		icon : 'lib/res/icon/delete.png',
 		handler : function() {
 			Ext.Msg.show({
 				title : '删除警告',
@@ -93,7 +93,7 @@ Ext.define('RYIVS.plugin.GridEditBase', {
 	}, {
 		itemId : 'buttonRefresh',
 		text : '刷新',
-		icon : 'res/icon/sync.png',
+		icon : 'lib/res/icon/sync.png',
 		handler : function() {
 			this.ownerCt.ownerCt.store.load();
 		}
@@ -179,14 +179,15 @@ Ext.define('RYIVS.plugin.GridEditBase', {
 		this.plugins = [ this.rowEditing ];
 
 		// 4 model 和 store 配置
-		this.store = new Ext.data.Store({
-			// Store所对应的模型
-			model : this.model,
-			autoSync : true,
-			// 是否自动加载
-			autoLoad : this.autoload
-
-		});
+//		this.store = new Ext.data.Store({
+//			// Store所对应的模型
+//			model : this.model,
+//			autoSync : true,
+//			// 是否自动加载
+//			autoLoad : this.autoload
+//
+//		});
+		this.store= this.store;
 
 		// 5 配置主子表关系
 		if (this.master) {
