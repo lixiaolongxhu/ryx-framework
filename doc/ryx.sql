@@ -10,10 +10,94 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-11-26 14:38:09
+Date: 2015-11-27 13:19:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for eqp_cha
+-- ----------------------------
+DROP TABLE IF EXISTS `eqp_cha`;
+CREATE TABLE `eqp_cha` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `eid` int(10) NOT NULL,
+  `type` int(10) DEFAULT NULL,
+  `node` int(10) DEFAULT NULL,
+  `uid` varchar(50) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `ext1` int(10) DEFAULT NULL,
+  `ext2` int(10) DEFAULT NULL,
+  `resid` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK__equipment` (`eid`),
+  KEY `FK_eqp_cha_resource` (`resid`),
+  CONSTRAINT `FK_eqp_cha_resource` FOREIGN KEY (`resid`) REFERENCES `resource` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK__equipment` FOREIGN KEY (`eid`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8 COMMENT='所有视频，控制器，定位点的通道';
+
+-- ----------------------------
+-- Records of eqp_cha
+-- ----------------------------
+INSERT INTO `eqp_cha` VALUES ('39', '0', '9', null, '31313732343047160C004100', '1号定位点', null, null, '39');
+INSERT INTO `eqp_cha` VALUES ('40', '0', '9', null, '313137323430471624004000', '2号定位点', null, null, '40');
+INSERT INTO `eqp_cha` VALUES ('41', '0', '9', null, '313137323430471607804100', '3号定位点', null, null, '41');
+INSERT INTO `eqp_cha` VALUES ('42', '0', '9', null, '313137323430471600804100', '4号定位点', null, null, '42');
+INSERT INTO `eqp_cha` VALUES ('45', '0', '9', null, '313137323430471628004000', '5号定位点', null, null, '158');
+INSERT INTO `eqp_cha` VALUES ('83', '0', '9', null, '31313732343047161E004200', '定位点测试1', null, null, '159');
+INSERT INTO `eqp_cha` VALUES ('89', '10', '7', '262401', '', '241-灯光', null, null, '155');
+INSERT INTO `eqp_cha` VALUES ('90', '10', '4', '262402', '', '241-风机', null, null, null);
+INSERT INTO `eqp_cha` VALUES ('107', '15', '8', '327938', '', '231-风速', null, null, '112');
+INSERT INTO `eqp_cha` VALUES ('108', '15', '12', '328194', '', '231-SF6', null, null, '113');
+INSERT INTO `eqp_cha` VALUES ('109', '15', '5', '393473', '', '231-空调', null, null, '114');
+INSERT INTO `eqp_cha` VALUES ('110', '15', '6', '459008', '', '231-温湿度', null, null, '115');
+INSERT INTO `eqp_cha` VALUES ('111', '15', '13', '590081', '', '231-氧气', null, null, '116');
+INSERT INTO `eqp_cha` VALUES ('123', '10', '10', '196865', '', '241-水位', null, null, '123');
+INSERT INTO `eqp_cha` VALUES ('124', '10', '3', '196866', '', '241-烟感', null, null, '125');
+INSERT INTO `eqp_cha` VALUES ('125', '10', '2', '196867', '', '241-红外周界', null, null, '124');
+INSERT INTO `eqp_cha` VALUES ('126', '15', '3', '196865', '', '231-烟感', null, null, '126');
+INSERT INTO `eqp_cha` VALUES ('127', '15', '7', '262401', '', '231-灯光', null, null, '127');
+INSERT INTO `eqp_cha` VALUES ('132', '23', '5', '3', '', 'v1空调', null, null, '128');
+INSERT INTO `eqp_cha` VALUES ('133', '23', '4', '5', '', 'v1风机', null, null, '129');
+INSERT INTO `eqp_cha` VALUES ('134', '23', '6', '99', '', 'v1温湿度', null, null, '132');
+INSERT INTO `eqp_cha` VALUES ('151', '26', '7', '262401', '', '232-灯光', null, null, '153');
+INSERT INTO `eqp_cha` VALUES ('152', '26', '4', '262402', '', '232-风机', null, null, '154');
+INSERT INTO `eqp_cha` VALUES ('153', '26', '12', '328194', '', '232-SF6', null, null, '151');
+INSERT INTO `eqp_cha` VALUES ('154', '26', '6', '459008', '', '232-温湿度', null, null, '150');
+INSERT INTO `eqp_cha` VALUES ('155', '26', '13', '590081', '', '232-O2', null, null, '152');
+INSERT INTO `eqp_cha` VALUES ('157', '26', '5', '393473', '', '232-空调', null, null, '163');
+INSERT INTO `eqp_cha` VALUES ('158', '27', '1', '1', '', '视频1', '0', '1', '164');
+INSERT INTO `eqp_cha` VALUES ('159', '27', '1', '2', '', '视频2', '0', '1', '166');
+INSERT INTO `eqp_cha` VALUES ('160', '27', '1', '3', '', '视频3', '0', '1', '165');
+INSERT INTO `eqp_cha` VALUES ('161', '27', '1', '4', '', '视频4', '1', '1', '166');
+INSERT INTO `eqp_cha` VALUES ('162', '10', '8', '327938', '', '241-风速', null, null, '167');
+
+-- ----------------------------
+-- Table structure for equipment
+-- ----------------------------
+DROP TABLE IF EXISTS `equipment`;
+CREATE TABLE `equipment` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `no` int(10) DEFAULT '0',
+  `type` int(10) NOT NULL,
+  `ip` char(50) DEFAULT NULL,
+  `port` int(10) DEFAULT NULL,
+  `user` varchar(50) DEFAULT NULL,
+  `pass` varchar(50) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `version` int(11) NOT NULL DEFAULT '1' COMMENT '1：温湿度，2：输入，3：输出，10：主控',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='视频，控制器，定位点的主表';
+
+-- ----------------------------
+-- Records of equipment
+-- ----------------------------
+INSERT INTO `equipment` VALUES ('10', '20', '1001', '192.168.1.241', '80', '', '', '241主控模块', '10');
+INSERT INTO `equipment` VALUES ('15', '1', '1001', '192.168.1.230', '80', '', '', '231主控模块', '10');
+INSERT INTO `equipment` VALUES ('23', '6', '1001', '192.168.1.239', '8080', '', '', 'v1环境温湿度模块', '1');
+INSERT INTO `equipment` VALUES ('26', '2', '1001', '192.168.1.232', '80', '', '', '232主控模块', '10');
+INSERT INTO `equipment` VALUES ('27', null, '8', '192.168.1.28', '8000', 'admin', '12345', 'asda', '1');
+INSERT INTO `equipment` VALUES ('28', '0', '1002', '192.168.1.104', '249', null, null, '定位点的主表', '1');
 
 -- ----------------------------
 -- Table structure for permission
@@ -205,6 +289,60 @@ CREATE TABLE `user_role_link` (
 -- ----------------------------
 -- Records of user_role_link
 -- ----------------------------
+DROP TRIGGER IF EXISTS `eqp_cha_before_update`;
+DELIMITER ;;
+CREATE TRIGGER `eqp_cha_before_update` BEFORE UPDATE ON `eqp_cha` FOR EACH ROW /*
+需要对资源的名称和类型进行修改
+首先判断RESID是否为空
+*/
+BEGIN
+
+IF OLD.resid THEN
+	UPDATE resource SET type=NEW.type, name=NEW.name WHERE id=OLD.resid;
+END IF;
+
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `eqp_cha_before_delete`;
+DELIMITER ;;
+CREATE TRIGGER `eqp_cha_before_delete` BEFORE DELETE ON `eqp_cha` FOR EACH ROW /*
+需要删除通道对应的资源
+*/
+BEGIN
+
+DELETE FROM resource WHERE ID=OLD.resid;
+
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `equipment_before_delete`;
+DELIMITER ;;
+CREATE TRIGGER `equipment_before_delete` BEFORE DELETE ON `equipment` FOR EACH ROW /*
+在进行级联删除的时候，子表的触发器不工作
+1:需要遍历所有的通道，然后删除通道所对应的资源
+*/
+BEGIN
+DECLARE done INT DEFAULT 0;
+DECLARE rid INT;
+DECLARE rs CURSOR FOR SELECT resid FROM eqp_cha WHERE eid=OLD.id;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+OPEN rs;
+read_loop:LOOP
+	FETCH rs INTO rid;
+	IF done THEN
+		LEAVE read_loop;
+	END IF;
+	/*
+	删除相关的resource记录
+	*/
+	DELETE FROM resource WHERE id=rid;
+END LOOP;
+CLOSE rs;
+END
+;;
+DELIMITER ;
 DROP TRIGGER IF EXISTS `resource_after_insert`;
 DELIMITER ;;
 CREATE TRIGGER `resource_after_insert` AFTER INSERT ON `resource` FOR EACH ROW BEGIN
