@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sample.mvc.Entity.Equipment;
-import com.sample.mvc.Entity.EquipmentChannel;
+import com.sample.mvc.Entity.EqpCha;
 import com.sample.mvc.service.manage.EquipmentService;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
@@ -73,52 +73,52 @@ public class ActionEquipment {
 		equipmentService.insertEquipment(equipments.get(0));
 		return new ExtDirectStoreReadResult<Equipment>(equipments.get(0));
 	}
-//
-//	// 设备修改
-//	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
-//	public int updateEqp(List<Equipment> equipments) {
-//		return equipmentMapper.updateByPrimaryKey(equipments.get(0));
-//	}
-//
-//	// 设备删除
-//	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
-//	public int destroyEqp(List<Equipment> equipments) {
-//		// 删除设备
-//		return equipmentMapper.deleteByPrimaryKey(equipments.get(0).getId());
-//	}
+
+	// 设备修改
+	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
+	public int updateEqp(List<Equipment> equipments) {
+		return equipmentService.updateByPrimaryKey(equipments.get(0));
+	}
+
+	// 设备删除
+	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
+	public int destroyEqp(List<Equipment> equipments) {
+		// 删除设备
+		return equipmentService.deleteByPrimaryKey(equipments.get(0).getId());
+	}
 
 	// ------------设备通道--------------------------
 
 	// 设备通道列表
 	@ExtDirectMethod(value = ExtDirectMethodType.STORE_READ, group = "store")
-	public ExtDirectStoreReadResult<EquipmentChannel> readEqpCha(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreReadResult<EqpCha> readEqpCha(ExtDirectStoreReadRequest request) {
 
 		// 得到主表的ID
 		int masterId = Integer.parseInt(request.getParams().get("masterId").toString());
-		EquipmentChannel ec=new EquipmentChannel();
+		EqpCha ec=new EqpCha();
 		ec.setEid(masterId);
-		List<EquipmentChannel> list=equipmentService.findEquipmentChannelByEid(ec);
+		List<EqpCha> list=equipmentService.findEquipmentChannelByEid(ec);
 
-		return new ExtDirectStoreReadResult<EquipmentChannel>(list);
+		return new ExtDirectStoreReadResult<EqpCha>(list);
 	}
 
 	// 设备通道插入
 	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
-	public ExtDirectStoreReadResult<EquipmentChannel> createEqpCha(List<EquipmentChannel> equipmentChannels) {
+	public ExtDirectStoreReadResult<EqpCha> createEqpCha(List<EqpCha> equipmentChannels) {
 		equipmentService.insertEquipmentChannel(equipmentChannels.get(0));
-		return new ExtDirectStoreReadResult<EquipmentChannel>(equipmentChannels.get(0));
+		return new ExtDirectStoreReadResult<EqpCha>(equipmentChannels.get(0));
 	}
-//
-//	// 设备通道修改
-//	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
-//	public int updateEqpCha(List<EquipmentChannel> equipmentChannels) {
-//		return equipmentChannelMapper.updateByPrimaryKey(equipmentChannels.get(0));
-//	}
-//
-//	// 设备通道删除
-//	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
-//	public int destroyEqpCha(List<EquipmentChannel> equipmentChannels) {
-//		return equipmentChannelMapper.deleteByPrimaryKey(equipmentChannels.get(0).getId());
-//	}
+
+	// 设备通道修改
+	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
+	public int updateEqpCha(List<EqpCha> equipmentChannels) {
+		return equipmentService.updateByPrimaryKey(equipmentChannels.get(0));
+	}
+
+	// 设备通道删除
+	@ExtDirectMethod(value = ExtDirectMethodType.STORE_MODIFY, group = "store")
+	public int destroyEqpCha(List<EqpCha> equipmentChannels) {
+		return equipmentService.deleteEquipMentChannlByPrimaryKey(equipmentChannels.get(0).getId());
+	}
 
 }

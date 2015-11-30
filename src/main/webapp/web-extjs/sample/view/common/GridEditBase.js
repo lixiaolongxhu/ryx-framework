@@ -35,6 +35,7 @@ Ext.define('RYIVS.view.common.GridEditBase', {
 		icon : 'lib/res/icon/add.png',
 		itemId : 'buttonAdd',
 		handler : function() {
+			
 			// this.ownerCt.ownerCt.rowEditing.cancelEdit();
 			var editGrid = this.ownerCt.ownerCt;
 
@@ -71,15 +72,15 @@ Ext.define('RYIVS.view.common.GridEditBase', {
 					}
 					
 					//级联刷新资源列表
-					if(temp.xtype == 'gridEditRfid') {
-						ctlType = 'gridEditRfid';
+					if(temp.xtype == 'layerLeftMenu') {
+						ctlType = 'layerLeftMenu';
 					}
 					switch(ctlType) {
 //						case 'gridEditLocator':
 						case 'gridEditController'://控制器
-						case 'gridEditEncoder'://视频编辑
-						case 'gridEditRfid'://定位点
-							var resGrid = Ext.ComponentQuery.query('resGrid')[0];
+					//	case 'gridEditEncoder'://视频编辑
+					//	case 'gridEditRfid'://定位点
+							var resGrid = Ext.ComponentQuery.query('layerLeftMenu')[0];
 							resGrid.store.load();
 							break;
 					}
@@ -107,7 +108,7 @@ Ext.define('RYIVS.view.common.GridEditBase', {
 
 	// 通过主表的id进行装载
 	loadByMasterId : function(resid, type) {
-
+       //  alert("resid:="+resid);
 		if (resid) {
 			this.store.proxy.extraParams.masterId = resid;
 		}
@@ -177,17 +178,19 @@ Ext.define('RYIVS.view.common.GridEditBase', {
 
 		// 3 添加插件
 		this.plugins = [ this.rowEditing ];
+		
+		
 
 		// 4 model 和 store 配置
-//		this.store = new Ext.data.Store({
-//			// Store所对应的模型
-//			model : this.model,
-//			autoSync : true,
-//			// 是否自动加载
-//			autoLoad : this.autoload
-//
-//		});
-		this.store= this.store;
+		this.store = new Ext.data.Store({
+			// Store所对应的模型
+			model : this.model,
+			autoSync : true,
+			// 是否自动加载
+			autoLoad : this.autoload
+
+		});
+
 
 		// 5 配置主子表关系
 		if (this.master) {
@@ -201,6 +204,7 @@ Ext.define('RYIVS.view.common.GridEditBase', {
 
 		this.callParent(arguments);
 		this.addEvents('onDragDrop');
+		
 	},
 
 	// 界面建立时只调用一次

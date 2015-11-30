@@ -15,13 +15,35 @@ Ext.define('RYIVS.view.common.Admin', {
 		xtype : 'layerLeftMenu',
 		region : 'west',
 		width : 300
-	},
-    
-     {
-        title: "Main Pannel",
-        html: "中",
-        region: "center"
-    }  ],
+	},{ region : 'center',
+		xtype : 'tabpanel',
+		activeTab : 0,
+		items : [ {
+			xtype : 'gridEditController'
+		}
+//			, {
+//			xtype : 'gridEditEncoder'
+//		}, {
+//			xtype : 'streamServer'		
+//		}, {
+//			xtype : 'gridEditRfid'
+//		}, {
+//			xtype : 'gridEditAlarmRule'
+//		}, /*{
+//			xtype : 'eventRule'
+//		},*/ {
+//			xtype : 'gridEditLocator'
+//		}, {
+//			xtype : 'gisEditor'
+//		}, {
+//			xtype : 'gridEditUser'
+//		}, {
+//			xtype : 'gridEditUserAlarm'
+//		} , {
+//			xtype : 'gridEditUserLog'
+//		} 
+		]
+	}],
 
 	bbar : [ {
 		dock : 'bottom',

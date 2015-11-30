@@ -14,9 +14,10 @@ Ext.define('RYIVS.view.common.LeftMenu', {
 	iconCls: 's_resource',
 	title : '资源',
 	hideHeaders: true,
-	store : 'RYIVS.store.common.LeftMenu',
-	
 
+	model:'RYIVS.model.common.LeftMenu',
+	// 定义 autoload
+	autoload : true,
 //	columns: [
 //	            {header: 'Name',  dataIndex: 'name',  flex: 1},
 //	           {header: 'Email', dataIndex: 'email', flex: 1}

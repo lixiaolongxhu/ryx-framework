@@ -13,8 +13,8 @@ Ext.define('RYIVS.view.editor.Controller', {
 		xtype : 'gridEditBase',
 		title : '控制器',
 		iconCls : 's_equipment',
-		// 定义 store
-		store : 'RYIVS.store.editor.Controller',
+		// 定义 model
+		model:'RYIVS.model.editor.Controller',
 		// 定义 autoload
 		autoload : false,
 		// 主表id
@@ -69,8 +69,8 @@ Ext.define('RYIVS.view.editor.Controller', {
 		height : 300,
 		title : '控制器通道',
 		iconCls : 's_equipmentcha',
-		// 定义 store
-		store : 'RYIVS.store.editor.CtlChannel',
+		// 定义 model
+		model:'RYIVS.model.editor.CtlChannel',
 		// 定义 autoload
 		autoload : false,
 		// 定义拖动后，添加到资源是那类
@@ -113,7 +113,7 @@ Ext.define('RYIVS.view.editor.Controller', {
 			},
 			renderer : function(val) {
 				//return ry.util.getResCssClass(val);
-				return '<image src="res/mark/' + val + '.png">';
+				return '<image src="lib/res/layer/' + val + '.png">';
 			}
 		}, {
 			text : '通道名称',

@@ -2,7 +2,7 @@
 Ext.define('RYIVS.controller.common.LeftMenu', {
 	extend : 'Ext.app.Controller',
 	models:['RYIVS.model.common.LeftMenu'],
-	stores:['RYIVS.store.common.LeftMenu'],
+
 	
 	views :['RYIVS.view.common.LeftMenu'],
 	init: function() {

@@ -49,6 +49,16 @@ public class CommonController {
 		List<ResType> resTypeList = resTypeService.findAllResType();		
 		ModelAndView   model=new ModelAndView("web-extjs/common-jsp/DBConst");
 		model.addObject("resType", resTypeList);
+		//ctlCharResType //过滤掉摄像机，人员定位和文件夹类型
+		List<ResType> resCharTypeList = new ArrayList<ResType>();
+		for(ResType res : resTypeList)  {
+			//过滤掉摄像机，人员定位和文件夹类型
+			if((res.getId() == 0) || (res.getId() == 1) || (res.getId() == 9)) {
+				continue;
+			}
+			resCharTypeList.add(res);
+		}
+		model.addObject("ctlCharResType", resCharTypeList);
 		return  model;
 	}
 }

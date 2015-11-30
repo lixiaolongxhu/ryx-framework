@@ -114,10 +114,12 @@
         <appender-ref ref="console.CONSOLE" />
     </category> 
   	<!-- extjs+spring  extdirectspring -->
+  	<!--
   	<category name="ch.ralscha.extdirectspring" additivity="true">
         <priority value="info" />
         <appender-ref ref="console.CONSOLE" />
     </category>
+    -->
  	<!--  日志按包名分类级别输出   end -->
  	
     <root>

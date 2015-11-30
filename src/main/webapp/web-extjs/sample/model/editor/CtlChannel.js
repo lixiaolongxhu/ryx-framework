@@ -6,5 +6,26 @@ Ext.define('RYIVS.model.editor.CtlChannel', {
 		type : 'length',
 		field : 'name',
 		min : 1
-	} ]
+	} ],
+
+	proxy : {
+		type : 'direct',
+		api : {
+			read : actionEquipment.readEqpCha,
+			create : actionEquipment.createEqpCha,
+			update : actionEquipment.updateEqpCha,
+			destroy : actionEquipment.destroyEqpCha
+		},
+		extraParams:{
+			type : 2
+		},
+		reader : {
+			type : 'json',
+			root : 'records'
+		},
+
+		writer : {
+			type : 'json'
+		}
+	}
 });
