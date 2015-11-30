@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-11-27 13:19:49
+Date: 2015-11-30 17:02:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,7 +87,7 @@ CREATE TABLE `equipment` (
   `name` varchar(50) NOT NULL,
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '1：温湿度，2：输入，3：输出，10：主控',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='视频，控制器，定位点的主表';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='视频，控制器，定位点的主表';
 
 -- ----------------------------
 -- Records of equipment
@@ -97,7 +97,70 @@ INSERT INTO `equipment` VALUES ('15', '1', '1001', '192.168.1.230', '80', '', ''
 INSERT INTO `equipment` VALUES ('23', '6', '1001', '192.168.1.239', '8080', '', '', 'v1环境温湿度模块', '1');
 INSERT INTO `equipment` VALUES ('26', '2', '1001', '192.168.1.232', '80', '', '', '232主控模块', '10');
 INSERT INTO `equipment` VALUES ('27', null, '8', '192.168.1.28', '8000', 'admin', '12345', 'asda', '1');
-INSERT INTO `equipment` VALUES ('28', '0', '1002', '192.168.1.104', '249', null, null, '定位点的主表', '1');
+INSERT INTO `equipment` VALUES ('29', '0', '1002', '192.168.1.104', '249', null, null, '定位点的主表', '1');
+
+-- ----------------------------
+-- Table structure for gis_layer
+-- ----------------------------
+DROP TABLE IF EXISTS `gis_layer`;
+CREATE TABLE `gis_layer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `fname` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of gis_layer
+-- ----------------------------
+INSERT INTO `gis_layer` VALUES ('1', '底图', 'layer1.jpg');
+INSERT INTO `gis_layer` VALUES ('2', '泰兴', 'layer2.jpg');
+
+-- ----------------------------
+-- Table structure for gis_res
+-- ----------------------------
+DROP TABLE IF EXISTS `gis_res`;
+CREATE TABLE `gis_res` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resid` int(11) NOT NULL,
+  `layer` int(11) NOT NULL DEFAULT '1',
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '1：点\n2：多点\n3：线\n4：多线\n5：面\n6：多面',
+  `style` int(11) NOT NULL DEFAULT '1' COMMENT '地图元素的风格',
+  `data` varchar(10000) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_gis_res_resource` (`resid`),
+  KEY `fk_gis_res_gis_layer` (`layer`),
+  CONSTRAINT `fk_gis_res_gis_layer1` FOREIGN KEY (`layer`) REFERENCES `gis_layer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_gis_res_resource` FOREIGN KEY (`resid`) REFERENCES `resource` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of gis_res
+-- ----------------------------
+INSERT INTO `gis_res` VALUES ('3', '124', '1', '3', '2', '[[-207.5,52.25],[107,10.25],[99.5,-15.75],[236.5,-39.75],[236,21.75]]');
+INSERT INTO `gis_res` VALUES ('4', '125', '1', '1', '3', '[-5,5.75]');
+INSERT INTO `gis_res` VALUES ('6', '155', '1', '1', '7', '[-167.5,34.25]');
+INSERT INTO `gis_res` VALUES ('7', '39', '1', '1', '9', '[-102,23.25]');
+INSERT INTO `gis_res` VALUES ('8', '123', '1', '1', '10', '[141,-58.25]');
+INSERT INTO `gis_res` VALUES ('9', '150', '2', '1', '6', '[-143.5,45.75]');
+INSERT INTO `gis_res` VALUES ('12', '128', '1', '1', '5', '[101.5,38]');
+INSERT INTO `gis_res` VALUES ('13', '132', '1', '1', '6', '[214.5,-21.5]');
+INSERT INTO `gis_res` VALUES ('14', '154', '2', '1', '4', '[-2,-4.25]');
+INSERT INTO `gis_res` VALUES ('16', '153', '2', '1', '7', '[83.5,-14.8125]');
+INSERT INTO `gis_res` VALUES ('18', '151', '2', '1', '12', '[150.5,-15.3125]');
+INSERT INTO `gis_res` VALUES ('19', '152', '2', '1', '13', '[-107,-97.3125]');
+INSERT INTO `gis_res` VALUES ('20', '163', '2', '1', '5', '[31,-62.5]');
+INSERT INTO `gis_res` VALUES ('21', '127', '1', '1', '7', '[125,7.25]');
+INSERT INTO `gis_res` VALUES ('23', '129', '1', '1', '4', '[17,-21]');
+INSERT INTO `gis_res` VALUES ('25', '129', '1', '1', '4', '[-143.5,56]');
+INSERT INTO `gis_res` VALUES ('27', '114', '1', '1', '5', '[-116.5,-15.25]');
+INSERT INTO `gis_res` VALUES ('30', '164', '1', '1', '1', '[-162.5,-13.75]');
+INSERT INTO `gis_res` VALUES ('31', '115', '1', '1', '6', '[-9.5,-72.75]');
+INSERT INTO `gis_res` VALUES ('32', '113', '1', '1', '12', '[-108,-53.75]');
+INSERT INTO `gis_res` VALUES ('33', '116', '1', '1', '13', '[-56.5,-71.25]');
+INSERT INTO `gis_res` VALUES ('34', '41', '1', '1', '9', '[60,4.125]');
+INSERT INTO `gis_res` VALUES ('35', '125', '1', '1', '3', '[53.5,80.5]');
+INSERT INTO `gis_res` VALUES ('37', '167', '1', '1', '8', '[-33,-43.25]');
 
 -- ----------------------------
 -- Table structure for permission
