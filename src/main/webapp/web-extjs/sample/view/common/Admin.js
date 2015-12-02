@@ -21,9 +21,10 @@ Ext.define('RYIVS.view.common.Admin', {
 		items : [ {
 			xtype : 'gridEditController'
 		}
-//			, {
-//			xtype : 'gridEditEncoder'
-//		}, {
+			, {
+			xtype : 'tabTest'
+		}
+//		, {
 //			xtype : 'streamServer'		
 //		}, {
 //			xtype : 'gridEditRfid'

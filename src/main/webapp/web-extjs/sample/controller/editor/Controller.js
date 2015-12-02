@@ -22,6 +22,8 @@ Ext.define('RYIVS.controller.editor.Controller', {
 			}
 		});
 		controller.controller = this;
+		
+		
 	},
 
 	// 当标签激活时

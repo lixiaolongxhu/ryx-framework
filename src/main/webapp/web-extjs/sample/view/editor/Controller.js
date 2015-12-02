@@ -1,8 +1,21 @@
+// 4 model 和 store 配置
+		var store = new Ext.data.Store({
+			// Store所对应的模型
+			model : 'RYIVS.model.editor.Controller',
+			autoSync : true,
+			// 是否自动加载
+			autoLoad : true
+
+		});
+
 /**
  * 控制器编辑
  */
 Ext.define('RYIVS.view.editor.Controller', {
 	requires : [ 'RYIVS.view.common.GridEditBase' ],
+	 requires: [
+        'Ext.grid.column.Action'
+    ],
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.gridEditController',
 	layout : 'border',
@@ -37,32 +50,79 @@ Ext.define('RYIVS.view.editor.Controller', {
 				autoStripChars : true,
 				allowDecimals : false
 			}
-		}, {
-			text : 'IP地址',
-			dataIndex : 'ip',
-			flex : 1,
-			editor : {
-				allowBlank : false
-			}
-		}, {
-			text : '端口',
-			dataIndex : 'port',
-			flex : 1,
-			editor : {
-				allowBlank : false,
-				xtype : 'numberfield'
-			}
+		}, 
+		{	text :"访问地址headerGroup",
+			columns: [
+				{
+				text : 'IP地址',
+				dataIndex : 'ip',
+				width    : 175,
+				flex : 1,
+				editor : {
+					allowBlank : false
+				}
+			}, {
+				text : '端口',
+				dataIndex : 'port',
+				flex : 1,
+				width    : 75,
+				editor : {
+					allowBlank : false,
+					xtype : 'numberfield'
+				}
+			}]
+		
 		}, {
 			text : '名称',
+			width    : 85,
 			dataIndex : 'name',
 			flex : 1,
+			
 			editor : {
 				allowBlank : false
 			}
-		} ]
-	}
-
-	, {
+		},
+		{
+                menuDisabled: true,
+                sortable: false,
+                xtype: 'actioncolumn',
+                width: 50,
+                items: [{
+                    icon   : 'lib/res/icon/add.png',  // Use a URL in the icon config
+                    tooltip: 'Sell stock',
+                    handler: function(grid, rowIndex, colIndex) {
+                    //	alert(grid);
+                        var rec = store.getAt(rowIndex);
+                        alert(rec);
+                        alert("Sell " + rec.get('id'));
+                    }
+                }, {
+                    getClass: function(v, meta, rec) {          // Or return a class from a function
+                        if (rec.get('id') < 0) {
+                            return 'alert-col';
+                        } else {
+                            return 'buy-col';
+                        }
+                    },
+                    getTip: function(v, meta, rec) {
+                        if (rec.get('id') < 0) {
+                            return 'Hold stock';
+                        } else {
+                            return 'Buy stock';
+                        }
+                    },
+                    handler: function(grid, rowIndex, colIndex) {
+                        var rec = store.getAt(rowIndex);
+                        alert((rec.get('id') < 0 ? "Hold " : "Buy ") + rec.get('id'));
+                    }
+                }]
+            }
+		
+		
+		
+		]
+	},
+		{
 		// 底部面版
 		xtype : 'gridEditBase',
 		region : 'south',
@@ -135,7 +195,8 @@ Ext.define('RYIVS.view.editor.Controller', {
 				}
 				return ry.constant.trans(rst, ry.constant.yntype);
 			}
-		} ],
+		}],
+		
 		// 使能拖放
 		viewConfig : {
 			plugins : {
@@ -148,4 +209,5 @@ Ext.define('RYIVS.view.editor.Controller', {
 			}
 	} ]
 
+	
 });
