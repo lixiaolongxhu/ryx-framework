@@ -11,6 +11,7 @@ import com.framework.core.dao.DslSql;
 import com.sample.constant.ConstPermission;
 import com.sample.mvc.Entity.Permission;
 import com.sample.mvc.service.manage.PermissionService;
+import com.sample.mvc.vo.manage.TreeVo;
 
 @Service
 public class PermissionServiceImp implements PermissionService {
@@ -19,7 +20,7 @@ public class PermissionServiceImp implements PermissionService {
 	private BasicDao  basicdao;
 	
 	@Override
-	public List<Permission> findPermissionMenu() {
+	public List<Permission> findPermissionMenu(TreeVo vo) {
 		Permission per=new Permission();
 		per.setType(ConstPermission.MENU);
 		DslSql dslSql=new DslSql(per).select("*").from("permission").where("type");

@@ -26,7 +26,7 @@ public class ActionPermission {
 	// 列表
 	@ExtDirectMethod(value = ExtDirectMethodType.STORE_READ, group = "store")
 	public ExtDirectStoreReadResult<Permission> read(ExtDirectStoreReadRequest request) {
-		List<Permission>  perList=permissionService.findPermissionMenu();
+		List<Permission>  perList=permissionService.findPermissionMenu(null);
 		
 
 		return new ExtDirectStoreReadResult<Permission>(perList);

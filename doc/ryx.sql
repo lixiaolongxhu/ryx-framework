@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-11-30 17:02:48
+Date: 2015-12-03 17:20:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `eqp_cha` (
   KEY `FK_eqp_cha_resource` (`resid`),
   CONSTRAINT `FK_eqp_cha_resource` FOREIGN KEY (`resid`) REFERENCES `resource` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK__equipment` FOREIGN KEY (`eid`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8 COMMENT='所有视频，控制器，定位点的通道';
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8 COMMENT='所有视频，控制器，定位点的通道';
 
 -- ----------------------------
 -- Records of eqp_cha
@@ -71,6 +71,7 @@ INSERT INTO `eqp_cha` VALUES ('159', '27', '1', '2', '', '视频2', '0', '1', '1
 INSERT INTO `eqp_cha` VALUES ('160', '27', '1', '3', '', '视频3', '0', '1', '165');
 INSERT INTO `eqp_cha` VALUES ('161', '27', '1', '4', '', '视频4', '1', '1', '166');
 INSERT INTO `eqp_cha` VALUES ('162', '10', '8', '327938', '', '241-风速', null, null, '167');
+INSERT INTO `eqp_cha` VALUES ('163', '29', '11', '3213213', '', '22132131', null, null, null);
 
 -- ----------------------------
 -- Table structure for equipment
@@ -96,8 +97,8 @@ INSERT INTO `equipment` VALUES ('10', '20', '1001', '192.168.1.241', '80', '', '
 INSERT INTO `equipment` VALUES ('15', '1', '1001', '192.168.1.230', '80', '', '', '231主控模块', '10');
 INSERT INTO `equipment` VALUES ('23', '6', '1001', '192.168.1.239', '8080', '', '', 'v1环境温湿度模块', '1');
 INSERT INTO `equipment` VALUES ('26', '2', '1001', '192.168.1.232', '80', '', '', '232主控模块', '10');
-INSERT INTO `equipment` VALUES ('27', null, '8', '192.168.1.28', '8000', 'admin', '12345', 'asda', '1');
-INSERT INTO `equipment` VALUES ('29', '0', '1002', '192.168.1.104', '249', null, null, '定位点的主表', '1');
+INSERT INTO `equipment` VALUES ('27', '22', '8', '192.168.1.28', '8000', 'admin', '12345', '测试', '1');
+INSERT INTO `equipment` VALUES ('29', '2', '1002', '192.168.1.104', '249', null, null, '定位点的主表', '1');
 
 -- ----------------------------
 -- Table structure for gis_layer
@@ -167,7 +168,7 @@ INSERT INTO `gis_res` VALUES ('37', '167', '1', '1', '8', '[-33,-43.25]');
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
-  `id` int(11) NOT NULL COMMENT '唯一标识的主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一标识的主键',
   `parentId` int(11) DEFAULT '0' COMMENT '上级编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '权限资源名称',
   `url` varchar(50) DEFAULT '' COMMENT '访问权限的资源文件路径',
@@ -179,12 +180,14 @@ CREATE TABLE `permission` (
   `updateTime` varchar(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `permission_name_index` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('1', '0', '权限资源管理', '', '2', '菜单', '0', '1', null, null);
+INSERT INTO `permission` VALUES ('1', '2', '权限资源管理', '', '2', '菜单', '0', '1', null, null);
+INSERT INTO `permission` VALUES ('2', '0', '用户管理', '', '2', '菜单', '0', '1', null, null);
+INSERT INTO `permission` VALUES ('3', '2', '角色管理', '', '2', '', '0', '1', null, null);
 
 -- ----------------------------
 -- Table structure for resource
