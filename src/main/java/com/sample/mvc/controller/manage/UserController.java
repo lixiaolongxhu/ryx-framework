@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.framework.core.vo.ExtResultListVo;
 import com.framework.core.vo.ResultVo;
 import com.sample.mvc.Entity.Permission;
 import com.sample.mvc.service.manage.UserService;
-import com.sample.mvc.vo.manage.TreeListVo;
 import com.sample.mvc.vo.manage.TreeVo;
 
 @Controller
@@ -24,7 +24,7 @@ public class UserController {
 	private UserService    userService;
 	
 	@RequestMapping(value="/permissionMenu")
-	public @ResponseBody TreeListVo getPermissionMenu(TreeVo tree){
+	public @ResponseBody ExtResultListVo<TreeVo>  getPermissionMenu(TreeVo tree){
 //		return  new ModelAndView("web-extjs/common-jsp/Login");
 		List<TreeVo> menu=userService.getPermissionMenu(tree);
 //		List<TreeVo> t=new ArrayList<TreeVo>();
@@ -37,8 +37,7 @@ public class UserController {
 //			vo.setLeaf(true);
 //			t.add(vo);
 //		}
-		TreeListVo treeList=new TreeListVo();
-		treeList.setTreeVoList(menu);
-		return  treeList;
+	
+		return  new ExtResultListVo<TreeVo> (menu);
 	}
 }
