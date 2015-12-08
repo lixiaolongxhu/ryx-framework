@@ -24,25 +24,7 @@ Ext.define('RYIVS.view.common.Admin', {
 			, {
 			xtype : 'tabTest'
 		}
-//		, {
-//			xtype : 'streamServer'		
-//		}, {
-//			xtype : 'gridEditRfid'
-//		}, {
-//			xtype : 'gridEditAlarmRule'
-//		}, /*{
-//			xtype : 'eventRule'
-//		},*/ {
-//			xtype : 'gridEditLocator'
-//		}, {
-//			xtype : 'gisEditor'
-//		}, {
-//			xtype : 'gridEditUser'
-//		}, {
-//			xtype : 'gridEditUserAlarm'
-//		} , {
-//			xtype : 'gridEditUserLog'
-//		} 
+ 
 		]
 	}],
 

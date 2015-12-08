@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2015-12-03 17:20:04
+Date: 2015-12-08 10:29:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -180,7 +180,7 @@ CREATE TABLE `permission` (
   `updateTime` varchar(0) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `permission_name_index` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of permission
@@ -188,6 +188,7 @@ CREATE TABLE `permission` (
 INSERT INTO `permission` VALUES ('1', '2', '权限资源管理', '', '2', '菜单', '0', '1', null, null);
 INSERT INTO `permission` VALUES ('2', '0', '用户管理', '', '2', '菜单', '0', '1', null, null);
 INSERT INTO `permission` VALUES ('3', '2', '角色管理', '', '2', '', '0', '1', null, null);
+INSERT INTO `permission` VALUES ('4', '3', '添加角色', '', '2', '', '0', '1', null, null);
 
 -- ----------------------------
 -- Table structure for resource
@@ -317,7 +318,7 @@ CREATE TABLE `role_permission_link` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一标识的主键；不允许为空',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一标识的主键；不允许为空',
   `loginName` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号(登陆名)唯一约束，不允许为空，用户登陆名',
   `password` varchar(50) NOT NULL DEFAULT '' COMMENT '不允许为空；使用MD5加密后保存',
   `token` varchar(40) DEFAULT '' COMMENT '用户的令牌码token',
@@ -340,7 +341,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role_link`;
 CREATE TABLE `user_role_link` (
-  `userId` bigint(20) NOT NULL COMMENT '用户唯一标识，外键 ',
+  `userId` int(11) NOT NULL COMMENT '用户唯一标识，外键 ',
   `roleId` int(11) NOT NULL COMMENT '角色唯一标识，外键',
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1 可用  2 不可用 ',
   `createTime` varchar(20) DEFAULT '' COMMENT '记录创建时间',
@@ -348,8 +349,8 @@ CREATE TABLE `user_role_link` (
   PRIMARY KEY (`userId`,`roleId`),
   KEY `user_role_link_roleUuid` (`roleId`),
   KEY `user_role_link_userId` (`userId`),
-  CONSTRAINT `roleId_fk` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`),
-  CONSTRAINT `userId_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `user_role_uid_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  CONSTRAINT `roleId_fk` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
