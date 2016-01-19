@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50527
+Source Server Version : 50710
 Source Host           : 127.0.0.1:3306
 Source Database       : ryx
 
 Target Server Type    : MYSQL
-Target Server Version : 50527
+Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2015-12-08 10:29:34
+Date: 2016-01-19 15:41:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,8 +32,8 @@ CREATE TABLE `eqp_cha` (
   PRIMARY KEY (`id`),
   KEY `FK__equipment` (`eid`),
   KEY `FK_eqp_cha_resource` (`resid`),
-  CONSTRAINT `FK_eqp_cha_resource` FOREIGN KEY (`resid`) REFERENCES `resource` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK__equipment` FOREIGN KEY (`eid`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `FK__equipment` FOREIGN KEY (`eid`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_eqp_cha_resource` FOREIGN KEY (`resid`) REFERENCES `resource` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8 COMMENT='所有视频，控制器，定位点的通道';
 
 -- ----------------------------
@@ -162,6 +162,25 @@ INSERT INTO `gis_res` VALUES ('33', '116', '1', '1', '13', '[-56.5,-71.25]');
 INSERT INTO `gis_res` VALUES ('34', '41', '1', '1', '9', '[60,4.125]');
 INSERT INTO `gis_res` VALUES ('35', '125', '1', '1', '3', '[53.5,80.5]');
 INSERT INTO `gis_res` VALUES ('37', '167', '1', '1', '8', '[-33,-43.25]');
+
+-- ----------------------------
+-- Table structure for json_test
+-- ----------------------------
+DROP TABLE IF EXISTS `json_test`;
+CREATE TABLE `json_test` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `jsonStr` json DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of json_test
+-- ----------------------------
+INSERT INTO `json_test` VALUES ('19', '{\"id\": \"\", \"token\": \"\", \"status\": \"\", \"nickname\": \"\", \"password\": \"\", \"realName\": \"李小龙\", \"loginName\": \"登陆名\", \"createTime\": \"2016-01-19 14:31:28\", \"updateTime\": \"\", \"portraitPath\": \"\"}');
+INSERT INTO `json_test` VALUES ('20', '{\"id\": \"\", \"token\": \"\", \"status\": \"\", \"nickname\": \"\", \"password\": \"\", \"realName\": \"李小龙\", \"loginName\": \"loginname\", \"createTime\": \"2016-01-19 14:31:51\", \"updateTime\": \"\", \"portraitPath\": \"\"}');
+INSERT INTO `json_test` VALUES ('21', '{\"id\": \"\", \"token\": \"\", \"status\": \"\", \"nickname\": \"\", \"password\": \"\", \"realName\": \"李小龙\", \"loginName\": \"登陆名\", \"createTime\": \"2016-01-19 14:32:12\", \"updateTime\": \"\", \"portraitPath\": \"\"}');
+INSERT INTO `json_test` VALUES ('22', '{\"id\": \"\", \"token\": \"\", \"status\": \"\", \"nickname\": \"\", \"password\": \"\", \"realName\": \"李小龙\", \"loginName\": \"登陆名\", \"createTime\": \"2016-01-19 14:45:47\", \"updateTime\": \"\", \"portraitPath\": \"\"}');
 
 -- ----------------------------
 -- Table structure for permission
@@ -349,8 +368,8 @@ CREATE TABLE `user_role_link` (
   PRIMARY KEY (`userId`,`roleId`),
   KEY `user_role_link_roleUuid` (`roleId`),
   KEY `user_role_link_userId` (`userId`),
-  CONSTRAINT `user_role_uid_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
-  CONSTRAINT `roleId_fk` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
+  CONSTRAINT `roleId_fk` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`),
+  CONSTRAINT `user_role_uid_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

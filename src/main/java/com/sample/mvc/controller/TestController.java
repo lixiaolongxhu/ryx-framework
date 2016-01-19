@@ -1,11 +1,15 @@
 package com.sample.mvc.controller;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.eclipse.jetty.util.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sample.util.*;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.framework.core.converter.JSONSerializerEx;
 import com.framework.core.vo.ResultVo;
 import com.sample.cometd.CometService;
+import com.sample.db.dao.JsonTestMapper;
+import com.sample.db.ext.JsonTestMapperExt;
+import com.sample.db.model.JsonTestExample;
+import com.sample.mvc.Entity.JsonTest;
 import com.sample.mvc.Entity.User;
 import com.sample.mvc.service.TestService;
 import com.sample.util.ToolHelper;
@@ -23,6 +34,12 @@ import com.sample.util.ToolHelper;
 @ResponseBody
 @RequestMapping(value="/test")
 public class TestController {
+	
+	private static final Logger LOG=LoggerFactory.getLogger(TestController.class);
+	
+	@Autowired
+	private JsonTestMapperExt jsonTestMapperExt;
+	
 	
 	@Resource
 	private TestService testService;
@@ -86,5 +103,36 @@ public class TestController {
 	@RequestMapping(value="/cometd")
 	public void cometd(){
 		cometService.clientNotify("发送信息");
+	}
+	
+	@RequestMapping(value="/jsonS2")
+	public ResultVo json(){
+		
+	   User user=new User();
+	   user.setLoginName("登陆名");
+	   user.setRealName("李小龙");
+	   user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+	   JsonTest  json=new JsonTest();
+	   json.setJsonStr(JSONSerializerEx.toJSONStringWithNull(user, new SerializerFeature[] {}));
+	   LOG.debug("输出jsonStr =" +json.getJsonStr());
+	   testService.insert(json);
+	   JsonTestExample example=new JsonTestExample();
+	   return new ResultVo(jsonTestMapperExt.selectByExample(example));
+	   
+	}
+	
+	@RequestMapping(value="/jsonS")
+	public ResultVo jsonS() throws SQLException{
+	   User user=new User();
+	   user.setLoginName("loginname");
+	   user.setRealName("李小龙");
+	   user.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DATAFORMAT0));
+	   JsonTest  json=new JsonTest();
+	   json.setJsonStr(JSONSerializerEx.toJSONStringWithNull(user, new SerializerFeature[] {}));
+	   json.setName("jsonTest姓名");
+	   testService.insert(json);
+	   List<JsonTest >  j=testService.jsonS(json);
+//	   LOG.debug("输出jsonStr =" +j.get(0).getJsonStr());
+	   return new ResultVo(j);
 	}
 }

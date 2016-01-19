@@ -40,6 +40,8 @@ public class Test {
 //		KeyGenerator 
 //		@Caching
 //	    Cache 
+		
+//		MapperScannerConfigurer
 	}
 	
 	

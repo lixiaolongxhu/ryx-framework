@@ -104,6 +104,9 @@
 		class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>
+	
+	
+
 
     <!--给指定数据源添加事务  -->
 	<bean id="transactionManager"
@@ -111,7 +114,21 @@
 		p:dataSource-ref="dataSource" />
     
     <!-- 声明为注册事务注解处理器 -->
-   <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
+	
+	
+	<!-- mybatis  sessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- mybatis   scan for mappers and let them be autowired -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- <property name="basePackage" value="com.sample.db.dao, com.sample.ss.dao" />-->
+		<property name="basePackage" value="com.sample.db" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
 	
 
 </beans>

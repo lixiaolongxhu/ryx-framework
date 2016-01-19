@@ -260,9 +260,23 @@
 	<!-- cometd  web服务消息推送技术  end-->
 	
 	
+	<!-- mybatis  begin -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>3.1.1</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
 	
-	
-	
+	<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+	</dependency>
+	<!-- mybatis  end -->
 	
     <!-- apache httpClient(实现查询的表单提交等相关操作) -->
    <!-- <dependency>
