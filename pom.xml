@@ -19,6 +19,7 @@
      <jetty.version>8.1.7.v20120910</jetty.version>
      <!-- cometd  web服务消息推送技术 -->
      <cometd.version>2.5.1</cometd.version>
+    
   </properties>
 	
   <dependencies>
@@ -276,6 +277,10 @@
 			<type>jar</type>
 			<scope>compile</scope>
 	</dependency>
+	
+	
+
+	
 	<!-- mybatis  end -->
 	
     <!-- apache httpClient(实现查询的表单提交等相关操作) -->

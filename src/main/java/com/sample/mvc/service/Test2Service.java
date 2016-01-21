@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.framework.core.dao.BasicDao;
 import com.framework.core.dao.BasicDaoImp;
 import com.framework.core.exception.BizException;
+import com.sample.db.model.JsonTestExample;
 import com.sample.mvc.Entity.User;
 @Service
 public class Test2Service {
@@ -21,6 +22,9 @@ public class Test2Service {
 	public void tran2(User user){
 		basicdao.insert(user);
 //		throw new BizException("异常回滚测试");
+		
+		JsonTestExample example =new JsonTestExample();
+	
 	}
 
 }
