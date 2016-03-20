@@ -4,16 +4,6 @@
   <display-name>ryx-framework</display-name>
  
  
-   <!-- cometd配置 服务器消息推送   begin-->
-<servlet>
-		<servlet-name>cometd</servlet-name>
-		<servlet-class>org.cometd.server.CometdServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>cometd</servlet-name>
-		<url-pattern>/cometd/*</url-pattern>
-	</servlet-mapping>
-  <!-- cometd配置  end -->
  
   <!-- spring 乱码过滤器(只会对post请求进行乱码处理)  begin --> 
   <filter>
@@ -79,7 +69,7 @@
   
   <!-- 默认访问页面     begin  -->
   <welcome-file-list>
-    <welcome-file>web-extjs/index.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <!--默认访问页面        end  -->
   
