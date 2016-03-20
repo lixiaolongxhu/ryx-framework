@@ -52,6 +52,7 @@ public class Test {
 	
 	public void print() {
 		
+<<<<<<< HEAD
 		try {
 			
 			System.out.println("try  begin");
@@ -65,6 +66,13 @@ public class Test {
 		}finally{
 			System.out.println("finaally");
 		}
+=======
+//		KeyGenerator 
+//		@Caching
+//	    Cache 
+		
+//		MapperScannerConfigurer
+>>>>>>> 4ab7b8f8da386bcb5bef6565f0841ae6d0d245fc
 	}
 	
 	
